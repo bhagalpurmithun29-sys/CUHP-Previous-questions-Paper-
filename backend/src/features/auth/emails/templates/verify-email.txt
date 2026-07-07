@@ -1,0 +1,12 @@
+Hello {{firstName}},
+
+Thank you for registering at the Central University of Himachal Pradesh (CUHP) Question Bank. 
+To complete your registration and unlock full access to the repository, please verify your email address by visiting the link below:
+
+{{verificationUrl}}
+
+Note: This link will expire in 24 hours for your security. If you did not create an account, you can safely ignore this email.
+
+Need help? Contact support at support@cuhp-qb.com
+
+© {{currentYear}} CUHP Question Bank. All rights reserved.
