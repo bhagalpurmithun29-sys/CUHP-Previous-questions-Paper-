@@ -25,9 +25,9 @@ export const commonValidators = {
   name: (field: string, label: string): ValidationChain =>
     body(field)
       .trim()
-      .notEmpty().withMessage(\`\${label} is required\`)
-      .isLength({ min: 2, max: 50 }).withMessage(\`\${label} must be between 2 and 50 characters\`)
-      .matches(/^[a-zA-Z\\s]+$/).withMessage(\`\${label} can only contain letters and spaces\`)
+      .notEmpty().withMessage(`${label} is required`)
+      .isLength({ min: 2, max: 50 }).withMessage(`${label} must be between 2 and 50 characters`)
+      .matches(/^[a-zA-Z\\s]+$/).withMessage(`${label} can only contain letters and spaces`)
       .escape(),
 
   mongoId: (field: string, location: 'body' | 'param' | 'query' = 'body'): ValidationChain => {
@@ -37,8 +37,8 @@ export const commonValidators = {
     else check = body(field);
 
     return check
-      .notEmpty().withMessage(\`\${field} is required\`)
-      .isMongoId().withMessage(\`Invalid \${field} format\`);
+      .notEmpty().withMessage(`${field} is required`)
+      .isMongoId().withMessage(`Invalid ${field} format`);
   },
 
   semester: (field = 'semester'): ValidationChain =>

@@ -54,7 +54,7 @@ export class EmailVerificationService {
       );
 
       await session.commitTransaction();
-      logger.info(\`User \${user._id} successfully verified email\`);
+      logger.info(`User ${user._id} successfully verified email`);
 
       return {
         success: true,
@@ -63,7 +63,7 @@ export class EmailVerificationService {
 
     } catch (error) {
       await session.abortTransaction();
-      logger.error(\`Failed to verify email for user \${user._id}: \`, error);
+      logger.error(`Failed to verify email for user ${user._id}: `, error);
       throw error;
     } finally {
       session.endSession();
@@ -120,8 +120,8 @@ export class EmailVerificationService {
       await session.commitTransaction();
 
       // 7. Simulate Email Service (Placeholder)
-      const verificationUrl = \`/verify-email?token=\${rawToken}\`;
-      logger.info(\`Verification email RESENT for \${normalizedEmail}. URL placeholder: \${verificationUrl}\`);
+      const verificationUrl = `/verify-email?token=${rawToken}`;
+      logger.info(`Verification email RESENT for ${normalizedEmail}. URL placeholder: ${verificationUrl}`);
 
       return {
         success: true,
@@ -130,7 +130,7 @@ export class EmailVerificationService {
 
     } catch (error) {
       await session.abortTransaction();
-      logger.error(\`Failed to resend verification for \${normalizedEmail}: \`, error);
+      logger.error(`Failed to resend verification for ${normalizedEmail}: `, error);
       throw error;
     } finally {
       session.endSession();

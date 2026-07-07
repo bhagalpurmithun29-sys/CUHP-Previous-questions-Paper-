@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Toaster } from 'react-hot-toast';
+import { AuthProvider } from '../features/auth/contexts/AuthContext';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -19,10 +20,9 @@ interface AppProvidersProps {
 export const AppProviders = ({ children }: AppProvidersProps) => {
   return (
     <QueryClientProvider client={queryClient}>
-      {/* ThemeProvider placeholder would go here */}
-      {/* AuthProvider placeholder would go here */}
-      
-      {children}
+      <AuthProvider>
+        {children}
+      </AuthProvider>
       
       <Toaster 
         position="top-right"

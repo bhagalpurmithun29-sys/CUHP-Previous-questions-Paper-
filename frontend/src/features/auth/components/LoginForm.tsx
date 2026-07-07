@@ -59,11 +59,11 @@ export const LoginForm: React.FC = () => {
             autoComplete="email"
             disabled={isPending}
             {...register('email')}
-            className={\`block w-full pl-10 pr-3 py-2.5 sm:text-sm rounded-lg border focus:ring-2 focus:outline-none transition-all duration-200
-              \${errors.email 
+            className={`block w-full pl-10 pr-3 py-2.5 sm:text-sm rounded-lg border focus:ring-2 focus:outline-none transition-all duration-200
+              ${errors.email 
                 ? 'border-red-300 text-red-900 placeholder-red-300 focus:ring-red-500 focus:border-red-500' 
                 : 'border-gray-300 focus:ring-blue-500 focus:border-blue-500 text-gray-900 placeholder-gray-400'
-              }\`}
+              }`}
             placeholder="student@cuhimachal.ac.in"
             aria-invalid={errors.email ? 'true' : 'false'}
             aria-describedby={errors.email ? 'email-error' : undefined}
@@ -99,11 +99,11 @@ export const LoginForm: React.FC = () => {
             autoComplete="current-password"
             disabled={isPending}
             {...register('password')}
-            className={\`block w-full pl-10 pr-10 py-2.5 sm:text-sm rounded-lg border focus:ring-2 focus:outline-none transition-all duration-200
-              \${errors.password 
+            className={`block w-full pl-10 pr-10 py-2.5 sm:text-sm rounded-lg border focus:ring-2 focus:outline-none transition-all duration-200
+              ${errors.password 
                 ? 'border-red-300 text-red-900 placeholder-red-300 focus:ring-red-500 focus:border-red-500' 
                 : 'border-gray-300 focus:ring-blue-500 focus:border-blue-500 text-gray-900 placeholder-gray-400'
-              }\`}
+              }`}
             placeholder="••••••••••••"
             aria-invalid={errors.password ? 'true' : 'false'}
             aria-describedby={errors.password ? 'password-error' : undefined}

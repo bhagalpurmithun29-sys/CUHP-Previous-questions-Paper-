@@ -1,19 +1,23 @@
 import { Navigate, Outlet } from 'react-router-dom';
-import { useAuthStore } from '../store/authStore';
+import { useAuth } from '../features/auth/hooks/useAuth';
 import { UserRole, ROUTES } from '../constants';
 
 export const GuestGuard = () => {
-  const { isAuthenticated } = useAuthStore();
+  const { isAuthenticated, isLoading } = useAuth();
   
+  if (isLoading) return <div>Loading...</div>;
+
   if (isAuthenticated) {
-    return <Navigate to={ROUTES.STUDENT.DASHBOARD} replace />;
+    return <Navigate to={'/dashboard'} replace />;
   }
   
   return <Outlet />;
 };
 
 export const AuthGuard = () => {
-  const { isAuthenticated } = useAuthStore();
+  const { isAuthenticated, isLoading } = useAuth();
+
+  if (isLoading) return <div>Loading...</div>;
 
   if (!isAuthenticated) {
     return <Navigate to={ROUTES.LOGIN} replace />;
@@ -23,7 +27,9 @@ export const AuthGuard = () => {
 };
 
 export const RoleGuard = ({ allowedRoles }: { allowedRoles: UserRole[] }) => {
-  const { user } = useAuthStore();
+  const { user, isLoading } = useAuth();
+
+  if (isLoading) return <div>Loading...</div>;
 
   if (!user || !allowedRoles.includes(user.role as UserRole)) {
     return <Navigate to={ROUTES.UNAUTHORIZED} replace />;

@@ -55,11 +55,11 @@ export class PasswordService {
     const errors: string[] = [];
 
     if (password.length < passwordConfig.minLength) {
-      errors.push(\`Password must be at least \${passwordConfig.minLength} characters long\`);
+      errors.push(`Password must be at least ${passwordConfig.minLength} characters long`);
     }
 
     if (password.length > passwordConfig.maxLength) {
-      errors.push(\`Password cannot exceed \${passwordConfig.maxLength} characters\`);
+      errors.push(`Password cannot exceed ${passwordConfig.maxLength} characters`);
     }
 
     if (passwordConfig.rules.requireUppercase && !/[A-Z]/.test(password)) {

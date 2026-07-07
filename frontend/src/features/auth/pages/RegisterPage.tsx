@@ -32,7 +32,7 @@ export const RegisterPage: React.FC = () => {
           <div className="flex -space-x-3">
             {[1, 2, 3, 4].map((i) => (
               <div key={i} className="w-10 h-10 rounded-full border-2 border-blue-700 bg-blue-300 flex items-center justify-center overflow-hidden">
-                <img src={\`https://i.pravatar.cc/100?img=\${i+10}\`} alt="Student" className="w-full h-full object-cover" />
+                <img src={`https://i.pravatar.cc/100?img=${i+10}`} alt="Student" className="w-full h-full object-cover" />
               </div>
             ))}
           </div>

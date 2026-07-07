@@ -1,33 +1,13 @@
-import { Response } from 'express';
+export class ApiResponse<T> {
+  public success: boolean;
+  public statusCode: number;
+  public message: string;
+  public data: T | null;
 
-interface ApiResponseParams<T> {
-  res: Response;
-  statusCode: number;
-  message: string;
-  data?: T;
-  pagination?: {
-    page: number;
-    limit: number;
-    total: number;
-  };
+  constructor(statusCode: number, data: T | null, message = 'Success') {
+    this.statusCode = statusCode;
+    this.success = statusCode < 400;
+    this.message = message;
+    this.data = data;
+  }
 }
-
-export const sendResponse = <T>({
-  res,
-  statusCode,
-  message,
-  data,
-  pagination,
-}: ApiResponseParams<T>) => {
-  const success = statusCode >= 200 && statusCode < 300;
-  
-  res.status(statusCode).json({
-    success,
-    message,
-    data: data || null,
-    errors: null,
-    pagination,
-    timestamp: new Date().toISOString(),
-    // requestId could be added via a middleware
-  });
-};

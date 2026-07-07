@@ -15,7 +15,7 @@ export class AuthService {
    * Handles the complete user registration business logic
    */
   static async register(userData: RegisterRequestDTO, ipAddress: string): Promise<RegisterResponseDTO> {
-    logger.info(\`Registration started for email: \${userData.email}\`);
+    logger.info(`Registration started for email: ${userData.email}`);
 
     // Normalize email
     const normalizedEmail = userData.email.toLowerCase().trim();
@@ -29,7 +29,7 @@ export class AuthService {
       // 1. Check if user already exists
       const existingUser = await AuthRepository.findUserByEmail(normalizedEmail, session);
       if (existingUser) {
-        logger.warn(\`Duplicate registration attempt for email: \${normalizedEmail}\`);
+        logger.warn(`Duplicate registration attempt for email: ${normalizedEmail}`);
         
         // Log the failed attempt asynchronously
         await AuthRepository.createAuditLog(
@@ -66,12 +66,12 @@ export class AuthService {
 
       // Commit transaction
       await session.commitTransaction();
-      logger.info(\`Successfully registered user: \${newUser._id}\`);
+      logger.info(`Successfully registered user: ${newUser._id}`);
 
       // 6. Trigger Email Service (Asynchronous, outside transaction)
       // TODO: emailService.sendVerificationEmail(newUser.email, newUser.firstName, rawToken);
-      const verificationUrl = \`/verify-email?token=\${rawToken}\`;
-      logger.info(\`Verification email generated for \${normalizedEmail}. URL placeholder: \${verificationUrl}\`);
+      const verificationUrl = `/verify-email?token=${rawToken}`;
+      logger.info(`Verification email generated for ${normalizedEmail}. URL placeholder: ${verificationUrl}`);
 
       // 7. Format Response DTO
       const userResponse: UserResponseDTO = {
@@ -97,7 +97,7 @@ export class AuthService {
 
     } catch (error) {
       await session.abortTransaction();
-      logger.error(\`Registration failed for \${normalizedEmail}: \`, error);
+      logger.error(`Registration failed for ${normalizedEmail}: `, error);
       throw error;
     } finally {
       session.endSession();
@@ -109,7 +109,7 @@ export class AuthService {
    */
   static async login(loginData: LoginRequestDTO, req: Request): Promise<LoginResponseDTO> {
     const normalizedEmail = loginData.email.toLowerCase().trim();
-    logger.info(\`Login attempt for: \${normalizedEmail}\`);
+    logger.info(`Login attempt for: ${normalizedEmail}`);
     const ipAddress = req.ip || 'unknown';
 
     // 1. Find user (must include password for comparison)
@@ -155,7 +155,7 @@ export class AuthService {
     // 7. Audit Log Success
     await AuthRepository.createAuditLog(AuthAction.LOGIN, normalizedEmail, ipAddress, { action: 'LOGIN_SUCCESS' }, user._id);
     
-    logger.info(\`Successful login for user: \${user._id}\`);
+    logger.info(`Successful login for user: ${user._id}`);
 
     // 8. Format Response
     return {

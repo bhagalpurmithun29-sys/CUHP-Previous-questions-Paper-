@@ -17,7 +17,7 @@ export class PasswordResetService {
    */
   static async requestPasswordReset(dto: ForgotPasswordRequestDTO, ipAddress: string): Promise<ForgotPasswordResponseDTO> {
     const normalizedEmail = dto.email.toLowerCase().trim();
-    logger.info(\`Password reset requested for: \${normalizedEmail}\`);
+    logger.info(`Password reset requested for: ${normalizedEmail}`);
 
     const user = await PasswordResetRepository.findUserByEmail(normalizedEmail);
     
@@ -27,7 +27,7 @@ export class PasswordResetService {
     }
 
     if (user.accountStatus === AccountStatus.SUSPENDED || user.accountStatus === AccountStatus.BLOCKED || user.accountStatus === AccountStatus.DELETED) {
-      logger.warn(\`Password reset attempted on non-active account: \${normalizedEmail}\`);
+      logger.warn(`Password reset attempted on non-active account: ${normalizedEmail}`);
       return { success: true, message: 'If an account exists, a password reset email has been sent.' };
     }
 
@@ -61,8 +61,8 @@ export class PasswordResetService {
       await session.commitTransaction();
 
       // 5. Send Email (Placeholder)
-      const resetUrl = \`/reset-password?token=\${rawToken}\`;
-      logger.info(\`Password reset email sent for \${normalizedEmail}. URL placeholder: \${resetUrl}\`);
+      const resetUrl = `/reset-password?token=${rawToken}`;
+      logger.info(`Password reset email sent for ${normalizedEmail}. URL placeholder: ${resetUrl}`);
 
       return {
         success: true,
@@ -71,7 +71,7 @@ export class PasswordResetService {
 
     } catch (error) {
       await session.abortTransaction();
-      logger.error(\`Failed to process forgot password for \${normalizedEmail}: \`, error);
+      logger.error(`Failed to process forgot password for ${normalizedEmail}: `, error);
       throw error;
     } finally {
       session.endSession();
@@ -123,10 +123,10 @@ export class PasswordResetService {
       );
 
       await session.commitTransaction();
-      logger.info(\`User \${user._id} successfully reset their password. All existing sessions invalidated.\`);
+      logger.info(`User ${user._id} successfully reset their password. All existing sessions invalidated.`);
 
       // 7. Send Password Changed Confirmation Email (Placeholder)
-      logger.info(\`Password change confirmation email sent to \${user.email}\`);
+      logger.info(`Password change confirmation email sent to ${user.email}`);
 
       return {
         success: true,
@@ -135,7 +135,7 @@ export class PasswordResetService {
 
     } catch (error) {
       await session.abortTransaction();
-      logger.error(\`Failed to execute password reset for user \${user._id}: \`, error);
+      logger.error(`Failed to execute password reset for user ${user._id}: `, error);
       throw error;
     } finally {
       session.endSession();

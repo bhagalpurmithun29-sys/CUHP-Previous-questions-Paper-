@@ -33,13 +33,13 @@ export const PasswordStrength: React.FC<PasswordStrengthProps> = ({ password }) 
     <div className="mt-2">
       <div className="flex justify-between items-center mb-1">
         <span className="text-xs font-medium text-gray-500">Password Strength</span>
-        <span className={\`text-xs font-bold \${color.replace('bg-', 'text-')}\`}>
+        <span className={`text-xs font-bold ${color.replace('bg-', 'text-')}`}>
           {password.length > 0 ? label : ''}
         </span>
       </div>
       <div className="w-full bg-gray-200 rounded-full h-1.5 overflow-hidden">
         <motion.div
-          className={\`h-1.5 rounded-full \${color}\`}
+          className={`h-1.5 rounded-full ${color}`}
           initial={{ width: 0 }}
           animate={{ width }}
           transition={{ duration: 0.4, ease: "easeInOut" }}

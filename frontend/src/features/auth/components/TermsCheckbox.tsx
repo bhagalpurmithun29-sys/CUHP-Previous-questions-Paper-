@@ -16,8 +16,8 @@ export const TermsCheckbox: React.FC<TermsCheckboxProps> = ({ register, error })
             id="agreeToTerms"
             type="checkbox"
             {...register('agreeToTerms')}
-            className={\`w-4 h-4 border rounded focus:ring-3 focus:ring-blue-300 bg-gray-50 
-              \${error ? 'border-red-500 text-red-600 focus:ring-red-200' : 'border-gray-300 text-blue-600'}\`}
+            className={`w-4 h-4 border rounded focus:ring-3 focus:ring-blue-300 bg-gray-50 
+              ${error ? 'border-red-500 text-red-600 focus:ring-red-200' : 'border-gray-300 text-blue-600'}`}
           />
         </div>
         <div className="ml-3 text-sm">

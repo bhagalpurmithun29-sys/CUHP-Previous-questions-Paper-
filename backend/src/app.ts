@@ -23,7 +23,7 @@ app.use(compression());
 // Request Logging Middleware
 app.use((req: Request, res: Response, next: NextFunction) => {
   if (process.env.NODE_ENV !== 'test') {
-    logger.info(\`\${req.method} \${req.originalUrl}\`);
+    logger.info(`${req.method} ${req.originalUrl}`);
   }
   next();
 });
@@ -38,7 +38,7 @@ app.use('/api/v1', routes);
 
 // Handle undefined routes
 app.all('*', (req: Request, res: Response, next: NextFunction) => {
-  next(new NotFoundError(\`Can't find \${req.originalUrl} on this server!\`));
+  next(new NotFoundError(`Can't find ${req.originalUrl} on this server!`));
 });
 
 // Global Error Handler

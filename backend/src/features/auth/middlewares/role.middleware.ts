@@ -14,7 +14,7 @@ export const requireRole = (minimumRole: UserRole) => {
     }
 
     if (!hasRequiredRoleLevel(req.user.role, minimumRole)) {
-      throw new ForbiddenError(\`Access denied. Requires \${minimumRole} role or higher.\`);
+      throw new ForbiddenError(`Access denied. Requires ${minimumRole} role or higher.`);
     }
 
     next();

@@ -36,7 +36,7 @@ export const PasswordChecklist: React.FC<PasswordChecklistProps> = ({ password }
                 <span className="w-1.5 h-1.5 bg-white rounded-full"></span>
               )}
             </motion.div>
-            <span className={\`transition-colors duration-300 \${req.valid ? 'text-emerald-700 font-medium' : 'text-gray-500'}\`}>
+            <span className={`transition-colors duration-300 ${req.valid ? 'text-emerald-700 font-medium' : 'text-gray-500'}`}>
               {req.label}
             </span>
           </li>

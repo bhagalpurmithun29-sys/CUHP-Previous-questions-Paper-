@@ -2,7 +2,7 @@ import winston from 'winston';
 import path from 'path';
 
 const logFormat = winston.format.printf(({ level, message, timestamp, stack }) => {
-  return \`\${timestamp} [\${level.toUpperCase()}]: \${stack || message}\`;
+  return `${timestamp} [${level.toUpperCase()}]: ${stack || message}`;
 });
 
 export const logger = winston.createLogger({

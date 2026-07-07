@@ -36,7 +36,7 @@ export const RegisterForm: React.FC = () => {
           <label className="block text-sm font-medium text-gray-700 mb-1">First Name</label>
           <input
             {...register('firstName')}
-            className={\`w-full px-4 py-2.5 rounded-lg border \${errors.firstName ? 'border-red-500 focus:ring-red-200' : 'border-gray-300 focus:border-blue-500 focus:ring-blue-200'} focus:ring-2 outline-none transition-all\`}
+            className={`w-full px-4 py-2.5 rounded-lg border ${errors.firstName ? 'border-red-500 focus:ring-red-200' : 'border-gray-300 focus:border-blue-500 focus:ring-blue-200'} focus:ring-2 outline-none transition-all`}
             placeholder="John"
             disabled={isPending}
           />
@@ -46,7 +46,7 @@ export const RegisterForm: React.FC = () => {
           <label className="block text-sm font-medium text-gray-700 mb-1">Last Name</label>
           <input
             {...register('lastName')}
-            className={\`w-full px-4 py-2.5 rounded-lg border \${errors.lastName ? 'border-red-500 focus:ring-red-200' : 'border-gray-300 focus:border-blue-500 focus:ring-blue-200'} focus:ring-2 outline-none transition-all\`}
+            className={`w-full px-4 py-2.5 rounded-lg border ${errors.lastName ? 'border-red-500 focus:ring-red-200' : 'border-gray-300 focus:border-blue-500 focus:ring-blue-200'} focus:ring-2 outline-none transition-all`}
             placeholder="Doe"
             disabled={isPending}
           />
@@ -60,7 +60,7 @@ export const RegisterForm: React.FC = () => {
         <input
           {...register('email')}
           type="email"
-          className={\`w-full px-4 py-2.5 rounded-lg border \${errors.email ? 'border-red-500 focus:ring-red-200' : 'border-gray-300 focus:border-blue-500 focus:ring-blue-200'} focus:ring-2 outline-none transition-all\`}
+          className={`w-full px-4 py-2.5 rounded-lg border ${errors.email ? 'border-red-500 focus:ring-red-200' : 'border-gray-300 focus:border-blue-500 focus:ring-blue-200'} focus:ring-2 outline-none transition-all`}
           placeholder="student@cuhimachal.ac.in"
           disabled={isPending}
         />
@@ -73,7 +73,7 @@ export const RegisterForm: React.FC = () => {
           <label className="block text-sm font-medium text-gray-700 mb-1">Department</label>
           <select
             {...register('department')}
-            className={\`w-full px-4 py-2.5 rounded-lg border \${errors.department ? 'border-red-500 focus:ring-red-200' : 'border-gray-300 focus:border-blue-500 focus:ring-blue-200'} focus:ring-2 outline-none transition-all bg-white\`}
+            className={`w-full px-4 py-2.5 rounded-lg border ${errors.department ? 'border-red-500 focus:ring-red-200' : 'border-gray-300 focus:border-blue-500 focus:ring-blue-200'} focus:ring-2 outline-none transition-all bg-white`}
             disabled={isPending}
           >
             <option value="">Select Department</option>
@@ -86,7 +86,7 @@ export const RegisterForm: React.FC = () => {
           <label className="block text-sm font-medium text-gray-700 mb-1">Semester</label>
           <select
             {...register('semester')}
-            className={\`w-full px-4 py-2.5 rounded-lg border \${errors.semester ? 'border-red-500 focus:ring-red-200' : 'border-gray-300 focus:border-blue-500 focus:ring-blue-200'} focus:ring-2 outline-none transition-all bg-white\`}
+            className={`w-full px-4 py-2.5 rounded-lg border ${errors.semester ? 'border-red-500 focus:ring-red-200' : 'border-gray-300 focus:border-blue-500 focus:ring-blue-200'} focus:ring-2 outline-none transition-all bg-white`}
             disabled={isPending}
           >
             <option value="">Select</option>
@@ -99,7 +99,7 @@ export const RegisterForm: React.FC = () => {
           <label className="block text-sm font-medium text-gray-700 mb-1">Course</label>
           <select
             {...register('course')}
-            className={\`w-full px-4 py-2.5 rounded-lg border \${errors.course ? 'border-red-500 focus:ring-red-200' : 'border-gray-300 focus:border-blue-500 focus:ring-blue-200'} focus:ring-2 outline-none transition-all bg-white\`}
+            className={`w-full px-4 py-2.5 rounded-lg border ${errors.course ? 'border-red-500 focus:ring-red-200' : 'border-gray-300 focus:border-blue-500 focus:ring-blue-200'} focus:ring-2 outline-none transition-all bg-white`}
             disabled={isPending}
           >
             <option value="">Select Course</option>
@@ -116,7 +116,7 @@ export const RegisterForm: React.FC = () => {
           <input
             {...register('password')}
             type={showPassword ? 'text' : 'password'}
-            className={\`w-full px-4 py-2.5 rounded-lg border \${errors.password ? 'border-red-500 focus:ring-red-200' : 'border-gray-300 focus:border-blue-500 focus:ring-blue-200'} focus:ring-2 outline-none transition-all\`}
+            className={`w-full px-4 py-2.5 rounded-lg border ${errors.password ? 'border-red-500 focus:ring-red-200' : 'border-gray-300 focus:border-blue-500 focus:ring-blue-200'} focus:ring-2 outline-none transition-all`}
             placeholder="••••••••••••"
             disabled={isPending}
           />
@@ -144,7 +144,7 @@ export const RegisterForm: React.FC = () => {
         <input
           {...register('confirmPassword')}
           type={showPassword ? 'text' : 'password'}
-          className={\`w-full px-4 py-2.5 rounded-lg border \${errors.confirmPassword ? 'border-red-500 focus:ring-red-200' : 'border-gray-300 focus:border-blue-500 focus:ring-blue-200'} focus:ring-2 outline-none transition-all\`}
+          className={`w-full px-4 py-2.5 rounded-lg border ${errors.confirmPassword ? 'border-red-500 focus:ring-red-200' : 'border-gray-300 focus:border-blue-500 focus:ring-blue-200'} focus:ring-2 outline-none transition-all`}
           placeholder="••••••••••••"
           disabled={isPending}
         />

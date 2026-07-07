@@ -21,7 +21,7 @@ apiClient.interceptors.request.use(
     // In a real app, attach token here if not using HttpOnly cookies
     // const token = localStorage.getItem('accessToken');
     // if (token) {
-    //   config.headers.Authorization = \`Bearer \${token}\`;
+    //   config.headers.Authorization = `Bearer ${token}`;
     // }
     return config;
   },

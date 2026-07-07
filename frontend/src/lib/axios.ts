@@ -16,7 +16,7 @@ apiClient.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
     const token = tokenStorage.getToken();
     if (token && config.headers) {
-      config.headers.Authorization = \`Bearer \${token}\`;
+      config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
   },
@@ -57,7 +57,7 @@ apiClient.interceptors.response.use(
         })
           .then((token) => {
             if (originalRequest.headers) {
-              originalRequest.headers.Authorization = \`Bearer \${token}\`;
+              originalRequest.headers.Authorization = `Bearer ${token}`;
             }
             return apiClient(originalRequest);
           })
@@ -80,7 +80,7 @@ apiClient.interceptors.response.use(
 
         // Retry the original request
         if (originalRequest.headers) {
-          originalRequest.headers.Authorization = \`Bearer \${newAccessToken}\`;
+          originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
         }
         return apiClient(originalRequest);
       } catch (refreshError) {
