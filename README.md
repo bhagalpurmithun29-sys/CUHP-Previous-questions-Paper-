@@ -7,11 +7,12 @@ The CUHP Question Bank is a production-ready, highly scalable, and modern web ap
 
 ## Key Features
 - **Secure Authentication:** Robust user authentication system including Role-Based Access Control (RBAC), secure password recovery, and token management.
-- **Academic Hierarchy Management:** Comprehensive School and Department management modules for administrators.
+- **Academic Hierarchy Management:** Comprehensive School, Department, Course, Semester, and Subject management modules for administrators.
+- **Academic Navigation System:** A recursive, responsive sidebar tree and mobile drawer for navigating the full academic structure smoothly.
 - **Question Paper Repository:** Centralized storage and retrieval of question papers categorized by course, semester, and department.
 - **Activity Logging:** Detailed tracking of user actions and system events for auditing purposes.
-- **Modern UI/UX:** Responsive, accessible, and animated frontend leveraging Tailwind CSS and Framer Motion.
-- **Media Management:** Cloudinary integration for efficient storage and delivery of documents and assets.
+- **Modern UI/UX:** Responsive, accessible, and animated frontend leveraging Tailwind CSS, Framer Motion, and a unified Admin Layout.
+- **Media Management:** Cloudinary integration for efficient storage and delivery of documents, PDFs, and image assets.
 
 ## Tech Stack
 
