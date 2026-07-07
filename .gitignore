@@ -55,3 +55,19 @@ Thumbs.db
 
 # TypeScript
 *.tsbuildinfo
+
+# Uploads & Media
+uploads/
+public/uploads/
+backend/uploads/
+images/
+media/
+
+# Test output
+coverage/
+.nyc_output/
+
+# Cache
+.eslintcache
+.stylelintcache
+.prettiercache
