@@ -11,14 +11,14 @@ export class AuthRepository {
    * Finds a user by their email address (case-insensitive)
    */
   static async findUserByEmail(email: string, session?: ClientSession): Promise<IUser | null> {
-    return User.findOne({ email: email.toLowerCase(), isDeleted: false }).session(session || null);
+    return User.findOne({ email: email.toLowerCase(), isDeleted: false }).session(session || null) as any;
   }
 
   /**
    * Finds a user by email and explicitly selects the password field for verification
    */
   static async findUserByEmailWithPassword(email: string): Promise<IUser | null> {
-    return User.findOne({ email: email.toLowerCase(), isDeleted: false }).select('+password');
+    return User.findOne({ email: email.toLowerCase(), isDeleted: false }).select('+password') as any;
   }
 
   /**
@@ -34,7 +34,7 @@ export class AuthRepository {
       course: userData.course,
       semester: userData.semester,
     });
-    return user.save({ session });
+    return user.save({ session }) as any;
   }
 
   /**

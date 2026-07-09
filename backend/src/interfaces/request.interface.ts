@@ -6,7 +6,7 @@ import { Permission } from '../features/auth/constants/permissions';
 declare global {
   namespace Express {
     interface Request {
-      user?: IUser;
+      user?: IUser | any;
       userPermissions?: Permission[];
       sessionId?: string;
       deviceInfo?: {

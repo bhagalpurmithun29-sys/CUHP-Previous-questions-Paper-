@@ -6,7 +6,7 @@ export class JwtUtil {
    * Extracts the Bearer token from the authorization header
    */
   static extractTokenFromHeader(req: Request): string | null {
-    const authHeader = req.headers[AuthConstants.HEADER_AUTHORIZATION.toLowerCase()] as string || req.headers[AuthConstants.HEADER_AUTHORIZATION];
+    const authHeader = (req.headers[AuthConstants.HEADER_AUTHORIZATION.toLowerCase()] || req.headers[AuthConstants.HEADER_AUTHORIZATION.toLowerCase()]) as string | undefined;
     
     if (!authHeader) {
       return null;

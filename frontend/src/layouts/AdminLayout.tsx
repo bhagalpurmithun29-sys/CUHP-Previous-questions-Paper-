@@ -6,6 +6,7 @@ import { TopNavigation } from '../features/navigation/components/TopNavigation';
 import { MobileDrawer } from '../features/navigation/components/MobileDrawer';
 import { Breadcrumbs } from '../features/navigation/components/Breadcrumbs';
 import { useRouteTracker } from '../features/navigation/hooks/useNavigation';
+import { GlobalSearchModal } from '../features/search/components/GlobalSearchModal';
 
 // Helper component to initialize route tracking within context
 const RouteTracker = () => {
@@ -17,6 +18,7 @@ export const AdminLayout: React.FC = () => {
   return (
     <NavigationProvider>
       <RouteTracker />
+      <GlobalSearchModal />
       <div className="flex h-screen bg-gray-50 overflow-hidden font-sans">
         {/* Desktop Sidebar */}
         <Sidebar />

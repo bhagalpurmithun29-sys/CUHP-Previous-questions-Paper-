@@ -1,21 +1,18 @@
+import React from 'react';
 import { Outlet } from 'react-router-dom';
+import { PublicNavbar } from '../components/layout/PublicNavbar';
+import { PublicFooter } from '../components/layout/PublicFooter';
 
-const PublicLayout = () => {
+const PublicLayout: React.FC = () => {
   return (
-    <div className="min-h-screen flex flex-col bg-background text-foreground">
-      {/* Navbar Placeholder */}
-      <header className="h-16 border-b border-border flex items-center px-6">
-        <h1 className="text-xl font-bold font-display text-primary">CUHP Question Bank</h1>
-      </header>
+    <div className="min-h-screen flex flex-col bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100 transition-colors duration-300">
+      <PublicNavbar />
       
-      <main className="flex-1">
+      <main className="flex-1 flex flex-col pt-16">
         <Outlet />
       </main>
       
-      {/* Footer Placeholder */}
-      <footer className="py-6 border-t border-border text-center text-sm text-muted-foreground">
-        © {new Date().getFullYear()} Central University of Himachal Pradesh
-      </footer>
+      <PublicFooter />
     </div>
   );
 };

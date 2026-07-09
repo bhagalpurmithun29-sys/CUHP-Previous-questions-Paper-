@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useSearchParams, useNavigate, Navigate } from 'react-router-dom';
 import { useVerifyEmail } from '../hooks/useVerifyEmail';
 import { VerificationLoader } from '../components/VerificationLoader';
 
@@ -7,44 +7,52 @@ export const VerifyEmailPage: React.FC = () => {
   const [searchParams] = useSearchParams();
   const token = searchParams.get('token');
   const navigate = useNavigate();
-  const { verifyEmail, isLoading } = useVerifyEmail();
+  const { verify, loading, success, error } = useVerifyEmail();
+  const [isVerifying, setIsVerifying] = useState(true);
 
   useEffect(() => {
-    if (!token || token.trim().length < 10) {
-      navigate('/verification-failed', { 
-        state: { message: 'Invalid or missing verification token.' },
-        replace: true 
-      });
+    if (!token) {
+      setIsVerifying(false);
       return;
     }
-
-    verifyEmail(
-      { token },
-      {
-        onSuccess: () => {
-          navigate('/verification-success', { replace: true });
-        },
-        onError: (error: any) => {
-          const status = error?.response?.status;
-          
-          if (status === 410 || status === 401) { // Assuming 410 or 401 for expired
-            navigate('/verification-expired', { replace: true });
-            return;
-          }
-
-          const message = error?.response?.data?.message || 'Verification failed. Please try again.';
-          navigate('/verification-failed', { 
-            state: { message },
-            replace: true 
-          });
-        },
+    
+    // Only call verify once on mount
+    verify(token, {
+      onSettled: () => {
+        setIsVerifying(false);
       }
-    );
-  }, [token, verifyEmail, navigate]);
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [token]); // deliberately leaving verify out of deps to avoid re-running
 
-  return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-50">
-      <VerificationLoader />
-    </div>
-  );
+  // Handle Missing Token
+  if (!token) {
+    return <Navigate to="/verify-email/failed?reason=missing_token" replace />;
+  }
+
+  // Handle Loading
+  if (isVerifying || loading) {
+    return <VerificationLoader />;
+  }
+
+  // Handle Success
+  if (success) {
+    return <Navigate to="/verify-email/success" replace />;
+  }
+
+  // Handle Error
+  if (error) {
+    const status = error.response?.status;
+    const message = error.response?.data?.message || '';
+
+    // Check if it's expired
+    if (status === 410 || message.toLowerCase().includes('expire')) {
+      return <Navigate to="/verify-email/expired" replace />;
+    }
+
+    // Default failure
+    return <Navigate to={`/verify-email/failed?reason=${encodeURIComponent(message)}`} replace />;
+  }
+
+  return <VerificationLoader />;
 };

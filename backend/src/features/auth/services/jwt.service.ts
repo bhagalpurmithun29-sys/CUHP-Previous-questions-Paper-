@@ -10,8 +10,8 @@ export class JwtService {
    * Generates an Access Token
    */
   static generateAccessToken(payload: IJwtPayload): string {
-    return jwt.sign(payload, jwtConfig.accessSecret, {
-      expiresIn: jwtConfig.accessExpiresIn,
+    return jwt.sign(payload as object, jwtConfig.accessSecret, {
+      expiresIn: jwtConfig.accessExpiresIn as any,
       issuer: jwtConfig.issuer,
       audience: jwtConfig.audience,
       algorithm: jwtConfig.algorithm,

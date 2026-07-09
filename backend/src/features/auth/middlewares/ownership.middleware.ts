@@ -32,7 +32,7 @@ export const requireOwnership = (
 
     // 3. Exact Ownership Match
     const resourceOwnerId = getResourceOwnerId(req);
-    const requestingUserId = req.user._id.toString();
+    const requestingUserId = (req.user as any)?._id?.toString() || (req.user as any)?.id?.toString();
 
     if (!resourceOwnerId || resourceOwnerId !== requestingUserId) {
       throw new ForbiddenError('Access denied. You do not have ownership of this resource.');

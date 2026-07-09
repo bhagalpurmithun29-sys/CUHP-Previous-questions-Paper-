@@ -7,8 +7,7 @@ import { TokenUtil } from '../utils/token.util';
 import { AuthAction, AccountStatus } from '../../../enums/auth.enum';
 import { logger } from '../../../utils/logger';
 import { PasswordService } from './password.service'; // Assuming previously created
-import bcrypt from 'bcryptjs';
-import config from '../../../config';
+import bcrypt from 'bcrypt';
 
 export class PasswordResetService {
   /**

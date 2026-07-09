@@ -1,41 +1,49 @@
 import { useMutation } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
-import { forgotPassword as forgotPasswordApi } from '../api/auth.api';
-import { FORGOT_PASSWORD_CONSTANTS } from '../constants/forgot-password.constants';
-import type { ForgotPasswordRequest, ForgotPasswordApiResponse } from '../types/forgot-password.types';
+import { AuthApi } from '../api/auth.api';
+import { FORGOT_PASSWORD_CONSTANTS } from '../constants/forgotPassword.constants';
+import type { ForgotPasswordFormValues } from '../schemas/forgotPassword.schema';
+import type { ForgotPasswordApiResponse } from '../types/forgotPassword.types';
 import type { AxiosError } from 'axios';
-import type { ApiErrorResponse } from '../types/auth.types';
 
 export const useForgotPassword = () => {
-  const mutation = useMutation<ForgotPasswordApiResponse, AxiosError<ApiErrorResponse>, ForgotPasswordRequest>({
-    mutationFn: forgotPasswordApi,
+  const mutation = useMutation<ForgotPasswordApiResponse, AxiosError<any>, ForgotPasswordFormValues>({
+    mutationFn: AuthApi.forgotPassword,
     onSuccess: () => {
+      // The requirement says: Never reveal whether the email exists.
+      // We toast a success generic message.
+      // Success card will also be shown in the UI.
       toast.success(FORGOT_PASSWORD_CONSTANTS.MESSAGES.SUCCESS_GENERIC);
     },
     onError: (error) => {
       if (!error.response) {
-        toast.error(FORGOT_PASSWORD_CONSTANTS.MESSAGES.NETWORK_ERROR);
+        if (error.code === 'ECONNABORTED' || error.message.includes('timeout')) {
+          toast.error(FORGOT_PASSWORD_CONSTANTS.MESSAGES.TIMEOUT);
+        } else {
+          toast.error(FORGOT_PASSWORD_CONSTANTS.MESSAGES.NETWORK_ERROR);
+        }
         return;
       }
       
       const status = error.response.status;
-      const message = error.response.data?.message;
-
+      
       switch (status) {
+        case 429:
+          toast.error(FORGOT_PASSWORD_CONSTANTS.MESSAGES.TOO_MANY_REQUESTS);
+          break;
         case 500:
           toast.error(FORGOT_PASSWORD_CONSTANTS.MESSAGES.SERVER_ERROR);
           break;
         default:
-          toast.error(message || FORGOT_PASSWORD_CONSTANTS.MESSAGES.UNEXPECTED_ERROR);
+          toast.error(error.response.data?.message || FORGOT_PASSWORD_CONSTANTS.MESSAGES.UNEXPECTED_ERROR);
       }
     },
   });
 
   return {
-    forgotPassword: mutation.mutate,
-    isLoading: mutation.isPending,
-    isSuccess: mutation.isSuccess,
-    isError: mutation.isError,
+    submit: mutation.mutate,
+    loading: mutation.isPending,
+    success: mutation.isSuccess,
     error: mutation.error,
     reset: mutation.reset,
   };

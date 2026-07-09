@@ -4,21 +4,21 @@ import { useSession } from '../features/auth/hooks/useSession';
 import { FullScreenLoader } from '../features/auth/components/FullScreenLoader';
 
 export const ProtectedRoute: React.FC = () => {
-  const { isAuthenticated, isLoading, user } = useSession();
+  const { authenticated, loading, user } = useSession();
   const location = useLocation();
 
-  if (isLoading) {
+  if (loading) {
     return <FullScreenLoader />;
   }
 
-  if (!isAuthenticated || !user) {
+  if (!authenticated) {
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
-  // Account status and email verification checks can be added here if they dictate routing
-  if (user.accountStatus === 'SUSPENDED' || user.accountStatus === 'BLOCKED') {
-    return <Navigate to="/forbidden" replace />;
-  }
+  // Example architectural check: If the user hasn't verified their email, we might restrict them
+  // if (!user?.emailVerified) {
+  //   return <Navigate to="/verify-email/pending" replace />;
+  // }
 
   return <Outlet />;
 };

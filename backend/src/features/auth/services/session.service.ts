@@ -1,22 +1,39 @@
 import { Types } from 'mongoose';
 import { LoginSession } from '../../../models/loginSession.model';
 import { Request } from 'express';
-import useragent from 'useragent'; // Assuming this gets added later
-import requestIp from 'request-ip'; // Assuming this gets added later
+
+// Use built-in parsing since ua-parser-js / request-ip are not guaranteed
+function parseUserAgent(ua: string | undefined): { device: string; browser: string; platform: string } {
+  if (!ua) return { device: 'Unknown', browser: 'Unknown', platform: 'Unknown' };
+  const isMobile = /Mobile|Android|iPhone|iPad/i.test(ua);
+  const isChrome = /Chrome/i.test(ua);
+  const isFirefox = /Firefox/i.test(ua);
+  const isSafari = /Safari/i.test(ua) && !isChrome;
+  const browser = isChrome ? 'Chrome' : isFirefox ? 'Firefox' : isSafari ? 'Safari' : 'Unknown';
+  const platform = /Windows/i.test(ua) ? 'Windows' : /Mac/i.test(ua) ? 'macOS' : /Linux/i.test(ua) ? 'Linux' : 'Unknown';
+  return { device: isMobile ? 'Mobile' : 'Desktop', browser, platform };
+}
+
+function getClientIp(req: Request): string {
+  const forwarded = req.headers['x-forwarded-for'];
+  if (typeof forwarded === 'string') return forwarded.split(',')[0].trim();
+  return req.socket?.remoteAddress || 'unknown';
+}
 
 export class SessionService {
   /**
    * Creates a new LoginSession document in the database
    */
   static async createSession(userId: string, req: Request): Promise<string> {
-    const agent = useragent.parse(req.headers['user-agent']);
-    const ip = requestIp.getClientIp(req) || 'unknown';
+    const ua = req.headers['user-agent'];
+    const { device, browser, platform } = parseUserAgent(ua);
+    const ip = getClientIp(req);
 
     const session = await LoginSession.create({
       userId: new Types.ObjectId(userId),
-      device: agent.device.toString(),
-      browser: agent.toAgent(),
-      platform: agent.os.toString(),
+      device,
+      browser,
+      platform,
       ip,
       active: true,
       loginAt: new Date(),

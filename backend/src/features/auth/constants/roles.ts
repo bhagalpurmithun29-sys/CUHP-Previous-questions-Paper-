@@ -4,7 +4,9 @@ import { UserRole } from '../../../enums/auth.enum';
 export const RoleHierarchy: Record<UserRole, number> = {
   [UserRole.STUDENT]: 10,
   [UserRole.MODERATOR]: 50,
+  [UserRole.FACULTY]: 60,
   [UserRole.ADMIN]: 100,
+  [UserRole.SUPER_ADMIN]: 200,
 };
 
 /**

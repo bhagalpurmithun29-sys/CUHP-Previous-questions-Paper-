@@ -1,7 +1,7 @@
 import { JwtService } from './jwt.service';
 import { RefreshTokenService } from './refresh-token.service';
 import { SessionService } from './session.service';
-import { ITokenPair } from '../types/jwt.types';
+import { ITokenPair, IDecodedToken } from '../types/jwt.types';
 import { UserRole } from '../../../enums/auth.enum';
 import { Request } from 'express';
 
@@ -26,5 +26,12 @@ export class TokenService {
     const refreshToken = await RefreshTokenService.issueRefreshToken(userId, req);
 
     return { accessToken, refreshToken };
+  }
+
+  /**
+   * Verifies an access token and returns the decoded payload
+   */
+  static verifyAccessToken(token: string): IDecodedToken {
+    return JwtService.verifyAccessToken(token);
   }
 }

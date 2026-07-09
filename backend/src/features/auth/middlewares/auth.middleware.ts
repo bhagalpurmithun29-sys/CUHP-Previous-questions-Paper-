@@ -37,9 +37,9 @@ export const authenticateUser = catchAsync(async (req: Request, res: Response, n
   }
 
   // 5. Attach User and Permissions to Request
-  req.user = currentUser;
-  req.userPermissions = RolePermissions[currentUser.role] || [];
-  req.sessionId = decoded.sessionId; // Extracted from JWT if present
+  (req as any).user = currentUser;
+  req.userPermissions = (RolePermissions as any)[currentUser.role] || [];
+  req.sessionId = decoded.sessionId;
 
   next();
 });

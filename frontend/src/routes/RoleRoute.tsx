@@ -1,24 +1,22 @@
 import React from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import { useRole } from '../features/auth/hooks/useRole';
-import { useSession } from '../features/auth/hooks/useSession';
-import type { UserRole } from '../features/auth/types/login.types';
 import { FullScreenLoader } from '../features/auth/components/FullScreenLoader';
+import { UserRole } from '../features/auth/types';
 
 interface RoleRouteProps {
-  allowedRoles: UserRole[];
+  allowedRoles: (UserRole | string)[];
 }
 
 export const RoleRoute: React.FC<RoleRouteProps> = ({ allowedRoles }) => {
-  const { isAuthenticated, isLoading } = useSession();
-  const { hasAnyRole } = useRole();
+  const { hasAnyRole, loading, authenticated } = useRole();
 
-  if (isLoading) {
+  if (loading) {
     return <FullScreenLoader />;
   }
 
-  if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;
+  if (!authenticated) {
+    return <Navigate to="/unauthorized" replace />;
   }
 
   if (!hasAnyRole(allowedRoles)) {

@@ -16,14 +16,14 @@ export class EmailVerificationRepository {
    * Finds a user by ID
    */
   static async findUserById(userId: mongoose.Types.ObjectId, session?: ClientSession): Promise<IUser | null> {
-    return User.findById(userId).session(session || null);
+    return User.findById(userId).session(session || null) as any;
   }
 
   /**
    * Finds a user by email
    */
   static async findUserByEmail(email: string): Promise<IUser | null> {
-    return User.findOne({ email: email.toLowerCase(), isDeleted: false });
+    return User.findOne({ email: email.toLowerCase(), isDeleted: false }) as any;
   }
 
   /**

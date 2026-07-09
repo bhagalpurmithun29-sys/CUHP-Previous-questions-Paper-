@@ -6,14 +6,6 @@ import { AuthErrors } from '../constants/auth.constants';
 import { UserRole } from '../../../enums/auth.enum';
 import { IAuthUser } from '../types/jwt.types';
 
-// Extend Express Request interface to include user
-declare global {
-  namespace Express {
-    interface Request {
-      user?: IAuthUser;
-    }
-  }
-}
 
 export const requireAuth = (req: Request, res: Response, next: NextFunction) => {
   try {

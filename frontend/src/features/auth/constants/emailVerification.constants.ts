@@ -1,0 +1,28 @@
+export const EMAIL_VERIFICATION_CONSTANTS = {
+  MESSAGES: {
+    EMAIL_REQUIRED: 'Email address is required.',
+    EMAIL_INVALID: 'Please enter a valid email address.',
+    RESEND_SUBMIT_BUTTON: 'Send Verification Link',
+    BACK_TO_LOGIN: 'Back To Login',
+    RESEND_TITLE: 'Resend Verification Email',
+    RESEND_SUBTITLE: 'Enter your email address and we will send you a new verification link.',
+    RESEND_SUCCESS: 'Verification email sent! Please check your inbox.',
+    VERIFY_LOADING_TITLE: 'Verifying Your Email',
+    VERIFY_LOADING_SUBTITLE: 'Please wait while we verify your email address...',
+    SUCCESS_TITLE: 'Email Verified',
+    SUCCESS_MESSAGE: 'Your email has been successfully verified. Your account is now active.',
+    CONTINUE_LOGIN: 'Continue To Login',
+    FAILED_TITLE: 'Verification Failed',
+    FAILED_MESSAGE: 'We could not verify your email address. The link may be invalid or already used.',
+    EXPIRED_TITLE: 'Link Expired',
+    EXPIRED_MESSAGE: 'Your verification link has expired. Please request a new one.',
+    MISSING_TOKEN: 'Invalid or missing verification token.',
+    NETWORK_ERROR: 'Network Error: Please check your connection.',
+    SERVER_ERROR: 'Internal Server Error. Please contact support.',
+    TIMEOUT: 'Request timed out. Please try again.',
+    TOO_MANY_REQUESTS: 'Too many requests. Please try again later.',
+    ALREADY_VERIFIED: 'This email is already verified.',
+    OFFLINE: 'You appear to be offline. Please check your connection.',
+    UNEXPECTED_ERROR: 'An unexpected error occurred.',
+  }
+} as const;

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useAuth } from '../context/AuthContext';
-import { getCurrentUser } from '../api/auth.api';
+import { useSession } from '../hooks/useSession';
 import { FullScreenLoader } from './FullScreenLoader';
 
 interface AuthInitializerProps {
@@ -8,34 +7,30 @@ interface AuthInitializerProps {
 }
 
 export const AuthInitializer: React.FC<AuthInitializerProps> = ({ children }) => {
-  const { auth, setAuth, logout } = useAuth();
-  const [isInitializing, setIsInitializing] = useState(true);
+  const { loading, refresh, authenticated } = useSession();
+  const [initFinished, setInitFinished] = useState(false);
 
   useEffect(() => {
-    const initializeAuth = async () => {
-      try {
-        if (!auth?.tokens?.accessToken) {
-          setIsInitializing(false);
-          return;
-        }
+    // In our architecture, the AuthContext already attempts to load the user on mount.
+    // We wait for the `loading` flag from `useSession()` to become false.
+    if (!loading) {
+      setInitFinished(true);
+    }
+  }, [loading]);
 
-        const response = await getCurrentUser();
-        if (response.success && response.data) {
-          setAuth(response.data);
-        } else {
-          logout();
-        }
-      } catch (error) {
-        logout();
-      } finally {
-        setIsInitializing(false);
-      }
-    };
+  useEffect(() => {
+    // If not authenticated after init, but maybe there's a token refresh interval needed,
+    // we could set up an auto-refresh here.
+    if (initFinished && authenticated) {
+      const interval = setInterval(() => {
+        refresh();
+      }, 14 * 60 * 1000); // refresh every 14 minutes
+      
+      return () => clearInterval(interval);
+    }
+  }, [initFinished, authenticated, refresh]);
 
-    initializeAuth();
-  }, []);
-
-  if (isInitializing) {
+  if (!initFinished || loading) {
     return <FullScreenLoader />;
   }
 

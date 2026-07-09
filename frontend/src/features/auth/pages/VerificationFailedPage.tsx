@@ -1,27 +1,34 @@
 import React from 'react';
-import { VerificationStatusCard } from '../components/VerificationStatusCard';
-import { EMAIL_VERIFICATION_CONSTANTS } from '../constants/email-verification.constants';
-import { useLocation } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
+import { VerificationCard } from '../components/VerificationCard';
+import { EMAIL_VERIFICATION_CONSTANTS } from '../constants/emailVerification.constants';
+import { FiXCircle } from 'react-icons/fi';
 
 export const VerificationFailedPage: React.FC = () => {
-  const location = useLocation();
-  const errorMessage = location.state?.message || EMAIL_VERIFICATION_CONSTANTS.MESSAGES.FAILED_DESC;
+  const [searchParams] = useSearchParams();
+  const reason = searchParams.get('reason');
+
+  const getReasonMessage = () => {
+    if (reason === 'missing_token') return EMAIL_VERIFICATION_CONSTANTS.MESSAGES.MISSING_TOKEN;
+    if (reason) return reason;
+    return EMAIL_VERIFICATION_CONSTANTS.MESSAGES.FAILED_MESSAGE;
+  };
 
   return (
-    <VerificationStatusCard
-      icon={
-        <svg fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-        </svg>
-      }
-      iconBgColor="bg-red-100"
-      iconTextColor="text-red-600"
+    <VerificationCard
+      icon={<FiXCircle className="h-10 w-10 text-red-600 dark:text-red-400" />}
+      iconBgColor="bg-red-100 dark:bg-red-900/30"
       title={EMAIL_VERIFICATION_CONSTANTS.MESSAGES.FAILED_TITLE}
-      description={errorMessage}
-      primaryActionLabel={EMAIL_VERIFICATION_CONSTANTS.MESSAGES.REQUEST_NEW_LINK}
-      primaryActionTo="/resend-verification"
-      secondaryActionLabel={EMAIL_VERIFICATION_CONSTANTS.MESSAGES.TRY_AGAIN}
-      secondaryActionTo="/login"
+      message={getReasonMessage()}
+      primaryAction={{
+        label: 'Retry Verification',
+        to: '/login', // Typically we redirect them to login, where they can see they aren't verified and request a new one
+        variant: 'primary'
+      }}
+      secondaryAction={{
+        label: 'Contact Support',
+        to: '/support'
+      }}
     />
   );
 };

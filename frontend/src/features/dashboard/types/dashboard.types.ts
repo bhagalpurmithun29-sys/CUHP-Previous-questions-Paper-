@@ -2,33 +2,64 @@ export interface DashboardStatistics {
   downloadedPapers: number;
   bookmarkedPapers: number;
   uploadedPapers: number;
-  pendingUploads: number;
-  approvedUploads: number;
-  rejectedUploads: number;
+  collections: number;
+  reportsSubmitted: number;
 }
 
-export interface DashboardActivity {
+export interface RecentPaper {
   id: string;
-  type: 'DOWNLOAD' | 'BOOKMARK' | 'UPLOAD' | 'LOGIN';
   title: string;
-  timestamp: string;
-  status?: 'SUCCESS' | 'PENDING' | 'FAILED';
+  code: string;
+  year: number;
+  date: string;
 }
 
-export interface DashboardNotification {
+export interface UploadedPaper extends RecentPaper {
+  status: 'PENDING' | 'APPROVED' | 'REJECTED';
+  feedback?: string;
+}
+
+export interface Notification {
   id: string;
   title: string;
   message: string;
-  isRead: boolean;
-  createdAt: string;
+  read: boolean;
+  date: string;
   type: 'INFO' | 'SUCCESS' | 'WARNING' | 'ERROR';
 }
 
-export interface DashboardBookmark {
+export interface Activity {
   id: string;
-  paperId: string;
-  title: string;
+  action: 'DOWNLOAD' | 'UPLOAD' | 'BOOKMARK' | 'REPORT';
+  description: string;
+  date: string;
+  paperId?: string;
+}
+
+export interface DashboardData {
+  statistics: DashboardStatistics;
+  recentDownloads: RecentPaper[];
+  recentUploads: UploadedPaper[];
+  recentBookmarks: RecentPaper[];
+  recentNotifications: Notification[];
+  recentActivity: Activity[];
+}
+
+export interface ProfileCompletionStatus {
+  percentage: number;
+  missingFields: string[];
+}
+
+export interface UserProfile {
+  id: string;
+  avatarUrl?: string;
+  bio?: string;
+  phoneNumber?: string;
+  department: string;
   course: string;
   semester: number;
-  year: number;
+  school: string;
+  subjects: string[];
+  currentAcademicYear: string;
+  completion: ProfileCompletionStatus;
 }

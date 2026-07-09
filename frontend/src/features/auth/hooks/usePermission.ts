@@ -1,19 +1,17 @@
-import { useAuth } from '../context/AuthContext';
-import type { UserPermission } from '../types/login.types';
+import { useSession } from './useSession';
 
 export const usePermission = () => {
-  const { auth } = useAuth();
-  const permissions = auth?.user?.permissions || [];
+  const { permissions, authenticated, loading } = useSession();
 
-  const hasPermission = (permission: UserPermission) => {
+  const hasPermission = (permission: string) => {
     return permissions.includes(permission);
   };
 
-  const hasAnyPermission = (requiredPermissions: UserPermission[]) => {
+  const hasAnyPermission = (requiredPermissions: string[]) => {
     return requiredPermissions.some((p) => permissions.includes(p));
   };
 
-  const hasAllPermissions = (requiredPermissions: UserPermission[]) => {
+  const hasAllPermissions = (requiredPermissions: string[]) => {
     return requiredPermissions.every((p) => permissions.includes(p));
   };
 
@@ -22,5 +20,7 @@ export const usePermission = () => {
     hasPermission,
     hasAnyPermission,
     hasAllPermissions,
+    loading,
+    authenticated
   };
 };

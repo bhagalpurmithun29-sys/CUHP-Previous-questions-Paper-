@@ -1,31 +1,28 @@
 import mongoose, { Schema } from 'mongoose';
-import { IReport } from '../interfaces/models.interface';
+import { IReport, ReportType, ReportStatus, ReportPriority } from '../interfaces/report.interface';
 
 const reportSchema = new Schema<IReport>(
   {
-    userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
-    paperId: { type: Schema.Types.ObjectId, ref: 'QuestionPaper', required: true },
-    reason: { 
-      type: String, 
-      enum: ['WRONG_SUBJECT', 'WRONG_SEMESTER', 'WRONG_YEAR', 'DUPLICATE', 'CORRUPTED_PDF', 'OTHER'],
-      required: true
-    },
-    description: { type: String, maxlength: 500 },
-    status: { 
-      type: String, 
-      enum: ['PENDING', 'RESOLVED', 'DISMISSED'], 
-      default: 'PENDING' 
-    },
-    resolvedBy: { type: Schema.Types.ObjectId, ref: 'User' },
+    reporterId: { type: Schema.Types.ObjectId, ref: 'User', required: true, index: true },
+    paperId: { type: Schema.Types.ObjectId, ref: 'QuestionPaper', required: true, index: true },
+    assigneeId: { type: Schema.Types.ObjectId, ref: 'User', index: true },
     
-    // Audit & Soft Delete
-    isDeleted: { type: Boolean, default: false },
-    deletedAt: { type: Date },
+    type: { type: String, enum: Object.values(ReportType), required: true },
+    priority: { type: String, enum: Object.values(ReportPriority), default: ReportPriority.LOW },
+    status: { type: String, enum: Object.values(ReportStatus), default: ReportStatus.OPEN, index: true },
+    
+    description: { type: String, required: true, maxlength: 1000 },
+    screenshotUrlPlaceholder: { type: String },
+    
+    resolvedAt: { type: Date },
+    resolvedById: { type: Schema.Types.ObjectId, ref: 'User' },
+    resolutionNotes: { type: String, maxlength: 1000 }
   },
   { timestamps: true }
 );
 
-reportSchema.index({ status: 1, createdAt: -1 });
-reportSchema.index({ paperId: 1 });
+// High-performance compound indexes for Moderator Queue filtering
+reportSchema.index({ status: 1, priority: -1, createdAt: -1 });
+reportSchema.index({ assigneeId: 1, status: 1 });
 
 export const Report = mongoose.model<IReport>('Report', reportSchema);

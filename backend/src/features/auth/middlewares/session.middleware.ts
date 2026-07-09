@@ -13,7 +13,7 @@ export const validateAccountStatus = (req: Request, res: Response, next: NextFun
     throw new ForbiddenError('User context not found. Authentication required.');
   }
 
-  switch (user.accountStatus) {
+  switch ((user as any).accountStatus) {
     case AccountStatus.ACTIVE:
       // All good
       break;

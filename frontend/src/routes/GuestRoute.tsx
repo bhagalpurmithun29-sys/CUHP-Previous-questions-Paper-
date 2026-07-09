@@ -4,13 +4,13 @@ import { useSession } from '../features/auth/hooks/useSession';
 import { FullScreenLoader } from '../features/auth/components/FullScreenLoader';
 
 export const GuestRoute: React.FC = () => {
-  const { isAuthenticated, isLoading } = useSession();
+  const { authenticated, loading } = useSession();
 
-  if (isLoading) {
+  if (loading) {
     return <FullScreenLoader />;
   }
 
-  if (isAuthenticated) {
+  if (authenticated) {
     return <Navigate to="/dashboard" replace />;
   }
 

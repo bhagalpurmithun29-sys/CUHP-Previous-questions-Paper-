@@ -2,6 +2,7 @@ import React from 'react';
 import { Bars3Icon, BellIcon, MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import { useNavigation } from '../hooks/useNavigation';
 import { useUser } from '../../auth/hooks/useAuth';
+import { SearchBar } from '../../search/components/SearchBar';
 
 export const TopNavigation: React.FC = () => {
   const { dispatch } = useNavigation();
@@ -18,19 +19,7 @@ export const TopNavigation: React.FC = () => {
         </button>
         
         <div className="hidden md:flex relative max-w-md w-full ml-4">
-           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-             <MagnifyingGlassIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
-           </div>
-           <input
-             type="text"
-             className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg leading-5 bg-gray-50 placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 focus:bg-white sm:text-sm transition duration-150 ease-in-out"
-             placeholder="Search question papers, courses..."
-           />
-           <div className="absolute inset-y-0 right-0 pr-2 flex items-center pointer-events-none">
-             <kbd className="inline-flex items-center border border-gray-200 rounded px-2 text-sm font-sans font-medium text-gray-400 bg-white">
-               ⌘K
-             </kbd>
-           </div>
+           <SearchBar />
         </div>
       </div>
 

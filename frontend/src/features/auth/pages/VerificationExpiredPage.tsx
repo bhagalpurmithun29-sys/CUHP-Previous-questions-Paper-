@@ -1,21 +1,24 @@
 import React from 'react';
-import { VerificationStatusCard } from '../components/VerificationStatusCard';
-import { EMAIL_VERIFICATION_CONSTANTS } from '../constants/email-verification.constants';
+import { VerificationCard } from '../components/VerificationCard';
+import { EMAIL_VERIFICATION_CONSTANTS } from '../constants/emailVerification.constants';
+import { FiClock } from 'react-icons/fi';
 
 export const VerificationExpiredPage: React.FC = () => {
   return (
-    <VerificationStatusCard
-      icon={
-        <svg fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg>
-      }
-      iconBgColor="bg-yellow-100"
-      iconTextColor="text-yellow-600"
+    <VerificationCard
+      icon={<FiClock className="h-10 w-10 text-yellow-600 dark:text-yellow-400" />}
+      iconBgColor="bg-yellow-100 dark:bg-yellow-900/30"
       title={EMAIL_VERIFICATION_CONSTANTS.MESSAGES.EXPIRED_TITLE}
-      description={EMAIL_VERIFICATION_CONSTANTS.MESSAGES.EXPIRED_DESC}
-      primaryActionLabel={EMAIL_VERIFICATION_CONSTANTS.MESSAGES.REQUEST_NEW_LINK}
-      primaryActionTo="/resend-verification"
+      message={EMAIL_VERIFICATION_CONSTANTS.MESSAGES.EXPIRED_MESSAGE}
+      primaryAction={{
+        label: 'Request New Link',
+        to: '/resend-verification',
+        variant: 'primary'
+      }}
+      secondaryAction={{
+        label: EMAIL_VERIFICATION_CONSTANTS.MESSAGES.BACK_TO_LOGIN,
+        to: '/login'
+      }}
     />
   );
 };

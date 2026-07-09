@@ -9,7 +9,7 @@ export class PasswordResetRepository {
    * Finds a user by email, strictly excluding deleted accounts
    */
   static async findUserByEmail(email: string): Promise<IUser | null> {
-    return User.findOne({ email: email.toLowerCase(), isDeleted: false });
+    return User.findOne({ email: email.toLowerCase(), isDeleted: false }) as any;
   }
 
   /**
@@ -42,7 +42,7 @@ export class PasswordResetRepository {
    * Finds a user by ID
    */
   static async findUserById(userId: mongoose.Types.ObjectId, session?: ClientSession): Promise<IUser | null> {
-    return User.findById(userId).session(session || null);
+    return User.findById(userId).session(session || null) as any;
   }
 
   /**

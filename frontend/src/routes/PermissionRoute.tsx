@@ -1,35 +1,39 @@
 import React from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import { usePermission } from '../features/auth/hooks/usePermission';
-import { useSession } from '../features/auth/hooks/useSession';
-import type { UserPermission } from '../features/auth/types/login.types';
 import { FullScreenLoader } from '../features/auth/components/FullScreenLoader';
 
 interface PermissionRouteProps {
-  requiredPermissions: UserPermission[];
+  permissions: string | string[];
   requireAll?: boolean;
 }
 
-export const PermissionRoute: React.FC<PermissionRouteProps> = ({
-  requiredPermissions,
-  requireAll = false,
+export const PermissionRoute: React.FC<PermissionRouteProps> = ({ 
+  permissions, 
+  requireAll = false 
 }) => {
-  const { isAuthenticated, isLoading } = useSession();
-  const { hasAllPermissions, hasAnyPermission } = usePermission();
+  const { hasPermission, hasAnyPermission, hasAllPermissions, loading, authenticated } = usePermission();
 
-  if (isLoading) {
+  if (loading) {
     return <FullScreenLoader />;
   }
 
-  if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;
+  if (!authenticated) {
+    return <Navigate to="/unauthorized" replace />;
   }
 
-  const hasAccess = requireAll
-    ? hasAllPermissions(requiredPermissions)
-    : hasAnyPermission(requiredPermissions);
+  const perms = Array.isArray(permissions) ? permissions : [permissions];
+  
+  let authorized = false;
+  if (perms.length === 1) {
+    authorized = hasPermission(perms[0]);
+  } else if (requireAll) {
+    authorized = hasAllPermissions(perms);
+  } else {
+    authorized = hasAnyPermission(perms);
+  }
 
-  if (!hasAccess) {
+  if (!authorized) {
     return <Navigate to="/forbidden" replace />;
   }
 

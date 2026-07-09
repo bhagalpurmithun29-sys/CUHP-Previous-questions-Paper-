@@ -1,7 +1,15 @@
 import mongoose, { Schema } from 'mongoose';
 import bcrypt from 'bcrypt';
-import { IUser, IUserModel } from '../interfaces/auth.interface';
 import { AccountStatus, UserRole } from '../enums/auth.enum';
+
+export interface IUser extends Document {
+  // Existing auth.interface types assuming it extends document
+  [key: string]: any;
+}
+
+export interface IUserModel extends mongoose.Model<IUser> {
+  findByEmail(email: string): Promise<IUser | null>;
+}
 
 const userSchema = new Schema<IUser, IUserModel>(
   {
@@ -13,12 +21,13 @@ const userSchema = new Schema<IUser, IUserModel>(
       unique: true, 
       trim: true, 
       lowercase: true,
-      match: [/^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$/, 'Please fill a valid email address']
+      match: [/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/, 'Please fill a valid email address']
     },
     password: { type: String, select: false, minlength: 8 },
     profileImage: { type: String },
     role: { type: String, enum: Object.values(UserRole), default: UserRole.STUDENT },
-    permissions: [{ type: String }], // Optional granular permissions
+    permissions: [{ type: String }], // Optional granular string permissions
+    dynamicRoles: [{ type: Schema.Types.ObjectId, ref: 'Role' }], // Next-gen RBAC Matrix
     department: { type: Schema.Types.ObjectId, ref: 'Department' },
     course: { type: Schema.Types.ObjectId, ref: 'Course' },
     semester: { type: Number, min: 1, max: 10 },
@@ -34,6 +43,11 @@ const userSchema = new Schema<IUser, IUserModel>(
     passwordChangedAt: { type: Date },
     refreshTokenVersion: { type: Number, default: 0 }, // For bulk revoking tokens
     
+    // Gamification & Community
+    contributionScore: { type: Number, default: 0 },
+    badges: [{ type: String, enum: ['Bronze', 'Silver', 'Gold', 'Platinum', 'Diamond', 'Legend'] }],
+    achievements: [{ type: String }],
+    
     // Audit & Soft Delete
     createdBy: { type: Schema.Types.ObjectId, ref: 'User' },
     updatedBy: { type: Schema.Types.ObjectId, ref: 'User' },
@@ -44,7 +58,7 @@ const userSchema = new Schema<IUser, IUserModel>(
     timestamps: true,
     toJSON: { virtuals: true, transform: (doc, ret) => {
       delete ret.password;
-      delete ret.__v;
+      delete (ret as any).__v;
       delete ret.failedLoginAttempts;
       delete ret.lockUntil;
       delete ret.refreshTokenVersion;
@@ -60,11 +74,11 @@ userSchema.virtual('fullName').get(function () {
 });
 
 // Indexes
-userSchema.index({ email: 1 });
-userSchema.index({ role: 1 });
+userSchema.index({ firstName: 'text', lastName: 'text', email: 'text' });
 userSchema.index({ department: 1, course: 1, semester: 1 });
 userSchema.index({ accountStatus: 1 });
 userSchema.index({ createdAt: -1 });
+userSchema.index({ contributionScore: -1 }); // Fast leaderboard querying
 
 // Pre-Save Hook (Hash password)
 userSchema.pre('save', async function (next) {
