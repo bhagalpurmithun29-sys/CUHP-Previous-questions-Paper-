@@ -37,6 +37,8 @@ const AcademicDataManagement = React.lazy(() => import('../features/dashboard/pa
 const AiAdminDashboard = React.lazy(() => import('../features/dashboard/pages/AiAdminDashboard').then(module => ({ default: module.AiAdminDashboard })));
 const AIAssistantPage = React.lazy(() => import('../features/ai/pages/AIAssistantPage').then(module => ({ default: module.AIAssistantPage })));
 const SemanticSearchPage = React.lazy(() => import('../features/semantic-search/pages/SemanticSearchPage').then(module => ({ default: module.SemanticSearchPage })));
+const PaperAnalysisPage = React.lazy(() => import('../features/analysis/pages/PaperAnalysisPage').then(module => ({ default: module.default })));
+const StudyPlannerPage = React.lazy(() => import('../features/study-planner/pages/StudyPlannerPage').then(module => ({ default: module.default })));
 
 // Placeholder Pages
 const Placeholder = ({ title }: { title: string }) => <div className="p-8"><h1>{title}</h1></div>;
@@ -90,6 +92,8 @@ export const router = createBrowserRouter([
           // Common authenticated routes
           { path: '/ai', element: <LazyRoute><AIAssistantPage /></LazyRoute> },
           { path: '/ai/:id', element: <LazyRoute><AIAssistantPage /></LazyRoute> },
+          { path: '/analysis/:paperId', element: <LazyRoute><PaperAnalysisPage /></LazyRoute> },
+          { path: '/study-planner', element: <LazyRoute><StudyPlannerPage /></LazyRoute> },
           { path: '/dashboard', element: <LazyRoute><AdminDashboard /></LazyRoute> },
           { path: '/data-management', element: <LazyRoute><AcademicDataManagement /></LazyRoute> },
           { path: '/search', element: <LazyRoute><SearchPage /></LazyRoute> },
