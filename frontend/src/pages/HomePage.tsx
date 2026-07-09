@@ -1,5 +1,5 @@
 import React from 'react';
-import { Helmet } from 'react-helmet-async'; // Assuming helmet is in tech stack for SEO, or simple HTML tags
+// Assuming simple HTML tags for SEO
 import { HeroSection } from '../components/home/HeroSection';
 import { FeatureSection } from '../components/home/FeatureSection';
 import { StatisticsSection } from '../components/home/StatisticsSection';

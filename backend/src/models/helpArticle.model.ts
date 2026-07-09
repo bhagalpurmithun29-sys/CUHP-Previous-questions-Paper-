@@ -62,6 +62,5 @@ const HelpArticleSchema = new Schema<IHelpArticle>(
 // Indexes
 HelpArticleSchema.index({ title: 'text', content: 'text', tags: 'text' });
 HelpArticleSchema.index({ category: 1, status: 1 });
-HelpArticleSchema.index({ slug: 1 });
 
 export const HelpArticle = mongoose.model<IHelpArticle>('HelpArticle', HelpArticleSchema);

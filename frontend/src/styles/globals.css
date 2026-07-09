@@ -15,13 +15,14 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    /* Trustworthy Blue */
-    --primary: 221 83% 53%;
+    /* CUHP Deep Blue */
+    --primary: 213 97% 27%;
     --primary-foreground: 210 40% 98%;
-    --primary-hover: 221 83% 45%;
+    --primary-hover: 213 97% 35%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* CUHP Red */
+    --secondary: 355 78% 56%;
+    --secondary-foreground: 0 0% 100%;
 
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
@@ -58,13 +59,14 @@
     --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
 
-    /* Slightly brighter blue for dark mode contrast */
-    --primary: 217.2 91.2% 59.8%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-    --primary-hover: 217.2 91.2% 65%;
+    /* CUHP Deep Blue Dark Mode */
+    --primary: 213 97% 40%;
+    --primary-foreground: 210 40% 98%;
+    --primary-hover: 213 97% 50%;
 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    /* CUHP Red Dark Mode */
+    --secondary: 355 78% 56%;
+    --secondary-foreground: 0 0% 100%;
 
     --muted: 217.2 32.6% 17.5%;
     --muted-foreground: 215 20.2% 65.1%;
@@ -95,7 +97,8 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground font-sans antialiased selection:bg-primary selection:text-primary-foreground;
+    @apply text-foreground font-sans antialiased selection:bg-primary selection:text-primary-foreground;
+    background: hsl(var(--background)) url('https://www.cuhimachal.ac.in/asset/images/bg-gray.jpg') repeat;
   }
   
   h1, h2, h3, h4, h5, h6 {

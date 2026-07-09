@@ -54,12 +54,11 @@ export const PublicNavbar: React.FC = () => {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 group">
-            <div className="w-8 h-8 rounded-lg bg-primary text-white flex items-center justify-center font-bold text-xl group-hover:bg-primary-dark transition-colors">
-              Q
-            </div>
-            <span className="font-bold text-xl tracking-tight text-gray-900 dark:text-white">
-              CUHP<span className="text-primary">QB</span>
-            </span>
+            <img 
+              src="https://www.cuhimachal.ac.in/asset/images/header%2002.png" 
+              alt="CUHP Logo" 
+              className="h-10 w-auto object-contain"
+            />
           </Link>
 
           {/* Desktop Navigation */}

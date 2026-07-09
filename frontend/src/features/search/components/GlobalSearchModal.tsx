@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiSearch, FiX, FiClock, FiBook, FiGrid, FiLayers, FiFileText } from 'react-icons/fi';
 import { useSearchStore } from '../store/search.store';
-import { useSearch, useAutocomplete } from '../hooks/useSearch';
+import { useSearch, useSearchSuggestions } from '../hooks/useSearch';
 import { EntityType } from '../types/search.types';
 import { useNavigate } from 'react-router-dom';
 import { useDebounce } from '../../../hooks/useDebounce';
@@ -25,7 +25,7 @@ export const GlobalSearchModal: React.FC = () => {
   const inputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
 
-  const { data: suggestions, isLoading: isLoadingSuggestions } = useAutocomplete(debouncedQuery);
+  const { data: suggestions, isLoading: isLoadingSuggestions } = useSearchSuggestions(debouncedQuery);
   const { data: searchResults, isLoading: isLoadingResults } = useSearch({ query: debouncedQuery, limit: 10 }, debouncedQuery.length >= 3);
 
   useEffect(() => {
