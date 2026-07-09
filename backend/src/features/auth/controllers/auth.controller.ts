@@ -45,7 +45,33 @@ export class AuthController {
     // Set secure HTTP-only cookie with the refresh token
     // The access token is returned in the JSON payload (to be kept in client memory)
     // The refresh token is NEVER exposed to the frontend JS
-    CookieUtil.setRefreshCookie(res, result.refreshToken);
+    if (result.refreshToken) {
+      CookieUtil.setRefreshCookie(res, result.refreshToken);
+    }
+
+    sendResponse({
+      res,
+      statusCode: 200,
+      message: result.message,
+      data: {
+        user: result.user,
+        accessToken: result.accessToken,
+      }
+    });
+  });
+
+  /**
+   * @route   POST /api/v1/auth/login/mfa
+   * @desc    Verify MFA token to complete login
+   * @access  Public
+   */
+  static verifyMfa = catchAsync(async (req: Request, res: Response) => {
+    const { mfaToken, code, isRecovery } = req.body;
+    
+    // Business logic
+    const result = await AuthService.verifyMfaLogin(mfaToken, code, req, isRecovery);
+
+    CookieUtil.setRefreshCookie(res, result.refreshToken!);
 
     sendResponse({
       res,

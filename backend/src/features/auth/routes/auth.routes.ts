@@ -87,4 +87,6 @@ router.post('/register', registerValidator, validate, AuthController.register);
  */
 router.post('/login', loginLimiter, loginValidator, validate, AuthController.login);
 
+router.post('/login/mfa', AuthController.verifyMfa);
+
 export default router;

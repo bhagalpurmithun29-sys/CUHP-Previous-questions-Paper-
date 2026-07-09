@@ -22,6 +22,11 @@ export interface IUser extends Document {
   lockUntil?: Date;
   passwordChangedAt?: Date;
   refreshTokenVersion: number;
+  authProviders?: Array<{ provider: string; providerId: string }>;
+  mfaEnabled?: boolean;
+  mfaSecret?: string;
+  backupCodes?: string[];
+  trustedDevices?: Array<{ deviceId: string; deviceName: string; lastUsed: Date }>;
   createdBy?: Types.ObjectId;
   updatedBy?: Types.ObjectId;
   isDeleted: boolean;

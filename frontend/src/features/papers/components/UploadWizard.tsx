@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiCheck, FiChevronRight, FiChevronLeft, FiSave, FiUpload } from 'react-icons/fi';
 import { DropZone } from './DropZone';
@@ -88,7 +88,7 @@ export const UploadWizard: React.FC = () => {
             style={{ width: `${((currentStep - 1) / (steps.length - 1)) * 100}%` }}
           />
           
-          {steps.map((step, idx) => (
+          {steps.map((step) => (
             <div key={step.id} className="relative z-10 flex flex-col items-center">
               <div className={`w-10 h-10 rounded-full flex items-center justify-center font-semibold text-sm transition-colors duration-300
                 ${currentStep > step.id ? 'bg-primary text-white' : currentStep === step.id ? 'bg-primary ring-4 ring-primary/20 text-white' : 'bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-600 text-gray-400'}`}>

@@ -15,6 +15,13 @@ export class AuthRepository {
   }
 
   /**
+   * Finds a user by ID
+   */
+  static async findUserById(id: string | mongoose.Types.ObjectId): Promise<IUser | null> {
+    return User.findById(id).select('+password') as any; // Sometimes we need the password, but we can just use normal findById
+  }
+
+  /**
    * Finds a user by email and explicitly selects the password field for verification
    */
   static async findUserByEmailWithPassword(email: string): Promise<IUser | null> {

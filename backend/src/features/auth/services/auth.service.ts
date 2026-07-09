@@ -9,6 +9,9 @@ import { LoginRequestDTO, LoginResponseDTO } from '../dtos/login.dto';
 import { TokenService } from './token.service';
 import { UnauthorizedError, ForbiddenError } from '../../../utils/ApiError';
 import { Request } from 'express';
+import { trustedDeviceService } from '../../../services/auth/mfa/TrustedDeviceService';
+import { mfaService } from '../../../services/auth/mfa/MfaService';
+import jwt from 'jsonwebtoken';
 
 export class AuthService {
   /**
@@ -149,15 +152,35 @@ export class AuthService {
     // 5. Reset Failed Attempts & Update Last Login
     await user.resetLoginAttempts();
 
-    // 6. Generate Token Pair & Session
+    // 6. Check MFA
+    if (user.mfaEnabled) {
+      const deviceCookie = req.cookies?.trusted_device;
+      const isTrusted = await trustedDeviceService.isDeviceTrusted(user._id.toString(), deviceCookie);
+      
+      if (!isTrusted) {
+         // Create a temporary JWT for MFA step
+         const mfaToken = jwt.sign(
+           { id: user._id.toString(), type: 'mfa' }, 
+           process.env.JWT_ACCESS_SECRET || 'secret', 
+           { expiresIn: '5m' }
+         );
+         return {
+           message: 'MFA required',
+           mfaRequired: true,
+           mfaToken
+         } as any;
+      }
+    }
+
+    // 7. Generate Token Pair & Session
     const tokens = await TokenService.generateTokenPair(user._id.toString(), user.role, user.refreshTokenVersion, req);
 
-    // 7. Audit Log Success
+    // 8. Audit Log Success
     await AuthRepository.createAuditLog(AuthAction.LOGIN, normalizedEmail, ipAddress, { action: 'LOGIN_SUCCESS' }, user._id);
     
     logger.info(`Successful login for user: ${user._id}`);
 
-    // 8. Format Response
+    // 9. Format Response
     return {
       message: 'Login successful',
       accessToken: tokens.accessToken,
@@ -177,5 +200,54 @@ export class AuthService {
         createdAt: user.createdAt
       }
     };
+  }
+
+  /**
+   * Completes login by verifying MFA
+   */
+  static async verifyMfaLogin(mfaToken: string, code: string, req: Request, isRecovery: boolean = false): Promise<LoginResponseDTO> {
+    const ipAddress = req.ip || 'unknown';
+    const userAgent = req.headers['user-agent'] || 'Unknown';
+
+    try {
+      const decoded = jwt.verify(mfaToken, process.env.JWT_ACCESS_SECRET || 'secret') as { id: string, type: string };
+      if (decoded.type !== 'mfa') throw new UnauthorizedError('Invalid MFA token type');
+
+      const user = await AuthRepository.findUserById(decoded.id);
+      if (!user) throw new UnauthorizedError('User not found');
+
+      if (isRecovery) {
+        await mfaService.recover(user._id.toString(), code);
+      } else {
+        await mfaService.verify(user._id.toString(), code, userAgent, ipAddress, false);
+      }
+
+      // Generate Token Pair & Session
+      const tokens = await TokenService.generateTokenPair(user._id.toString(), user.role, user.refreshTokenVersion, req);
+      await AuthRepository.createAuditLog(AuthAction.LOGIN, user.email, ipAddress, { action: 'MFA_LOGIN_SUCCESS' }, user._id);
+
+      return {
+        message: 'Login successful',
+        accessToken: tokens.accessToken,
+        refreshToken: tokens.refreshToken,
+        user: {
+          id: user._id.toString(),
+          firstName: user.firstName,
+          lastName: user.lastName,
+          fullName: user.fullName,
+          email: user.email,
+          role: user.role,
+          accountStatus: user.accountStatus,
+          emailVerified: user.emailVerified,
+          department: user.department?.toString(),
+          course: user.course?.toString(),
+          semester: user.semester,
+          createdAt: user.createdAt
+        }
+      };
+
+    } catch (error: any) {
+      throw new UnauthorizedError(error.message || 'Invalid or expired MFA token');
+    }
   }
 }

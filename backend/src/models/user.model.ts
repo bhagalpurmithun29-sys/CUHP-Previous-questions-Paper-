@@ -5,6 +5,10 @@ import { AccountStatus, UserRole } from '../enums/auth.enum';
 export interface IUser extends Document {
   // Existing auth.interface types assuming it extends document
   [key: string]: any;
+  mfaEnabled?: boolean;
+  mfaSecret?: string;
+  backupCodes?: string[];
+  trustedDevices?: Array<{ deviceId: string; deviceName: string; lastUsed: Date }>;
 }
 
 export interface IUserModel extends mongoose.Model<IUser> {
@@ -42,6 +46,20 @@ const userSchema = new Schema<IUser, IUserModel>(
     lockUntil: { type: Date },
     passwordChangedAt: { type: Date },
     refreshTokenVersion: { type: Number, default: 0 }, // For bulk revoking tokens
+    authProviders: [{ 
+      provider: { type: String, required: true },
+      providerId: { type: String, required: true }
+    }],
+    
+    // MFA
+    mfaEnabled: { type: Boolean, default: false },
+    mfaSecret: { type: String, select: false },
+    backupCodes: [{ type: String, select: false }], // Hashed strings
+    trustedDevices: [{ 
+      deviceId: { type: String }, 
+      deviceName: { type: String }, 
+      lastUsed: { type: Date }
+    }],
     
     // Gamification & Community
     contributionScore: { type: Number, default: 0 },

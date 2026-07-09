@@ -11,8 +11,10 @@ export interface AuthenticatedUserDTO extends UserResponseDTO {
 }
 
 export interface LoginResponseDTO {
-  user: AuthenticatedUserDTO;
-  accessToken: string;
-  refreshToken: string; // Used internally by controller to set cookie, not sent in JSON
+  user?: AuthenticatedUserDTO;
+  accessToken?: string;
+  refreshToken?: string; // Used internally by controller to set cookie, not sent in JSON
   message: string;
+  mfaRequired?: boolean;
+  mfaToken?: string;
 }

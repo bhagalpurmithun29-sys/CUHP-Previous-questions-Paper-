@@ -39,6 +39,23 @@ const AIAssistantPage = React.lazy(() => import('../features/ai/pages/AIAssistan
 const SemanticSearchPage = React.lazy(() => import('../features/semantic-search/pages/SemanticSearchPage').then(module => ({ default: module.SemanticSearchPage })));
 const PaperAnalysisPage = React.lazy(() => import('../features/analysis/pages/PaperAnalysisPage').then(module => ({ default: module.default })));
 const StudyPlannerPage = React.lazy(() => import('../features/study-planner/pages/StudyPlannerPage').then(module => ({ default: module.default })));
+const RevisionDashboardPage = React.lazy(() => import('../features/revision/pages/RevisionDashboardPage').then(module => ({ default: module.default })));
+const OcrManagerPage = React.lazy(() => import('../features/ocr/pages/OcrManagerPage').then(module => ({ default: module.default })));
+const KnowledgeDashboard = React.lazy(() => import('../features/rag/pages/KnowledgeDashboard').then(module => ({ default: module.default })));
+const AgentDashboard = React.lazy(() => import('../features/agents/pages/AgentDashboard').then(module => ({ default: module.default })));
+const FacultyAIPage = React.lazy(() => import('../features/faculty-ai/pages/FacultyAIPage').then(module => ({ default: module.default })));
+const ExecutiveDashboardPage = React.lazy(() => import('../features/executive-ai/pages/ExecutiveDashboardPage').then(module => ({ default: module.default })));
+const LinkAccountsPage = React.lazy(() => import('../features/auth/pages/LinkAccountsPage').then(module => ({ default: module.default })));
+const LoginPage = React.lazy(() => import('../features/auth/pages/LoginPage').then(module => ({ default: module.LoginPage })));
+const RegisterPage = React.lazy(() => import('../features/auth/pages/RegisterPage').then(module => ({ default: module.RegisterPage })));
+const MFAPage = React.lazy(() => import('../features/security/pages/MFAPage').then(module => ({ default: module.default })));
+const SecurityCenterPage = React.lazy(() => import('../features/security/pages/SecurityCenterPage').then(module => ({ default: module.default })));
+const PreferencesPage = React.lazy(() => import('../features/preferences/pages/PreferencesPage').then(module => ({ default: module.default })));
+const WelcomePage = React.lazy(() => import('../features/onboarding/pages/WelcomePage').then(module => ({ default: module.default })));
+const OnboardingWizard = React.lazy(() => import('../features/onboarding/pages/OnboardingWizard').then(module => ({ default: module.default })));
+const AccountCenterPage = React.lazy(() => import('../features/account/pages/AccountCenterPage').then(module => ({ default: module.default })));
+const WhatsNewPage = React.lazy(() => import('../features/adoption/pages/WhatsNewPage').then(module => ({ default: module.default })));
+const PaperUploadPage = React.lazy(() => import('../features/papers/pages/PaperUploadPage').then(module => ({ default: module.PaperUploadPage })));
 
 // Placeholder Pages
 const Placeholder = ({ title }: { title: string }) => <div className="p-8"><h1>{title}</h1></div>;
@@ -77,8 +94,8 @@ export const router = createBrowserRouter([
       {
         element: <MinimalLayout />,
         children: [
-          { path: ROUTES.LOGIN, element: <Placeholder title="Login Page" /> },
-          { path: ROUTES.REGISTER, element: <Placeholder title="Register Page" /> },
+          { path: ROUTES.LOGIN, element: <LazyRoute><LoginPage /></LazyRoute> },
+          { path: ROUTES.REGISTER, element: <LazyRoute><RegisterPage /></LazyRoute> },
         ],
       },
     ],
@@ -94,9 +111,19 @@ export const router = createBrowserRouter([
           { path: '/ai/:id', element: <LazyRoute><AIAssistantPage /></LazyRoute> },
           { path: '/analysis/:paperId', element: <LazyRoute><PaperAnalysisPage /></LazyRoute> },
           { path: '/study-planner', element: <LazyRoute><StudyPlannerPage /></LazyRoute> },
+          { path: '/upload', element: <LazyRoute><PaperUploadPage /></LazyRoute> },
+          { path: '/revision', element: <LazyRoute><RevisionDashboardPage /></LazyRoute> },
           { path: '/dashboard', element: <LazyRoute><AdminDashboard /></LazyRoute> },
           { path: '/data-management', element: <LazyRoute><AcademicDataManagement /></LazyRoute> },
           { path: '/search', element: <LazyRoute><SearchPage /></LazyRoute> },
+          { path: '/linked-accounts', element: <LazyRoute><LinkAccountsPage /></LazyRoute> },
+          { path: '/mfa', element: <LazyRoute><MFAPage /></LazyRoute> },
+          { path: '/security', element: <LazyRoute><SecurityCenterPage /></LazyRoute> },
+          { path: '/preferences', element: <LazyRoute><PreferencesPage /></LazyRoute> },
+          { path: '/account', element: <LazyRoute><AccountCenterPage /></LazyRoute> },
+          { path: '/onboarding', element: <LazyRoute><WelcomePage /></LazyRoute> },
+          { path: '/onboarding/wizard', element: <LazyRoute><OnboardingWizard /></LazyRoute> },
+          { path: '/whats-new', element: <LazyRoute><WhatsNewPage /></LazyRoute> },
           { path: '/schools', element: <Placeholder title="Schools Browse" /> },
           { path: '/departments', element: <Placeholder title="Departments Browse" /> },
           { path: '/courses', element: <Placeholder title="Courses Browse" /> },
@@ -109,6 +136,8 @@ export const router = createBrowserRouter([
             children: [
               { path: 'review', element: <Placeholder title="Review Uploads" /> },
               { path: 'reports', element: <Placeholder title="Reports" /> },
+              { path: 'faculty-ai', element: <LazyRoute><FacultyAIPage /></LazyRoute> },
+              { path: 'ocr/:paperId', element: <LazyRoute><OcrManagerPage /></LazyRoute> },
             ],
           },
           {
@@ -116,6 +145,9 @@ export const router = createBrowserRouter([
             element: <RoleGuard allowedRoles={[UserRole.ADMIN]} />,
             children: [
               { path: 'dashboard', element: <Placeholder title="Admin Dashboard" /> },
+              { path: 'intelligence', element: <LazyRoute><ExecutiveDashboardPage /></LazyRoute> },
+              { path: 'knowledge-engine', element: <LazyRoute><KnowledgeDashboard /></LazyRoute> },
+              { path: 'agents', element: <LazyRoute><AgentDashboard /></LazyRoute> },
               { path: 'ai-gateway', element: <LazyRoute><AiAdminDashboard /></LazyRoute> },
               { path: 'schools', element: <Placeholder title="Manage Schools" /> },
               { path: 'departments', element: <Placeholder title="Manage Departments" /> },

@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { FiUploadCloud, FiFileText, FiX, FiCheckCircle } from 'react-icons/fi';
+import { FiUploadCloud, FiCheckCircle } from 'react-icons/fi';
 import { useUploadStore } from '../store/upload.store';
 
 export const DropZone: React.FC = () => {

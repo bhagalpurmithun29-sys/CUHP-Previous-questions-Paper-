@@ -25,6 +25,7 @@ export interface User {
   department?: string;
   course?: string;
   semester?: number;
+  mfaEnabled?: boolean;
   createdAt: string;
 }
 
