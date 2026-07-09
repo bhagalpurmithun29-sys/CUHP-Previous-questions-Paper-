@@ -11,7 +11,11 @@ The CUHP Question Bank is a production-ready, highly scalable, and modern web ap
 - **Academic Navigation System:** A recursive, responsive sidebar tree and mobile drawer for navigating the full academic structure smoothly.
 - **Question Paper Repository:** Centralized storage and retrieval of question papers categorized by course, semester, and department.
 - **Activity Logging:** Detailed tracking of user actions and system events for auditing purposes.
-- **Modern UI/UX:** Responsive, accessible, and animated frontend leveraging Tailwind CSS, Framer Motion, and a unified Admin Layout.
+- **AI Gateway & Academic Assistant:** Enterprise LLM orchestration supporting multiple providers for intelligent academic assistance and summarization.
+- **Smart Semantic Search:** Vector-based hybrid discovery engine leveraging MongoDB Atlas Vector Search to understand contextual student queries.
+- **Support & Legal Hub:** Integrated ticketing system for student issues and comprehensive GDPR/cookie policy management.
+- **Performance & PWA:** Fully offline-capable Progressive Web App with optimized SEO metadata and service workers.
+- **Modern UI/UX:** Responsive, accessible frontend leveraging Tailwind CSS, Framer Motion, and official CUHP brand themes.
 - **Media Management:** Cloudinary integration for efficient storage and delivery of documents, PDFs, and image assets.
 
 ## Tech Stack

@@ -74,3 +74,12 @@ coverage/
 .eslintcache
 .stylelintcache
 .prettiercache
+.vite/
+.turbo/
+
+# AI and Workspace Tooling
+.cursor/
+.cursorrules
+.gemini/
+.ai/
+cursor-*.log
