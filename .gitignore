@@ -83,3 +83,21 @@ coverage/
 .gemini/
 .ai/
 cursor-*.log
+
+# Docker
+docker-compose.override.yml
+.docker/
+
+# Package managers
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Testing
+/.jest/
+/playwright-report/
+/test-results/
+
+# Production builds
+/backend/dist
+/frontend/dist

@@ -9,7 +9,10 @@ The CUHP Question Bank is a production-ready, highly scalable, and modern web ap
 - **Secure Authentication:** Robust user authentication system including Role-Based Access Control (RBAC), secure password recovery, and token management.
 - **Academic Hierarchy Management:** Comprehensive School, Department, Course, Semester, and Subject management modules for administrators.
 - **Academic Navigation System:** A recursive, responsive sidebar tree and mobile drawer for navigating the full academic structure smoothly.
-- **Question Paper Repository:** Centralized storage and retrieval of question papers categorized by course, semester, and department.
+- **Academic Analytics & Insights:** Executive dashboard providing visual metrics, growth trends, and data quality scanning for the entire master data structure.
+- **Question Paper Repository:** Centralized storage and retrieval of question papers categorized strictly by the academic hierarchy, ensuring data integrity.
+- **Advanced Upload Pipeline:** Multi-step wizard for document ingestion with built-in metadata extraction, hierarchy validation, and collision detection.
+- **Metadata Management Engine:** Version-controlled metadata editor featuring a live quality scoring algorithm and strict state-machine controls for moderation.
 - **Activity Logging:** Detailed tracking of user actions and system events for auditing purposes.
 - **AI Gateway & Academic Assistant:** Enterprise LLM orchestration supporting multiple providers for intelligent academic assistance and summarization.
 - **Smart Semantic Search:** Vector-based hybrid discovery engine leveraging MongoDB Atlas Vector Search to understand contextual student queries.
