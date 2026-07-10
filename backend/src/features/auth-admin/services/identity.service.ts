@@ -1,6 +1,6 @@
 import { User } from '../../../models/user.model';
 import { Setting, SettingCategory } from '../../../models/setting.model';
-import { AppError } from '../../../utils/appError';
+import { AppError } from '../../../utils/AppError';
 import { AccountStatus } from '../../../enums/auth.enum';
 
 export class IdentityService {

@@ -56,6 +56,10 @@ const OnboardingWizard = React.lazy(() => import('../features/onboarding/pages/O
 const AccountCenterPage = React.lazy(() => import('../features/account/pages/AccountCenterPage').then(module => ({ default: module.default })));
 const WhatsNewPage = React.lazy(() => import('../features/adoption/pages/WhatsNewPage').then(module => ({ default: module.default })));
 const PaperUploadPage = React.lazy(() => import('../features/papers/pages/PaperUploadPage').then(module => ({ default: module.PaperUploadPage })));
+const PDFViewerPage = React.lazy(() => import('../features/pdf-viewer/pages/PDFViewerPage').then(module => ({ default: module.PDFViewerPage })));
+const DownloadCenterPage = React.lazy(() => import('../features/downloads/pages/DownloadCenterPage').then(module => ({ default: module.DownloadCenterPage })));
+const BookmarksPage = React.lazy(() => import('../features/bookmarks/pages/BookmarksPage').then(module => ({ default: module.BookmarksPage })));
+const MyLibraryPage = React.lazy(() => import('../features/library/pages/MyLibraryPage').then(module => ({ default: module.MyLibraryPage })));
 
 // Placeholder Pages
 const Placeholder = ({ title }: { title: string }) => <div className="p-8"><h1>{title}</h1></div>;
@@ -124,6 +128,9 @@ export const router = createBrowserRouter([
           { path: '/onboarding', element: <LazyRoute><WelcomePage /></LazyRoute> },
           { path: '/onboarding/wizard', element: <LazyRoute><OnboardingWizard /></LazyRoute> },
           { path: '/whats-new', element: <LazyRoute><WhatsNewPage /></LazyRoute> },
+          { path: '/downloads', element: <LazyRoute><DownloadCenterPage /></LazyRoute> },
+          { path: '/bookmarks', element: <LazyRoute><BookmarksPage /></LazyRoute> },
+          { path: '/library', element: <LazyRoute><MyLibraryPage /></LazyRoute> },
           { path: '/schools', element: <Placeholder title="Schools Browse" /> },
           { path: '/departments', element: <Placeholder title="Departments Browse" /> },
           { path: '/courses', element: <Placeholder title="Courses Browse" /> },
@@ -159,6 +166,10 @@ export const router = createBrowserRouter([
             ],
           },
         ]
+      },
+      {
+        path: '/viewer/:paperId',
+        element: <LazyRoute><PDFViewerPage /></LazyRoute>
       }
     ],
   },

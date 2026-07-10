@@ -1,107 +1,65 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 
-const API_URL = '/api/v1/ocr';
+const API_URL = (import.meta as any).env.VITE_API_URL || 'http://localhost:5000/api/v1';
 
-export interface IOcrResult {
-  _id: string;
-  paperId: string;
-  status: 'PENDING' | 'PROCESSING' | 'COMPLETED' | 'FAILED' | 'NEEDS_REVIEW';
-  rawText: string;
-  cleanedText: string;
-  metadata: {
-    subject?: string;
-    course?: string;
-    semester?: string;
-    academicYear?: string;
-    examType?: string;
-    duration?: string;
-    maximumMarks?: number;
-  };
-  sections: {
-    sectionName: string;
-    instructions?: string;
-    questions: {
-      questionNumber: string;
-      text: string;
-      marks?: number;
-    }[];
-  }[];
-  qualityScore: {
-    ocrConfidence: number;
-    metadataConfidence: number;
-    extractionCompleteness: number;
-    overallQuality: number;
-  };
-  errorMessage?: string;
-  moderatorReviewed: boolean;
-}
+export const useOCR = () => {
+  const queryClient = useQueryClient();
 
-export const useGetOcrStatus = (paperId: string) => {
-  return useQuery({
+  const getStats = useQuery({
+    queryKey: ['ocrStats'],
+    queryFn: async () => {
+      const res = await axios.get(`${API_URL}/ocr/stats/overview`, { withCredentials: true });
+      return res.data.data;
+    }
+  });
+
+  const getStatus = (paperId: string) => useQuery({
     queryKey: ['ocrStatus', paperId],
     queryFn: async () => {
-      const response = await axios.get(`\${API_URL}/status/\${paperId}`);
-      return response.data.data;
+      const res = await axios.get(`${API_URL}/ocr/status/${paperId}`, { withCredentials: true });
+      return res.data.data;
     },
-    enabled: !!paperId,
-    refetchInterval: (query) => {
-      return (query.state.data?.status === 'PENDING' || query.state.data?.status === 'PROCESSING') ? 3000 : false;
-    }
+    enabled: !!paperId
   });
-};
-
-export const useGetOcrResult = (paperId: string) => {
-  return useQuery({
-    queryKey: ['ocrResult', paperId],
+  
+  const getText = (paperId: string) => useQuery({
+    queryKey: ['ocrText', paperId],
     queryFn: async () => {
-      const response = await axios.get(`\${API_URL}/result/\${paperId}`);
-      return response.data.data as IOcrResult;
+      const res = await axios.get(`${API_URL}/ocr/text/${paperId}`, { withCredentials: true });
+      return res.data.data;
     },
-    enabled: !!paperId,
+    enabled: !!paperId
   });
-};
 
-export const useProcessOcr = () => {
-  const queryClient = useQueryClient();
-  
-  return useMutation({
+  const startOcr = useMutation({
     mutationFn: async (paperId: string) => {
-      const response = await axios.post(`\${API_URL}/process/\${paperId}`);
-      return response.data.data;
+      const res = await axios.post(`${API_URL}/ocr/start/${paperId}`, {}, { withCredentials: true });
+      return res.data.data;
     },
     onSuccess: (_, paperId) => {
       queryClient.invalidateQueries({ queryKey: ['ocrStatus', paperId] });
-      queryClient.invalidateQueries({ queryKey: ['ocrResult', paperId] });
+      queryClient.invalidateQueries({ queryKey: ['ocrStats'] });
     }
   });
-};
-
-export const useReprocessOcr = () => {
-  const queryClient = useQueryClient();
   
-  return useMutation({
-    mutationFn: async (paperId: string) => {
-      const response = await axios.post(`\${API_URL}/reprocess/\${paperId}`);
-      return response.data.data;
+  const reviewOcr = useMutation({
+    mutationFn: async ({ paperId, correctedText }: { paperId: string, correctedText: string }) => {
+      const res = await axios.put(`${API_URL}/ocr/review/${paperId}`, { correctedText }, { withCredentials: true });
+      return res.data.data;
     },
-    onSuccess: (_, paperId) => {
-      queryClient.invalidateQueries({ queryKey: ['ocrStatus', paperId] });
-      queryClient.invalidateQueries({ queryKey: ['ocrResult', paperId] });
+    onSuccess: (_, variables) => {
+      queryClient.invalidateQueries({ queryKey: ['ocrStatus', variables.paperId] });
+      queryClient.invalidateQueries({ queryKey: ['ocrText', variables.paperId] });
+      queryClient.invalidateQueries({ queryKey: ['ocrStats'] });
     }
   });
-};
 
-export const useUpdateOcrReview = () => {
-  const queryClient = useQueryClient();
-  
-  return useMutation({
-    mutationFn: async ({ paperId, updates }: { paperId: string, updates: any }) => {
-      const response = await axios.put(`\${API_URL}/review/\${paperId}`, updates);
-      return response.data.data as IOcrResult;
-    },
-    onSuccess: (_, { paperId }) => {
-      queryClient.invalidateQueries({ queryKey: ['ocrResult', paperId] });
-    }
-  });
+  return {
+    getStats,
+    getStatus,
+    getText,
+    startOcr,
+    reviewOcr
+  };
 };

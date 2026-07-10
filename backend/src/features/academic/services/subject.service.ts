@@ -1,7 +1,7 @@
 import { Subject } from '../../../models/subject.model';
 import { Semester } from '../../../models/semester.model';
 import { AuthAuditLog } from '../../../models/authAuditLog.model';
-import { AppError } from '../../../utils/appError';
+import { AppError } from '../../../utils/AppError';
 import mongoose from 'mongoose';
 
 export class SubjectService {

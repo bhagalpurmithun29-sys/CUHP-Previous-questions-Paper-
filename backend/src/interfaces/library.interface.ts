@@ -7,11 +7,22 @@ export enum LibraryItemType {
   CONTINUE_READING = 'CONTINUE_READING'
 }
 
+export interface SmartRule {
+  field: string; // e.g. 'subject', 'semester', 'downloads', 'favorites'
+  operator: 'equals' | 'contains' | 'gt' | 'lt' | 'in';
+  value: any;
+}
+
 export interface ICollection extends Document {
   userId: Types.ObjectId;
   name: string;
   description?: string;
   isPinned: boolean;
+  isSmart: boolean;
+  parentId?: Types.ObjectId;
+  color?: string;
+  icon?: string;
+  rules?: SmartRule[];
   paperIds: Types.ObjectId[];
   paperCount: number;
   createdAt: Date;

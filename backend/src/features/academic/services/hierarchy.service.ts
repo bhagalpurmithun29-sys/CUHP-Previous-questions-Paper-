@@ -3,7 +3,7 @@ import { Department } from '../../../models/department.model';
 import { Course } from '../../../models/course.model';
 import { Semester } from '../../../models/semester.model';
 import { Subject } from '../../../models/subject.model';
-import { AppError } from '../../../utils/appError';
+import { AppError } from '../../../utils/AppError';
 
 export class HierarchyService {
   async getTree(parentId?: string, type?: string) {

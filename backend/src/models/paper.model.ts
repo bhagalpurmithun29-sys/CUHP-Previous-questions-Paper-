@@ -69,3 +69,4 @@ const paperSchema = new Schema<IPaper>(
 paperSchema.index({ subjectId: 1, academicYear: 1, examType: 1 });
 
 export const Paper = mongoose.model<IPaper>('Paper', paperSchema);
+export const QuestionPaper = Paper;

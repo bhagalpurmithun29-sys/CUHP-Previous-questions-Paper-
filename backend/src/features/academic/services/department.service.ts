@@ -2,7 +2,7 @@ import { Department } from '../../../models/department.model';
 import { School } from '../../../models/school.model';
 import { Course } from '../../../models/course.model';
 import { AuthAuditLog } from '../../../models/authAuditLog.model';
-import { AppError } from '../../../utils/appError';
+import { AppError } from '../../../utils/AppError';
 import { SchoolStatus } from '../../../interfaces/school.interface'; // Re-use enum if available or use string literals
 import mongoose from 'mongoose';
 

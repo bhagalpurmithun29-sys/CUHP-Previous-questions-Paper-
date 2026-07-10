@@ -2,7 +2,7 @@ import { Course } from '../../../models/course.model';
 import { Department } from '../../../models/department.model';
 import { Semester } from '../../../models/semester.model';
 import { AuthAuditLog } from '../../../models/authAuditLog.model';
-import { AppError } from '../../../utils/appError';
+import { AppError } from '../../../utils/AppError';
 
 export class CourseService {
   async getAllCourses(query: any) {

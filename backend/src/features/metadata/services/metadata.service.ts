@@ -2,7 +2,7 @@ import { Paper } from '../../../models/paper.model';
 import { Subject } from '../../../models/subject.model';
 import { PaperMetadataHistory } from '../../../models/paperMetadataHistory.model';
 import { AuthAuditLog } from '../../../models/authAuditLog.model';
-import { AppError } from '../../../utils/appError';
+import { AppError } from '../../../utils/AppError';
 import mongoose from 'mongoose';
 
 export class MetadataService {

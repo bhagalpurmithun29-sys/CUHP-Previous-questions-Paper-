@@ -7,6 +7,15 @@ const collectionSchema = new Schema<ICollection>(
     name: { type: String, required: true, trim: true, maxlength: 100 },
     description: { type: String, maxlength: 500 },
     isPinned: { type: Boolean, default: false },
+    isSmart: { type: Boolean, default: false },
+    parentId: { type: Schema.Types.ObjectId, ref: 'Collection' },
+    color: { type: String, default: '#3B82F6' }, // Default blue
+    icon: { type: String, default: 'folder' },
+    rules: [{
+      field: { type: String, required: true },
+      operator: { type: String, enum: ['equals', 'contains', 'gt', 'lt', 'in'], required: true },
+      value: { type: Schema.Types.Mixed, required: true }
+    }],
     
     paperIds: [{ type: Schema.Types.ObjectId, ref: 'QuestionPaper' }],
     paperCount: { type: Number, default: 0 }

@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { analyticsController } from '../controllers/analytics.controller';
-import { protect, restrictTo } from '../../auth/middlewares/auth.middleware';
+import { protect, restrictTo } from '../../../middlewares/auth.middleware';
 import { UserRole } from '../../../enums/auth.enum';
 
 const router = Router();

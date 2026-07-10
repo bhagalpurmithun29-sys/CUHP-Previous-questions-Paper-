@@ -4,7 +4,7 @@ import { auditService } from '../services/audit.service';
 import { identityService } from '../services/identity.service';
 import { riskAnalysisService } from '../services/risk-analysis.service';
 import { complianceService } from '../services/compliance.service';
-import { AppError } from '../../../utils/appError';
+import { AppError } from '../../../utils/AppError';
 
 export class AuthAdminController {
   

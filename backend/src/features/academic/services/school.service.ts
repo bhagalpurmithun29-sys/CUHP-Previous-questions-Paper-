@@ -1,7 +1,7 @@
 import { School } from '../../../models/school.model';
 import { Department } from '../../../models/department.model';
 import { AuthAuditLog } from '../../../models/authAuditLog.model';
-import { AppError } from '../../../utils/appError';
+import { AppError } from '../../../utils/AppError';
 import { SchoolStatus } from '../../../interfaces/school.interface';
 import { AuthAction } from '../../../enums/auth.enum';
 

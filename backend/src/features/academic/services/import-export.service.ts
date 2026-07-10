@@ -4,7 +4,7 @@ import { Course } from '../../../models/course.model';
 import { Semester } from '../../../models/semester.model';
 import { Subject } from '../../../models/subject.model';
 import { AuthAuditLog } from '../../../models/authAuditLog.model';
-import { AppError } from '../../../utils/appError';
+import { AppError } from '../../../utils/AppError';
 import mongoose from 'mongoose';
 
 // Simple stub for ImportTransaction log collection

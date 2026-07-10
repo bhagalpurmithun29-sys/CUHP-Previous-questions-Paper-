@@ -1,6 +1,6 @@
 import { AuthAuditLog } from '../../../models/authAuditLog.model';
 import { AuthAction } from '../../../enums/auth.enum';
-import { AppError } from '../../../utils/appError';
+import { AppError } from '../../../utils/AppError';
 
 export class AuditService {
   async getAuditLogs(query: any) {

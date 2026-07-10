@@ -72,6 +72,21 @@ export interface IDownload extends IBaseDocument {
 export interface IBookmark extends IBaseDocument {
   userId: Types.ObjectId;
   paperId: Types.ObjectId;
+  type: 'PAPER' | 'PAGE' | 'SECTION' | 'SEARCH_RESULT';
+  pageNumber?: number;
+  sectionId?: string;
+  note?: string;
+  tags?: string[];
+  isFavorite?: boolean;
+  colorLabel?: string;
+}
+
+export interface IReadingList extends IBaseDocument {
+  userId: Types.ObjectId;
+  name: string;
+  description?: string;
+  isFavorite?: boolean;
+  bookmarks?: Types.ObjectId[];
 }
 
 export interface IReport extends IBaseDocument {

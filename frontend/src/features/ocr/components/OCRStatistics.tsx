@@ -1,0 +1,58 @@
+import React from 'react';
+import { FiCpu, FiCheckCircle, FiAlertCircle, FiClock } from 'react-icons/fi';
+
+export const OCRStatistics: React.FC<{ stats: any }> = ({ stats }) => {
+  if (!stats) return null;
+
+  return (
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-8">
+      <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 transition-transform hover:-translate-y-1">
+        <div className="flex justify-between items-start">
+          <div>
+            <p className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Success Rate</p>
+            <h3 className="text-3xl font-bold mt-2 text-emerald-600 dark:text-emerald-500">{stats.successRate}%</h3>
+          </div>
+          <div className="p-3.5 bg-emerald-50 text-emerald-600 dark:bg-emerald-900/30 rounded-2xl shadow-inner">
+            <FiCheckCircle size={28} />
+          </div>
+        </div>
+      </div>
+      
+      <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 transition-transform hover:-translate-y-1">
+        <div className="flex justify-between items-start">
+          <div>
+            <p className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Processed</p>
+            <h3 className="text-3xl font-bold mt-2 text-blue-600 dark:text-blue-500">{stats.completed}</h3>
+          </div>
+          <div className="p-3.5 bg-blue-50 text-blue-600 dark:bg-blue-900/30 rounded-2xl shadow-inner">
+            <FiCpu size={28} />
+          </div>
+        </div>
+      </div>
+      
+      <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 transition-transform hover:-translate-y-1">
+        <div className="flex justify-between items-start">
+          <div>
+            <p className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Failed</p>
+            <h3 className="text-3xl font-bold mt-2 text-rose-600 dark:text-rose-500">{stats.failed}</h3>
+          </div>
+          <div className="p-3.5 bg-rose-50 text-rose-600 dark:bg-rose-900/30 rounded-2xl shadow-inner">
+            <FiAlertCircle size={28} />
+          </div>
+        </div>
+      </div>
+      
+      <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 transition-transform hover:-translate-y-1">
+        <div className="flex justify-between items-start">
+          <div>
+            <p className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Needs Review</p>
+            <h3 className="text-3xl font-bold mt-2 text-amber-500 dark:text-amber-400">{stats.needsReview}</h3>
+          </div>
+          <div className="p-3.5 bg-amber-50 text-amber-600 dark:bg-amber-900/30 rounded-2xl shadow-inner">
+            <FiClock size={28} />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};

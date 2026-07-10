@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { authAdminController } from '../controllers/auth-admin.controller';
 // Re-using existing auth middleware assuming it's available
-import { protect, restrictTo } from '../../auth/middlewares/auth.middleware';
+import { protect, restrictTo } from '../../../middlewares/auth.middleware';
 import { UserRole } from '../../../enums/auth.enum';
 
 const router = Router();
