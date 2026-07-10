@@ -10,6 +10,7 @@ import { VerificationCodeInput } from '../../security/components/VerificationCod
 import { RecoveryFlow } from '../../security/components/RecoveryFlow';
 import axios from 'axios';
 import { useLogin } from '../hooks/useLogin';
+import { useAuth } from '../hooks/useAuth';
 
 export const LoginForm: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -17,6 +18,7 @@ export const LoginForm: React.FC = () => {
   const [mfaError, setMfaError] = useState<string | null>(null);
   const [isVerifyingMfa, setIsVerifyingMfa] = useState(false);
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const { mutate: loginUser, isPending: isLoggingIn, error } = useLogin();
 
@@ -46,8 +48,7 @@ export const LoginForm: React.FC = () => {
         code,
         isRecovery: false
       });
-      localStorage.setItem('token', res.data.data.accessToken);
-      // Navigate or invalidate queries
+      login({ accessToken: res.data.data.accessToken, user: res.data.data.user });
       navigate('/dashboard');
     } catch (err: any) {
       setMfaError(err.response?.data?.message || 'Invalid verification code');
@@ -57,7 +58,7 @@ export const LoginForm: React.FC = () => {
   };
 
   const handleRecoverySuccess = (data: any) => {
-    localStorage.setItem('token', data.data.accessToken);
+    login({ accessToken: data.data.accessToken, user: data.data.user });
     navigate('/dashboard');
   };
 

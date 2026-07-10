@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../../constants';
 import { LoginFormValues } from '../schemas';
+import { useAuth } from './useAuth';
 
 const API_URL = '/api/v1/auth/login';
 
@@ -17,8 +18,7 @@ interface LoginResponse {
 export const useLogin = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  // We assume AuthContext has a login method to save token and user, or we use React Query caching.
-  // We'll return the response data.
+  const { login } = useAuth();
 
   return useMutation({
     mutationFn: async (credentials: LoginFormValues): Promise<LoginResponse> => {
@@ -26,14 +26,12 @@ export const useLogin = () => {
       return response.data.data;
     },
     onSuccess: (data) => {
-      if (!data.mfaRequired && data.accessToken) {
+      if (!data.mfaRequired && data.accessToken && data.user) {
         // Normal login success
-        // Usually you'd set the token in context or localStorage here
-        localStorage.setItem('token', data.accessToken);
+        login({ accessToken: data.accessToken, user: data.user });
         queryClient.invalidateQueries({ queryKey: ['currentUser'] });
         navigate('/dashboard');
       }
-      // If MFA is required, the component will handle it by checking the returned mutation data
     }
   });
 };
