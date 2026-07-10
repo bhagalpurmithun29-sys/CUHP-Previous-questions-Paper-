@@ -125,7 +125,15 @@ export class AuthService {
 
     // 2. Check Account Status
     if (user.accountStatus === AccountStatus.PENDING_VERIFICATION) {
-      throw new ForbiddenError('Please verify your email address to continue');
+      // For local development, auto-verify the user to allow login
+      if (process.env.NODE_ENV !== 'production') {
+        user.accountStatus = AccountStatus.ACTIVE;
+        user.emailVerified = true;
+        await user.save();
+        logger.info(`Auto-verified user ${user.email} in development mode`);
+      } else {
+        throw new ForbiddenError('Please verify your email address to continue');
+      }
     }
     if (user.accountStatus === AccountStatus.SUSPENDED) {
       throw new ForbiddenError('Your account has been suspended. Please contact support.');
