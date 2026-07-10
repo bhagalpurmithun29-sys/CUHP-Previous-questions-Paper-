@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { healthCheck } from '../controllers/health.controller';
-import authRoutes from './auth.routes';
+import authRoutes from '../features/auth/routes/auth.routes';
 import courseRoutes from './course.routes';
 import semesterRoutes from './semester.routes';
 import schoolRoutes from './school.routes';

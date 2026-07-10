@@ -70,7 +70,7 @@ export class PasswordService {
       errors.push('Password must contain at least one lowercase letter');
     }
 
-    if (passwordConfig.rules.requireNumber && !/\\d/.test(password)) {
+    if (passwordConfig.rules.requireNumber && !/[0-9]/.test(password)) {
       errors.push('Password must contain at least one number');
     }
 
