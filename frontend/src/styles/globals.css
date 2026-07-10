@@ -97,8 +97,9 @@
     @apply border-border;
   }
   body {
-    @apply text-foreground font-sans antialiased selection:bg-primary selection:text-primary-foreground;
+    @apply text-foreground font-sans antialiased selection:bg-primary selection:text-primary-foreground overflow-x-hidden;
     background: hsl(var(--background)) url('https://www.cuhimachal.ac.in/asset/images/bg-gray.jpg') repeat;
+    width: 100%;
   }
   
   h1, h2, h3, h4, h5, h6 {
