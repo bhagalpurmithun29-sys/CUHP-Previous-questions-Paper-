@@ -37,7 +37,7 @@ export class IndexingService {
           Title: ${paper.title}
           Subject: ${(paper.subjectId as any)?.name} ${(paper.subjectId as any)?.code ? `(${(paper.subjectId as any).code})` : ''}
           Department: ${(paper.departmentId as any)?.name}
-          Year: ${paper.examYear}
+          Year: ${paper.academicYear}
           Exam Type: ${paper.examType}
           Tags: ${paper.tags.join(', ')}
         `.trim();
@@ -52,9 +52,9 @@ export class IndexingService {
           title: paper.title,
           content: contentStr,
           metadata: {
-            year: paper.examYear,
+            year: paper.academicYear,
             examType: paper.examType,
-            views: paper.viewCount
+            views: 0
           },
           embedding: vector
         });

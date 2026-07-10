@@ -68,8 +68,8 @@ Do NOT wrap the JSON in markdown code blocks. Ensure percentage breakdown sums t
       if (!paper || !analysis) return;
 
       // In a real scenario, this would be actual OCR text. Using placeholder or dummy if empty.
-      const textToAnalyze = paper.ocrTextPlaceholder || 
-        `Subject: ${paper.subjectId}\nExam Year: ${paper.examYear}\nExam Type: ${paper.examType}\n\nQ1. Discuss the core concepts. (10 marks)\nQ2. Explain the advanced topics with examples. (15 marks)`;
+      const textToAnalyze = (paper as any).ocrTextPlaceholder || 
+        `Subject: ${paper.subjectId}\nExam Year: ${paper.academicYear}\nExam Type: ${paper.examType}\n\nQ1. Discuss the core concepts. (10 marks)\nQ2. Explain the advanced topics with examples. (15 marks)`;
 
       const prompt = `Analyze this question paper text:\n\n${textToAnalyze}`;
 
