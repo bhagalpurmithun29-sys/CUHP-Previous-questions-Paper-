@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { healthCheck } from '../controllers/health.controller';
+import authRoutes from './auth.routes';
 import courseRoutes from './course.routes';
 import semesterRoutes from './semester.routes';
 import schoolRoutes from './school.routes';
@@ -86,6 +87,9 @@ const router = Router();
 
 // v1 API Routes
 router.get('/health', healthCheck);
+
+// Core Auth Routes
+router.use('/auth', authRoutes);
 
 // Mount module routers here
 router.use('/courses', courseRoutes);
