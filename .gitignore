@@ -89,9 +89,10 @@ docker-compose.override.yml
 .docker/
 
 # Package managers
-package-lock.json
-yarn.lock
-pnpm-lock.yaml
+# Package locks should be committed to version control
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml
 
 # Testing
 /.jest/
