@@ -16,9 +16,7 @@ export class CommunityService {
     // In future, filtering by Department/Course/Time can be done using aggregations on ActivityLogs or User fields.
     const query: any = { isDeleted: false, contributionScore: { $gt: 0 } };
     
-    if (type === 'faculty') {
-      query.role = 'FACULTY';
-    } else if (type === 'moderator') {
+    if (type === 'moderator') {
       query.role = 'MODERATOR';
     }
 
@@ -39,12 +37,10 @@ export class CommunityService {
   async getHallOfFame() {
     const topContributors = await this.getLeaderboard('overall', 3);
     const topModerators = await this.getLeaderboard('moderator', 3);
-    const topFaculty = await this.getLeaderboard('faculty', 3);
 
     return {
       topContributors,
-      topModerators,
-      topFaculty
+      topModerators
     };
   }
 

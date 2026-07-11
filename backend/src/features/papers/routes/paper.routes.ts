@@ -13,13 +13,13 @@ router.get('/', paperController.getPapers);
 router.get('/:id', paperController.getPaperById);
 
 // Writes (Faculty and up)
-router.post('/', restrictTo(UserRole.ADMIN, UserRole.SUPER_ADMIN, UserRole.MODERATOR, UserRole.FACULTY), paperController.createPaper);
-router.put('/:id', restrictTo(UserRole.ADMIN, UserRole.SUPER_ADMIN, UserRole.MODERATOR, UserRole.FACULTY), paperController.updatePaper);
+router.post('/', restrictTo(UserRole.ADMIN,  UserRole.MODERATOR), paperController.createPaper);
+router.put('/:id', restrictTo(UserRole.ADMIN,  UserRole.MODERATOR), paperController.updatePaper);
 
 // Workflow (Moderators and up)
-router.patch('/:id/status', restrictTo(UserRole.ADMIN, UserRole.SUPER_ADMIN, UserRole.MODERATOR), paperController.setStatus);
+router.patch('/:id/status', restrictTo(UserRole.ADMIN,  UserRole.MODERATOR), paperController.setStatus);
 
 // Deletes (Admin only)
-router.delete('/:id', restrictTo(UserRole.ADMIN, UserRole.SUPER_ADMIN), paperController.deletePaper);
+router.delete('/:id', restrictTo(UserRole.ADMIN), paperController.deletePaper);
 
 export default router;

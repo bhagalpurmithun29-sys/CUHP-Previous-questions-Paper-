@@ -12,6 +12,6 @@ router.get('/:id', metadataController.getMetadata);
 router.get('/:id/history', metadataController.getHistory);
 
 // Only faculty and above can update metadata
-router.put('/:id', restrictTo(UserRole.ADMIN, UserRole.SUPER_ADMIN, UserRole.MODERATOR, UserRole.FACULTY), metadataController.updateMetadata);
+router.put('/:id', restrictTo(UserRole.ADMIN,  UserRole.MODERATOR), metadataController.updateMetadata);
 
 export default router;

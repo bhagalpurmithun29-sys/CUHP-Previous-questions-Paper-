@@ -9,7 +9,7 @@ export const useSearch = (filters: SearchFilters) => {
       const { data } = await apiClient.get('/search', { params: filters });
       return data.data; // Assumes ApiResponse format
     },
-    enabled: filters.q.length > 0 || Object.keys(filters).length > 3, // Don't fetch on totally empty state
+    enabled: (filters.q || '').length > 0 || Object.keys(filters).length > 3, // Don't fetch on totally empty state
     staleTime: 5 * 60 * 1000,
   });
 };

@@ -54,6 +54,12 @@ export const PublicFooter: React.FC = () => {
               <li><Link to="/faq" className="text-sm text-gray-500 dark:text-gray-400 hover:text-primary dark:hover:text-primary-light transition-colors">FAQ</Link></li>
               <li><Link to="/guidelines" className="text-sm text-gray-500 dark:text-gray-400 hover:text-primary dark:hover:text-primary-light transition-colors">Upload Guidelines</Link></li>
               <li><Link to="/contact" className="text-sm text-gray-500 dark:text-gray-400 hover:text-primary dark:hover:text-primary-light transition-colors">Contact Us</Link></li>
+              <li className="pt-2 mt-2 border-t border-gray-100 dark:border-gray-800">
+                <Link to="/admin/login" className="text-sm font-medium text-gray-400 dark:text-gray-600 hover:text-primary dark:hover:text-primary-light transition-colors flex items-center gap-2">
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
+                  Staff Portal
+                </Link>
+              </li>
             </ul>
           </div>
 

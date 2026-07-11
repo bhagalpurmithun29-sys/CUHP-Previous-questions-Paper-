@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { rbacController } from '../controllers/rbac.controller';
 import { protect, restrictTo } from '../middlewares/auth.middleware';
+import { UserRole } from '../enums/auth.enum';
 
 const router = Router();
 
@@ -13,7 +14,7 @@ const router = Router();
 
 // Super Admin Only
 router.use(protect);
-router.use(restrictTo('SUPER_ADMIN'));
+router.use(restrictTo(UserRole.ADMIN));
 
 // Permissions
 router.get('/permissions', rbacController.getPermissions);

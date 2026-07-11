@@ -10,9 +10,7 @@ export enum AccountStatus {
 export enum UserRole {
   STUDENT = 'STUDENT',
   MODERATOR = 'MODERATOR',
-  FACULTY = 'FACULTY',
   ADMIN = 'ADMIN',
-  SUPER_ADMIN = 'SUPER_ADMIN'
 }
 
 export enum AuthAction {

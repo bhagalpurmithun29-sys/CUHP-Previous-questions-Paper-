@@ -53,20 +53,5 @@ export const RolePermissions: Record<UserRole, Permission[]> = {
     Permissions.PAPER_EDIT,
     Permissions.REPORT_REVIEW,
   ],
-  [UserRole.ADMIN]: [
-    // Admin gets everything. We can list them all or use a helper later, but explicitly listing is safer.
-    ...Object.values(Permissions)
-  ],
-  [UserRole.FACULTY]: [
-    Permissions.PAPER_READ,
-    Permissions.PAPER_DOWNLOAD,
-    Permissions.PAPER_UPLOAD,
-    Permissions.PAPER_EDIT,
-    Permissions.BOOKMARK_CREATE,
-    Permissions.BOOKMARK_DELETE,
-    Permissions.PROFILE_UPDATE,
-  ],
-  [UserRole.SUPER_ADMIN]: [
-    ...Object.values(Permissions)
-  ],
+
 };

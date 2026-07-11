@@ -12,7 +12,7 @@ router.get('/', subjectController.getSubjects);
 router.get('/:id', subjectController.getSubjectById);
 
 // Write operations limited to Admin / Super Admin
-router.use(restrictTo(UserRole.ADMIN, UserRole.SUPER_ADMIN));
+router.use(restrictTo(UserRole.ADMIN));
 
 router.post('/', subjectController.createSubject);
 router.put('/:id', subjectController.updateSubject);

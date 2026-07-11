@@ -17,6 +17,7 @@ const PageLoader = () => (
 // Lazy Load Public Routes
 const HomePage = React.lazy(() => import('../pages/HomePage').then(module => ({ default: module.HomePage })));
 const AboutPage = React.lazy(() => import('../pages/AboutPage').then(module => ({ default: module.AboutPage })));
+const ContactPage = React.lazy(() => import('../pages/ContactPage').then(module => ({ default: module.ContactPage })));
 const PublicExplorerPage = React.lazy(() => import('../pages/PublicExplorerPage').then(module => ({ default: module.PublicExplorerPage })));
 const SearchPage = React.lazy(() => import('../features/search/pages/SearchPage').then(module => ({ default: module.SearchPage })));
 const LeaderboardPage = React.lazy(() => import('../features/community/pages/LeaderboardPage').then(module => ({ default: module.LeaderboardPage })));
@@ -32,10 +33,12 @@ const LegalHubPage = React.lazy(() => import('../features/legal/pages/LegalHubPa
 const PolicyPage = React.lazy(() => import('../features/legal/pages/PolicyPage').then(module => ({ default: module.PolicyPage })));
 
 // Lazy Load Dashboard/Admin Routes
+const Dashboard = React.lazy(() => import('../pages/Dashboard').then(module => ({ default: module.Dashboard })));
 const AdminDashboard = React.lazy(() => import('../features/dashboard/pages/AdminDashboard').then(module => ({ default: module.AdminDashboard })));
 const AcademicDataManagement = React.lazy(() => import('../features/dashboard/pages/AcademicDataManagement').then(module => ({ default: module.AcademicDataManagement })));
 const AiAdminDashboard = React.lazy(() => import('../features/dashboard/pages/AiAdminDashboard').then(module => ({ default: module.AiAdminDashboard })));
 const AIAssistantPage = React.lazy(() => import('../features/ai/pages/AIAssistantPage').then(module => ({ default: module.AIAssistantPage })));
+const AIChatPage = React.lazy(() => import('../features/ai-chat/pages/AIChatPage').then(module => ({ default: module.AIChatPage })));
 const SemanticSearchPage = React.lazy(() => import('../features/semantic-search/pages/SemanticSearchPage').then(module => ({ default: module.SemanticSearchPage })));
 const PaperAnalysisPage = React.lazy(() => import('../features/analysis/pages/PaperAnalysisPage').then(module => ({ default: module.default })));
 const StudyPlannerPage = React.lazy(() => import('../features/study-planner/pages/StudyPlannerPage').then(module => ({ default: module.default })));
@@ -47,6 +50,7 @@ const FacultyAIPage = React.lazy(() => import('../features/faculty-ai/pages/Facu
 const ExecutiveDashboardPage = React.lazy(() => import('../features/executive-ai/pages/ExecutiveDashboardPage').then(module => ({ default: module.default })));
 const LinkAccountsPage = React.lazy(() => import('../features/auth/pages/LinkAccountsPage').then(module => ({ default: module.default })));
 const LoginPage = React.lazy(() => import('../features/auth/pages/LoginPage').then(module => ({ default: module.LoginPage })));
+const StaffLoginPage = React.lazy(() => import('../features/auth/pages/StaffLoginPage').then(module => ({ default: module.StaffLoginPage })));
 const RegisterPage = React.lazy(() => import('../features/auth/pages/RegisterPage').then(module => ({ default: module.RegisterPage })));
 const MFAPage = React.lazy(() => import('../features/security/pages/MFAPage').then(module => ({ default: module.default })));
 const SecurityCenterPage = React.lazy(() => import('../features/security/pages/SecurityCenterPage').then(module => ({ default: module.default })));
@@ -76,6 +80,7 @@ export const router = createBrowserRouter([
     children: [
       { index: true, element: <LazyRoute><HomePage /></LazyRoute> },
       { path: 'about', element: <LazyRoute><AboutPage /></LazyRoute> },
+      { path: 'contact', element: <LazyRoute><ContactPage /></LazyRoute> },
       { path: 'explorer', element: <LazyRoute><PublicExplorerPage /></LazyRoute> },
       { path: 'search', element: <LazyRoute><SearchPage /></LazyRoute> },
       { path: 'discovery', element: <LazyRoute><SemanticSearchPage /></LazyRoute> },
@@ -99,6 +104,7 @@ export const router = createBrowserRouter([
         element: <MinimalLayout />,
         children: [
           { path: ROUTES.LOGIN, element: <LazyRoute><LoginPage /></LazyRoute> },
+          { path: '/admin/login', element: <LazyRoute><StaffLoginPage /></LazyRoute> },
           { path: ROUTES.REGISTER, element: <LazyRoute><RegisterPage /></LazyRoute> },
         ],
       },
@@ -113,11 +119,13 @@ export const router = createBrowserRouter([
           // Common authenticated routes
           { path: '/ai', element: <LazyRoute><AIAssistantPage /></LazyRoute> },
           { path: '/ai/:id', element: <LazyRoute><AIAssistantPage /></LazyRoute> },
+          { path: '/ai-chat', element: <LazyRoute><AIChatPage /></LazyRoute> },
+          { path: '/ai-chat/:id', element: <LazyRoute><AIChatPage /></LazyRoute> },
           { path: '/analysis/:paperId', element: <LazyRoute><PaperAnalysisPage /></LazyRoute> },
           { path: '/study-planner', element: <LazyRoute><StudyPlannerPage /></LazyRoute> },
           { path: '/upload', element: <LazyRoute><PaperUploadPage /></LazyRoute> },
           { path: '/revision', element: <LazyRoute><RevisionDashboardPage /></LazyRoute> },
-          { path: '/dashboard', element: <LazyRoute><AdminDashboard /></LazyRoute> },
+          { path: '/dashboard', element: <LazyRoute><Dashboard /></LazyRoute> },
           { path: '/data-management', element: <LazyRoute><AcademicDataManagement /></LazyRoute> },
           { path: '/search', element: <LazyRoute><SearchPage /></LazyRoute> },
           { path: '/linked-accounts', element: <LazyRoute><LinkAccountsPage /></LazyRoute> },

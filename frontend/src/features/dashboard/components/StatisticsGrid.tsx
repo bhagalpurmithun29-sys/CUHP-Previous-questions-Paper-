@@ -12,7 +12,7 @@ export const StatisticsGrid: React.FC<StatisticsGridProps> = ({ statistics, load
   const stats = [
     { label: 'Downloaded Papers', value: statistics?.downloadedPapers || 0, icon: FiDownload, color: 'text-blue-600 dark:text-blue-400', bg: 'bg-blue-100 dark:bg-blue-900/30' },
     { label: 'Bookmarked Papers', value: statistics?.bookmarkedPapers || 0, icon: FiBookmark, color: 'text-yellow-600 dark:text-yellow-400', bg: 'bg-yellow-100 dark:bg-yellow-900/30' },
-    { label: 'Uploaded Papers', value: statistics?.uploadedPapers || 0, icon: FiUpload, color: 'text-green-600 dark:text-green-400', bg: 'bg-green-100 dark:bg-green-900/30' },
+    { label: 'Contributed Papers', value: statistics?.uploadedPapers || 0, icon: FiUpload, color: 'text-green-600 dark:text-green-400', bg: 'bg-green-100 dark:bg-green-900/30' },
     { label: 'Collections', value: statistics?.collections || 0, icon: FiFolder, color: 'text-purple-600 dark:text-purple-400', bg: 'bg-purple-100 dark:bg-purple-900/30' },
     { label: 'Reports Submitted', value: statistics?.reportsSubmitted || 0, icon: FiFlag, color: 'text-red-600 dark:text-red-400', bg: 'bg-red-100 dark:bg-red-900/30' },
   ];

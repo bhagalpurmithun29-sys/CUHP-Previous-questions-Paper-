@@ -8,7 +8,7 @@ const router = Router();
 // Secure all upload routes
 router.use(protect);
 // Students cannot upload
-router.use(restrictTo(UserRole.ADMIN, UserRole.SUPER_ADMIN, UserRole.MODERATOR, UserRole.FACULTY));
+router.use(restrictTo(UserRole.ADMIN,  UserRole.MODERATOR));
 
 router.post('/', uploadController.submitUpload);
 router.get('/history', uploadController.getHistory);

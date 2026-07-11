@@ -26,7 +26,7 @@ export const GlobalSearchModal: React.FC = () => {
   const navigate = useNavigate();
 
   const { data: suggestions, isLoading: isLoadingSuggestions } = useSearchSuggestions(debouncedQuery);
-  const { data: searchResults, isLoading: isLoadingResults } = useSearch({ query: debouncedQuery, limit: 10 }, debouncedQuery.length >= 3);
+  const { data: searchResults, isLoading: isLoadingResults } = useSearch({ q: debouncedQuery, limit: 10, page: 1 } as any);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {

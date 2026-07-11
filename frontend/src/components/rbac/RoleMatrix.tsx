@@ -14,9 +14,9 @@ export const RoleMatrix: React.FC = () => {
   ];
 
   const roles = [
-    { name: 'SUPER_ADMIN', perms: permissions },
+
     { name: 'ADMIN', perms: permissions.filter(p => p !== 'SYSTEM_CONFIG') },
-    { name: 'FACULTY', perms: ['VIEW_PAPERS', 'DOWNLOAD_PAPERS', 'BOOKMARK_PAPERS', 'REPORT_ISSUES', 'REVIEW_PAPERS', 'RESOLVE_REPORTS', 'UPLOAD_OFFICIAL'] },
+
     { name: 'MODERATOR', perms: ['VIEW_PAPERS', 'DOWNLOAD_PAPERS', 'BOOKMARK_PAPERS', 'REPORT_ISSUES', 'REVIEW_PAPERS', 'RESOLVE_REPORTS'] },
     { name: 'STUDENT', perms: ['VIEW_PAPERS', 'DOWNLOAD_PAPERS', 'BOOKMARK_PAPERS', 'REPORT_ISSUES'] }
   ];

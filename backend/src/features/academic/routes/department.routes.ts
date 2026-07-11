@@ -12,7 +12,7 @@ router.get('/', departmentController.getDepartments);
 router.get('/:id', departmentController.getDepartmentById);
 
 // Write operations limited to Admin / Super Admin
-router.use(restrictTo(UserRole.ADMIN, UserRole.SUPER_ADMIN));
+router.use(restrictTo(UserRole.ADMIN));
 
 router.post('/', departmentController.createDepartment);
 router.put('/:id', departmentController.updateDepartment);

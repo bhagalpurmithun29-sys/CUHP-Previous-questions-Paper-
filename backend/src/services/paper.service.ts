@@ -4,6 +4,7 @@ import crypto from 'crypto';
 import { PaperApprovalStatus, StorageProvider } from '../interfaces/paper.interface';
 import { Types } from 'mongoose';
 import { storageService } from './storage/storage.service';
+import { Paper } from '../models/paper.model';
 
 export class QuestionPaperService {
   private repository = new QuestionPaperRepository();
@@ -16,7 +17,32 @@ export class QuestionPaperService {
     return crypto.createHash('sha256').update(buffer).digest('hex');
   }
 
+  private async checkDuplicate(data: any, excludeId?: string) {
+    if (data.paperCode) {
+      const codeQuery: any = { paperCode: data.paperCode, isDeleted: false };
+      if (excludeId) codeQuery._id = { $ne: excludeId };
+      const existingCode = await Paper.findOne(codeQuery);
+      if (existingCode) throw new AppError('A paper with this Paper Code already exists.', 409);
+    }
+
+    if (data.subjectId && data.academicYear && data.examType && data.examSession) {
+      const semanticQuery: any = {
+        subjectId: data.subjectId,
+        academicYear: data.academicYear,
+        examType: data.examType,
+        examSession: data.examSession,
+        isDeleted: false
+      };
+      if (excludeId) semanticQuery._id = { $ne: excludeId };
+      const existingSemantic = await Paper.findOne(semanticQuery);
+      if (existingSemantic) {
+        throw new AppError('A question paper for this exact subject, year, and exam session has already been uploaded.', 409);
+      }
+    }
+  }
+
   async saveDraft(data: any, file: Express.Multer.File | undefined, userId: string) {
+    await this.checkDuplicate(data);
     let storageMetadata: any = null;
     
     if (file) {
@@ -49,6 +75,8 @@ export class QuestionPaperService {
   async submitUpload(data: any, file: Express.Multer.File, userId: string) {
     if (!file) throw new AppError('PDF file is required for final submission', 400);
 
+    await this.checkDuplicate(data);
+
     const storageMetadata = await storageService.uploadFile(
       file.buffer, 
       file.originalname, 
@@ -77,6 +105,8 @@ export class QuestionPaperService {
   async updatePaper(id: string, data: any, file?: Express.Multer.File) {
     const existing = await this.repository.findById(id);
     if (!existing) throw new AppError('Question paper not found', 404);
+
+    await this.checkDuplicate(data, id);
 
     let updateData = { ...data };
 

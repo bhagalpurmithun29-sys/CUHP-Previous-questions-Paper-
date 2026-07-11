@@ -13,7 +13,7 @@ const router = Router();
 // Protect all admin routes and restrict to ADMIN/SUPER_ADMIN
 // We assume protect and restrictTo exist and function as expected based on project structure
 router.use(protect);
-// In a real scenario we'd use restrictTo(UserRole.ADMIN, UserRole.SUPER_ADMIN), but maybe we just use standard setup
+// In a real scenario we'd use restrictTo(UserRole.ADMIN), but maybe we just use standard setup
 // For now let's just make it available if protected
 
 /**

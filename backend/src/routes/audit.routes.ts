@@ -17,11 +17,11 @@ router.use(protect);
 router.get('/user/:userId', auditController.getUserTimeline);
 
 // Admin / Moderator routes
-router.use(restrictTo('SUPER_ADMIN', 'ADMIN', 'MODERATOR'));
+router.use(restrictTo( 'ADMIN', 'MODERATOR'));
 
 router.get('/', auditController.searchLogs);
 router.get('/:id', auditController.getLogById);
 router.get('/entity/:entityType/:entityId', auditController.getEntityTimeline);
-router.post('/export', restrictTo('SUPER_ADMIN', 'ADMIN'), auditController.exportLogs);
+router.post('/export', restrictTo( 'ADMIN'), auditController.exportLogs);
 
 export default router;

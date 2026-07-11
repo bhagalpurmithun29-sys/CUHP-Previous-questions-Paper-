@@ -1,20 +1,25 @@
 import React, { useState } from 'react';
 import { useSearchFilters } from '../hooks/useSearchFilters';
-import { useSearch, useSaveSearchMutation } from '../hooks/useSearch';
+import { useSemanticSearch, SemanticSearchFilters } from '../hooks/useSemanticSearch';
+import { useSaveSearchMutation } from '../hooks/useSearch';
 import { SearchInput } from '../components/SearchInput';
 import { SearchResults } from '../components/SearchResults';
 import { SearchChips } from '../components/SearchChips';
 import { SearchKeyboardShortcuts } from '../components/SearchKeyboardShortcuts';
-import { Pagination } from '../../../components/explorer/Pagination'; // reusing Explorer's pagination
+import { SearchFilters } from '../components/SearchFilters';
+import { RelatedTopics } from '../components/RelatedTopics';
+import { Pagination } from '../../../components/explorer/Pagination';
 import { FiFilter, FiBookmark } from 'react-icons/fi';
 import toast from 'react-hot-toast';
 
 export const SearchPage: React.FC = () => {
-  const { filters, updateFilter, removeFilter, clearFilters } = useSearchFilters();
+  const { filters: baseFilters, updateFilter, removeFilter, clearFilters } = useSearchFilters();
+  const filters: SemanticSearchFilters = { ...baseFilters, mode: baseFilters.mode || 'hybrid' };
+  
   const [searchInput, setSearchInput] = useState(filters.q);
   const [showFilters, setShowFilters] = useState(false);
   
-  const { data, isLoading, isError } = useSearch(filters);
+  const { data, isLoading, isError } = useSemanticSearch(filters);
   const saveMutation = useSaveSearchMutation();
 
   const handleSearchSubmit = (value: string) => {
@@ -87,28 +92,9 @@ export const SearchPage: React.FC = () => {
 
           {/* Right Sidebar - Shortcuts & Filters */}
           <div className={`lg:w-80 shrink-0 space-y-6 ${showFilters ? 'block' : 'hidden lg:block'}`}>
+            <RelatedTopics onSelect={(topic) => updateFilter('q', topic)} />
             <SearchKeyboardShortcuts />
-            
-            {/* Quick Entity Filters */}
-            <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-5">
-              <h4 className="text-sm font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-                <FiFilter /> Entity Type
-              </h4>
-              <div className="space-y-2">
-                {['', 'school', 'department', 'course', 'subject'].map(type => (
-                  <label key={type} className="flex items-center gap-3 cursor-pointer">
-                    <input 
-                      type="radio" 
-                      name="type" 
-                      checked={filters.type === type}
-                      onChange={() => updateFilter('type', type)}
-                      className="text-primary focus:ring-primary w-4 h-4"
-                    />
-                    <span className="text-sm text-gray-700 dark:text-gray-300 capitalize">{type || 'All Entities'}</span>
-                  </label>
-                ))}
-              </div>
-            </div>
+            <SearchFilters filters={filters} onChange={updateFilter} />
           </div>
         </div>
         

@@ -12,7 +12,7 @@ router.get('/', semesterController.getSemesters);
 router.get('/:id', semesterController.getSemesterById);
 
 // Write operations limited to Admin / Super Admin
-router.use(restrictTo(UserRole.ADMIN, UserRole.SUPER_ADMIN));
+router.use(restrictTo(UserRole.ADMIN));
 
 router.post('/', semesterController.createSemester);
 router.put('/:id', semesterController.updateSemester);

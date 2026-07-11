@@ -15,10 +15,9 @@ export const useRole = () => {
   const isStudent = hasRole(UserRole.STUDENT);
   const isModerator = hasRole(UserRole.MODERATOR);
   const isAdmin = hasRole(UserRole.ADMIN);
-  const isSuperAdmin = hasRole('SUPER_ADMIN'); // Extended for architecture
-  const isFaculty = hasRole('FACULTY'); // Extended for architecture
 
-  const isAtLeastModerator = isModerator || isAdmin || isSuperAdmin;
+
+  const isAtLeastModerator = isModerator || isAdmin;
 
   return {
     roles,
@@ -27,8 +26,6 @@ export const useRole = () => {
     isStudent,
     isModerator,
     isAdmin,
-    isSuperAdmin,
-    isFaculty,
     isAtLeastModerator,
     loading,
     authenticated

@@ -11,7 +11,7 @@ export const DashboardService = {
   getStatistics: async (userId: string) => {
     const downloadedPapers = await DownloadHistory.countDocuments({ user: userId });
     const bookmarkedPapers = await Bookmark.countDocuments({ user: userId });
-    const uploadedPapers = await Paper.countDocuments({ uploader: userId });
+    const uploadedPapers = await Paper.countDocuments({ uploaderId: userId, status: 'APPROVED' });
     const collections = await Collection.countDocuments({ user: userId });
     const reportsSubmitted = await Report.countDocuments({ reportedBy: userId });
 
@@ -94,7 +94,7 @@ export const DashboardService = {
       date: d.downloadedAt
     }));
 
-    const uploads = await Paper.find({ uploader: userId })
+    const uploads = await Paper.find({ uploaderId: userId })
       .sort({ createdAt: -1 })
       .limit(5)
       .select('title code year status moderatorFeedback createdAt');

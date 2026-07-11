@@ -7,7 +7,7 @@ const router = Router();
 
 // Protect all analytics endpoints
 router.use(protect);
-router.use(restrictTo(UserRole.ADMIN, UserRole.SUPER_ADMIN, UserRole.MODERATOR, UserRole.FACULTY));
+router.use(restrictTo(UserRole.ADMIN,  UserRole.MODERATOR));
 
 router.get('/overview', analyticsController.getOverview);
 router.get('/growth', analyticsController.getGrowth);
@@ -15,6 +15,6 @@ router.get('/data-quality', analyticsController.getDataQuality);
 router.get('/distribution', analyticsController.getDistribution);
 
 // Report generation is restricted
-router.post('/report', restrictTo(UserRole.ADMIN, UserRole.SUPER_ADMIN), analyticsController.generateReport);
+router.post('/report', restrictTo(UserRole.ADMIN), analyticsController.generateReport);
 
 export default router;

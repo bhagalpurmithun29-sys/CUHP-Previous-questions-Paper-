@@ -16,7 +16,7 @@ router.get('/public', settingsController.getPublicSettings);
 
 // Admin / Super Admin routes
 router.use(protect);
-router.use(restrictTo('SUPER_ADMIN', 'ADMIN'));
+router.use(restrictTo( 'ADMIN'));
 
 router.get('/', settingsController.getAllSettings);
 router.put('/', settingsController.updateSetting);

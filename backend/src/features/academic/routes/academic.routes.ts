@@ -17,7 +17,7 @@ router.get('/semesters', academicController.getSemesters);
 router.get('/subjects', academicController.getSubjects);
 
 // Admin / Write Operations
-router.use(restrictTo(UserRole.ADMIN, UserRole.SUPER_ADMIN));
+router.use(restrictTo(UserRole.ADMIN));
 
 router.post('/school', academicController.createSchool);
 router.post('/department', academicController.createDepartment);

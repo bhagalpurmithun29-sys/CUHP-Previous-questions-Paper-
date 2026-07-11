@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { backupController } from '../controllers/backup.controller';
 import { protect, restrictTo } from '../middlewares/auth.middleware';
+import { UserRole } from '../enums/auth.enum';
 
 const router = Router();
 
@@ -12,7 +13,7 @@ const router = Router();
  */
 
 router.use(protect);
-router.use(restrictTo('SUPER_ADMIN')); // Only Super Admins can manage DB states
+router.use(restrictTo(UserRole.ADMIN)); // Only Super Admins can manage DB states
 
 router.get('/', backupController.getBackups);
 router.post('/', backupController.initiateBackup);

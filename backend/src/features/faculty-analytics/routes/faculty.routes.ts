@@ -7,7 +7,7 @@ const controller = new FacultyAnalyticsController();
 
 router.use(protect);
 // Strictly restricted to faculty, admins, dean, hod
-router.use(restrictTo('ADMIN', 'MODERATOR', 'FACULTY', 'DEAN', 'HOD'));
+router.use(restrictTo('ADMIN', 'MODERATOR', 'DEAN', 'HOD'));
 
 router.get('/overview', controller.getOverview);
 router.get('/curriculum', controller.getCurriculum);

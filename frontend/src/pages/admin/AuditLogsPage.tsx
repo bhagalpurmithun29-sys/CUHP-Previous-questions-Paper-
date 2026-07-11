@@ -67,7 +67,7 @@ export const AuditLogsPage: React.FC = () => {
               </thead>
               <tbody className="bg-white divide-y divide-slate-200">
                 {[
-                  { time: '2026-07-08 14:30:12', user: 'admin@cuhp.ac.in', role: 'SUPER_ADMIN', action: 'SETTINGS_UPDATED', entity: 'Setting (maintenance_mode)' },
+                  { time: '2026-07-08 14:30:12', user: 'admin@cuhp.ac.in', role: 'ADMIN', action: 'SETTINGS_UPDATED', entity: 'Setting (maintenance_mode)' },
                   { time: '2026-07-08 13:15:00', user: 'mod_john@cuhp.ac.in', role: 'MODERATOR', action: 'PAPER_APPROVED', entity: 'QuestionPaper (64b...29f)' },
                   { time: '2026-07-08 11:02:45', user: 'student123@cuhp.ac.in', role: 'STUDENT', action: 'LOGIN', entity: 'AuthSession' },
                 ].map((log, idx) => (

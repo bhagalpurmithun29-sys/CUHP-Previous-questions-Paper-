@@ -52,12 +52,7 @@ const seedDatabase = async () => {
     // 2. Seed Roles
     console.log('Seeding Roles...');
     const rolesData = [
-      {
-        name: 'SUPER_ADMIN',
-        description: 'Ultimate control over the entire system',
-        isSystem: true,
-        permissions: Object.values(permMap)
-      },
+
       {
         name: 'ADMIN',
         description: 'Administrative access',
@@ -116,16 +111,7 @@ const seedDatabase = async () => {
     const passwordHash = await bcrypt.hash('Password@123', 12);
     
     await User.create([
-      {
-        firstName: 'Super',
-        lastName: 'Admin',
-        email: 'superadmin@cuhp.ac.in',
-        password: passwordHash,
-        role: UserRole.SUPER_ADMIN,
-        dynamicRoles: [roleMap['SUPER_ADMIN']],
-        status: 'ACTIVE',
-        isEmailVerified: true
-      },
+
       {
         firstName: 'Normal',
         lastName: 'Admin',

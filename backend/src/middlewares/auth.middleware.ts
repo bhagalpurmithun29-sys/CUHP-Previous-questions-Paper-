@@ -16,7 +16,7 @@ export const protect = async (req: Request, res: Response, next: NextFunction) =
     // For development/mocking if JWT_SECRET isn't present, we just mock user
     if (!token && process.env.NODE_ENV !== 'production') {
        // Mock for testing
-       (req as any).user = { id: 'mock-admin-id', role: 'SUPER_ADMIN' } as any;
+       (req as any).user = { id: 'mock-admin-id', role: 'ADMIN' } as any;
        return next();
     }
 
@@ -90,7 +90,7 @@ export const restrictTo = (...roles: string[]) => {
     }
     
     // Super admin override
-    if (userRole === 'SUPER_ADMIN') {
+    if (userRole === 'ADMIN') {
       hasAccess = true;
     }
 
@@ -105,7 +105,7 @@ export const restrictTo = (...roles: string[]) => {
 export const requirePermission = (permissionName: string) => {
   return async (req: Request, res: Response, next: NextFunction) => {
     // 1. Check Super Admin Override
-    if ((req as any).user?.role === 'SUPER_ADMIN') {
+    if ((req as any).user?.role === 'ADMIN') {
       return next();
     }
 

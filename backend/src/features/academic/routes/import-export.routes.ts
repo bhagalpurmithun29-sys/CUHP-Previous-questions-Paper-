@@ -8,10 +8,10 @@ const router = Router();
 // Secure all endpoints. Exporters must be at least Faculty/Moderator
 router.use(protect);
 
-router.get('/export', restrictTo(UserRole.ADMIN, UserRole.SUPER_ADMIN, UserRole.MODERATOR), importExportController.exportData);
+router.get('/export', restrictTo(UserRole.ADMIN,  UserRole.MODERATOR), importExportController.exportData);
 
 // Imports and Bulk actions are Admin only
-router.use(restrictTo(UserRole.ADMIN, UserRole.SUPER_ADMIN));
+router.use(restrictTo(UserRole.ADMIN));
 
 router.post('/import/validate', importExportController.validateImport);
 router.post('/import/commit', importExportController.commitImport);

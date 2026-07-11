@@ -93,16 +93,11 @@ export class SearchRepository {
       const matchQuery = { ...extraQuery, isDeleted: false };
       
       if (query) {
-        matchQuery.$or = [
-          { $text: { $search: query } },
-          { [nameField]: new RegExp(query, 'i') },
-          ...(model.schema.paths.shortName ? [{ shortName: new RegExp(query, 'i') }] : []),
-          ...(model.schema.paths[`${entityType}Code`] ? [{ [`${entityType}Code`]: new RegExp(query, 'i') }] : [])
-        ];
+        matchQuery.$text = { $search: query };
       }
 
       const docs = await model
-        .find(matchQuery, { score: { $meta: 'textScore' } })
+        .find(matchQuery, query ? { score: { $meta: 'textScore' } } : {})
         .sort(query ? { score: { $meta: 'textScore' } } : { createdAt: -1 })
         .limit(limit)
         .lean();

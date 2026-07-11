@@ -1,12 +1,19 @@
 import React from 'react';
-import { Bars3Icon, BellIcon, MagnifyingGlassIcon } from '@heroicons/react/24/outline';
+import { Bars3Icon, BellIcon, ArrowRightOnRectangleIcon } from '@heroicons/react/24/outline';
 import { useNavigation } from '../hooks/useNavigation';
-import { useUser } from '../../auth/hooks/useAuth';
+import { useAuth } from '../../auth/hooks/useAuth';
 import { SearchBar } from '../../search/components/SearchBar';
+import { useNavigate } from 'react-router-dom';
 
 export const TopNavigation: React.FC = () => {
   const { dispatch } = useNavigation();
-  const user = useUser();
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    await logout();
+    navigate('/');
+  };
 
   return (
     <header className="h-16 bg-white border-b border-gray-200 sticky top-0 z-10 flex items-center justify-between px-4 shadow-sm/50">
@@ -28,6 +35,15 @@ export const TopNavigation: React.FC = () => {
           <span className="sr-only">View notifications</span>
           <BellIcon className="h-6 w-6" aria-hidden="true" />
           <span className="absolute top-1.5 right-1.5 block h-2 w-2 rounded-full bg-red-400 ring-2 ring-white" />
+        </button>
+
+        <button 
+          onClick={handleLogout}
+          title="Logout"
+          className="p-2 text-gray-400 hover:text-red-500 transition-colors focus:outline-none"
+        >
+          <span className="sr-only">Logout</span>
+          <ArrowRightOnRectangleIcon className="h-6 w-6" />
         </button>
         
         <div className="h-8 w-8 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-700 font-bold border border-indigo-200 shadow-sm overflow-hidden cursor-pointer">

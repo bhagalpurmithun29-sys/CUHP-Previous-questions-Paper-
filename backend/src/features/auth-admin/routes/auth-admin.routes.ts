@@ -8,7 +8,7 @@ const router = Router();
 
 // Secure all routes - only accessible by Admin and Super Admin
 router.use(protect);
-router.use(restrictTo(UserRole.ADMIN, UserRole.SUPER_ADMIN));
+router.use(restrictTo(UserRole.ADMIN));
 
 // Dashboard & Overview
 router.get('/dashboard', authAdminController.getDashboard);

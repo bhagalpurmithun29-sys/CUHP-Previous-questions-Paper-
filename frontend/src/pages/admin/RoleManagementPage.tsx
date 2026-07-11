@@ -49,21 +49,21 @@ export const RoleManagementPage: React.FC = () => {
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-slate-200">
-                  {['SUPER_ADMIN', 'ADMIN', 'FACULTY', 'MODERATOR', 'STUDENT'].map(role => (
+                  {['ADMIN', 'MODERATOR', 'STUDENT'].map(role => (
                     <tr key={role} className="hover:bg-slate-50 transition-colors">
                       <td className="px-6 py-4">
                         <span className="text-sm font-bold text-slate-900 bg-slate-100 px-2 py-1 rounded border border-slate-200">{role}</span>
-                        {role === 'SUPER_ADMIN' && <span className="ml-2 text-[10px] bg-red-100 text-red-700 px-1.5 rounded-full font-bold uppercase tracking-wider">System</span>}
+                        {role === 'ADMIN' && <span className="ml-2 text-[10px] bg-red-100 text-red-700 px-1.5 rounded-full font-bold uppercase tracking-wider">System</span>}
                       </td>
                       <td className="px-6 py-4 text-sm text-slate-500">
                         Default role configuration for {role.toLowerCase()} operations.
                       </td>
                       <td className="px-6 py-4 text-sm text-slate-900 font-medium">
-                        {role === 'STUDENT' ? '8,420' : (role === 'SUPER_ADMIN' ? '2' : '15')}
+                        {role === 'STUDENT' ? '8,420' : (role === 'ADMIN' ? '2' : '15')}
                       </td>
                       <td className="px-6 py-4 text-right text-sm font-medium">
                         <button className="text-blue-600 hover:text-blue-800 mr-3">Edit</button>
-                        <button className="text-red-600 hover:text-red-800 disabled:opacity-50" disabled={['SUPER_ADMIN', 'ADMIN', 'STUDENT'].includes(role)}>Delete</button>
+                        <button className="text-red-600 hover:text-red-800 disabled:opacity-50" disabled={['ADMIN', 'STUDENT'].includes(role)}>Delete</button>
                       </td>
                     </tr>
                   ))}

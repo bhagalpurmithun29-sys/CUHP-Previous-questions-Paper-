@@ -40,14 +40,15 @@ export const PublicNavbar: React.FC = () => {
     { label: 'About', to: '/about' },
     { label: 'FAQ', to: '/faq' },
     { label: 'Contact', to: '/contact' },
+    { label: 'Staff Login', to: '/admin/login' },
   ];
 
   return (
     <header 
-      className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${
+      className={`fixed top-0 inset-x-0 z-50 transition-colors duration-150 ${
         isScrolled 
-          ? 'bg-white/80 dark:bg-gray-900/80 backdrop-blur-md shadow-sm border-b border-gray-200 dark:border-gray-800' 
-          : 'bg-transparent border-transparent'
+          ? 'bg-primary/95 dark:bg-primary-dark/95 backdrop-blur-md shadow-md border-b border-primary-dark dark:border-gray-800' 
+          : 'bg-primary dark:bg-primary-dark border-transparent shadow-sm'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -57,17 +58,17 @@ export const PublicNavbar: React.FC = () => {
             <img 
               src="https://www.cuhimachal.ac.in/asset/images/header%2002.png" 
               alt="CUHP Logo" 
-              className="h-10 w-auto object-contain"
+              className="h-10 w-auto object-contain brightness-0 invert"
             />
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-1">
+          <nav className="hidden md:flex items-center space-x-2">
             {navLinks.map((link) => (
               <Link
                 key={link.label}
                 to={link.to}
-                className="px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary-light hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                className="px-4 py-2 rounded-full text-sm font-medium text-white bg-white/10 hover:bg-white/20 dark:bg-black/20 dark:hover:bg-black/40 transition-colors duration-150 shadow-sm border border-white/10 hover:border-white/30"
               >
                 {link.label}
               </Link>
@@ -78,7 +79,7 @@ export const PublicNavbar: React.FC = () => {
           <div className="hidden md:flex items-center space-x-4">
             <button
               onClick={toggleTheme}
-              className="p-2 rounded-full text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+              className="p-2 rounded-full text-white/80 hover:text-white hover:bg-white/10 transition-colors duration-150"
               aria-label="Toggle theme"
             >
               {theme === 'light' ? <FiMoon className="w-5 h-5" /> : <FiSun className="w-5 h-5" />}
@@ -87,7 +88,7 @@ export const PublicNavbar: React.FC = () => {
             {isAuthenticated ? (
               <Link
                 to="/dashboard"
-                className="inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary-dark transition-colors"
+                className="inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-full shadow-sm text-sm font-medium text-primary bg-white hover:bg-gray-50 transition-colors duration-150"
               >
                 Dashboard
               </Link>
@@ -95,13 +96,13 @@ export const PublicNavbar: React.FC = () => {
               <>
                 <Link
                   to="/login"
-                  className="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary-light transition-colors"
+                  className="text-sm font-medium text-white/90 hover:text-white transition-colors duration-150"
                 >
                   Log in
                 </Link>
                 <Link
                   to="/register"
-                  className="inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary-dark transition-colors"
+                  className="inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-full shadow-sm text-sm font-medium text-primary bg-white hover:bg-gray-50 transition-colors duration-150"
                 >
                   Register
                 </Link>
@@ -113,13 +114,13 @@ export const PublicNavbar: React.FC = () => {
           <div className="flex md:hidden items-center gap-2">
             <button
               onClick={toggleTheme}
-              className="p-2 rounded-full text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+              className="p-2 rounded-full text-white/80 hover:text-white hover:bg-white/10 transition-colors duration-150"
             >
               {theme === 'light' ? <FiMoon className="w-5 h-5" /> : <FiSun className="w-5 h-5" />}
             </button>
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="p-2 rounded-md text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none"
+              className="p-2 rounded-md text-white hover:bg-white/10 focus:outline-none transition-colors duration-150"
             >
               {isMobileMenuOpen ? <FiX className="w-6 h-6" /> : <FiMenu className="w-6 h-6" />}
             </button>
@@ -134,7 +135,7 @@ export const PublicNavbar: React.FC = () => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900"
+            className="md:hidden border-b border-primary-dark bg-primary dark:bg-primary-dark shadow-xl"
           >
             <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
               {navLinks.map((link) => (
@@ -142,17 +143,17 @@ export const PublicNavbar: React.FC = () => {
                   key={link.label}
                   to={link.to}
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-primary dark:hover:text-primary-light"
+                  className="block px-4 py-3 mb-2 rounded-xl text-base font-medium text-white bg-white/10 hover:bg-white/20 transition-colors duration-150 shadow-sm border border-white/10 hover:border-white/30"
                 >
                   {link.label}
                 </Link>
               ))}
-              <div className="border-t border-gray-200 dark:border-gray-800 pt-4 mt-2">
+              <div className="border-t border-white/20 pt-4 mt-2">
                 {isAuthenticated ? (
                   <Link
                     to="/dashboard"
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className="block w-full text-center px-4 py-2 border border-transparent rounded-lg shadow-sm text-base font-medium text-white bg-primary hover:bg-primary-dark"
+                    className="block w-full text-center px-4 py-3 border border-transparent rounded-xl shadow-sm text-base font-bold text-primary bg-white hover:bg-gray-50 transition-colors duration-150"
                   >
                     Go to Dashboard
                   </Link>
@@ -161,14 +162,14 @@ export const PublicNavbar: React.FC = () => {
                     <Link
                       to="/login"
                       onClick={() => setIsMobileMenuOpen(false)}
-                      className="block w-full text-center px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg text-base font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800"
+                      className="block w-full text-center px-4 py-3 border border-white/30 rounded-xl text-base font-medium text-white hover:bg-white/10 transition-colors duration-150"
                     >
                       Log in
                     </Link>
                     <Link
                       to="/register"
                       onClick={() => setIsMobileMenuOpen(false)}
-                      className="block w-full text-center px-4 py-2 border border-transparent rounded-lg shadow-sm text-base font-medium text-white bg-primary hover:bg-primary-dark"
+                      className="block w-full text-center px-4 py-3 border border-transparent rounded-xl shadow-sm text-base font-bold text-primary bg-white hover:bg-gray-50 transition-colors duration-150"
                     >
                       Register
                     </Link>

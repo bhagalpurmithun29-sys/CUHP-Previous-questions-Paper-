@@ -97,9 +97,23 @@ userSchema.index({ department: 1, course: 1, semester: 1 });
 userSchema.index({ accountStatus: 1 });
 userSchema.index({ createdAt: -1 });
 userSchema.index({ contributionScore: -1 }); // Fast leaderboard querying
+userSchema.index({ role: 1 }, { unique: true, partialFilterExpression: { role: 'ADMIN' } }); // Enforce SINGLE ADMIN
 
-// Pre-Save Hook (Hash password)
+// Pre-Save Hook (Admin Uniqueness & Hash password)
 userSchema.pre('save', async function (next) {
+  // Ensure only one ADMIN exists
+  if (this.isModified('role') || this.isNew) {
+    if (this.role === UserRole.ADMIN) {
+      const existingAdmin = await (this.constructor as mongoose.Model<IUser>).findOne({ 
+        role: UserRole.ADMIN, 
+        _id: { $ne: this._id } 
+      });
+      if (existingAdmin) {
+        return next(new Error('SYSTEM_RULE: Only one ADMIN is allowed in the entire system.'));
+      }
+    }
+  }
+
   if (!this.isModified('password')) return next();
   
   try {
