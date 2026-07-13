@@ -1,0 +1,24 @@
+# Threat Detection Rules
+detectors:
+  - name: "Repeated Failed Logins"
+    type: "threshold"
+    metric: "auth_failed_total"
+    threshold: 5
+    window: "5m"
+    severity: "HIGH"
+    action: "trigger_incident"
+
+  - name: "Abnormal API Usage"
+    type: "anomaly"
+    metric: "api_requests_per_ip"
+    deviation: "3sigma"
+    severity: "MEDIUM"
+    action: "log_event"
+
+  - name: "Rate-limit Violations"
+    type: "threshold"
+    metric: "rate_limit_exceeded_total"
+    threshold: 10
+    window: "1m"
+    severity: "LOW"
+    action: "log_event"

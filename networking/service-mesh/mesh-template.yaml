@@ -1,0 +1,11 @@
+# Service Mesh Control Plane Configuration Placeholder
+# Compatible with Istio, Linkerd, or Consul Connect
+apiVersion: networking.mesh.io/v1alpha3
+kind: MeshConfig
+metadata:
+  name: cuhp-mesh-default
+spec:
+  enableTracing: true
+  enableMetrics: true
+  outboundTrafficPolicy:
+    mode: REGISTRY_ONLY # Zero Trust: Deny all egress by default

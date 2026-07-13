@@ -1,0 +1,11 @@
+# Log and Trace Retention Policies
+retention:
+  logs:
+    info: 30d
+    error: 90d
+    audit: 365d # Critical for security compliance
+  traces:
+    sampled: 15d
+  metrics:
+    raw: 15d
+    aggregated_1h: 1y

@@ -1,0 +1,25 @@
+name: Deploy Staging
+on:
+  push:
+    branches: [ staging ]
+  workflow_dispatch:
+
+jobs:
+  deploy-staging:
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+      - name: Deploy Infrastructure
+        run: |
+          cd infrastructure/terraform/environments/staging
+          terraform init
+          # terraform apply -auto-approve
+      - name: Blue/Green Deployment Placeholder
+        run: echo "Executing Blue/Green deployment strategy for Staging"
+      - name: Deploy Application
+        run: bash scripts/deployment/deploy.sh staging ${{ github.sha }}
+      - name: Accessibility & E2E Tests Placeholder
+        run: echo "Running automated E2E tests against staging environment"

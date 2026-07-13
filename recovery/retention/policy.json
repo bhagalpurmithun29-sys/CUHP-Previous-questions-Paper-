@@ -1,0 +1,19 @@
+{
+  "database": {
+    "daily": 7,
+    "weekly": 4,
+    "monthly": 12
+  },
+  "objectStorage": {
+    "versioning": true,
+    "lifecycleRules": [
+      {
+        "transitionToArchiveAfterDays": 90,
+        "deleteAfterDays": 365
+      }
+    ]
+  },
+  "configuration": {
+    "keepForever": true
+  }
+}

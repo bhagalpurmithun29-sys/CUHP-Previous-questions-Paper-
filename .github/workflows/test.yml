@@ -1,0 +1,27 @@
+name: Test
+on:
+  push:
+    branches: [ main, development ]
+  pull_request:
+    branches: [ main, development ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - name: Install Dependencies (Backend)
+        run: cd backend && npm ci
+      - name: Run Unit Tests (Backend)
+        run: cd backend && npm run test
+      - name: Install Dependencies (Frontend)
+        run: cd frontend && npm ci
+      - name: Run Unit Tests (Frontend)
+        run: cd frontend && npm run test
+      - name: Quality Gate
+        run: bash scripts/validation/quality-gate.sh

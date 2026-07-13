@@ -1,0 +1,11 @@
+# Storage Optimization Lifecycle
+rules:
+  - name: archive-old-backups
+    condition:
+      age: "> 90 days"
+    action: transitionToColdStorage
+  - name: delete-temp-artifacts
+    condition:
+      prefix: "temp/"
+      age: "> 7 days"
+    action: delete

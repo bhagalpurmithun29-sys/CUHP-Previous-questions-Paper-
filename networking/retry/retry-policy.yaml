@@ -1,0 +1,12 @@
+# Standardized Retry Policies
+apiVersion: networking.mesh.io/v1alpha1
+kind: RetryPolicy
+metadata:
+  name: idempotent-read-retries
+spec:
+  targetServices:
+    - backend-api-svc
+  retries:
+    attempts: 3
+    perTryTimeout: 2s
+    retryOn: "5xx,connect-failure,refused-stream"

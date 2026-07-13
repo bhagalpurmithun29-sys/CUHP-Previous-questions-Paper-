@@ -1,0 +1,25 @@
+name: Build
+on:
+  push:
+    branches: [ main, development ]
+  pull_request:
+    branches: [ main, development ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - name: Install Dependencies (Backend)
+        run: cd backend && npm ci
+      - name: Build Backend
+        run: cd backend && npm run build
+      - name: Install Dependencies (Frontend)
+        run: cd frontend && npm ci
+      - name: Build Frontend
+        run: cd frontend && npm run build

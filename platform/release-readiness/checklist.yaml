@@ -1,0 +1,11 @@
+# Production Go/No-Go Checklist
+checks:
+  - id: security_01
+    description: "No Critical or High vulnerabilities in Trivy scan."
+    required: true
+  - id: dr_01
+    description: "Database point-in-time recovery test successful within last 7 days."
+    required: true
+  - id: auth_01
+    description: "JWT and Role-based configurations validated in Production Gateway."
+    required: true

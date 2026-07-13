@@ -1,0 +1,11 @@
+# Chaos Engineering Safety Guardrails
+safety:
+  environmentRestrictions:
+    allowed: ["development", "qa", "staging"]
+    denied: ["production"]
+  emergencyStop:
+    enabled: true
+    trigger: "latency_p99 > 2s" # Automatic halt if blast radius exceeds expectations
+  approvals:
+    requiredInStaging: 2
+    requiredRoles: ["Platform Operations Team", "Site Reliability Team"]

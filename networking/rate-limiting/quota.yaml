@@ -1,0 +1,19 @@
+# Global and Per-Client Rate Limiting Definitions
+apiVersion: networking.mesh.io/v1alpha1
+kind: RateLimit
+metadata:
+  name: cuhp-api-limits
+spec:
+  limits:
+    - name: per-user-limit
+      match:
+        header: "authorization"
+      burst: 50
+      rate: 100
+      unit: minute
+    - name: per-ip-limit
+      match:
+        sourceIp: "*"
+      burst: 100
+      rate: 500
+      unit: minute

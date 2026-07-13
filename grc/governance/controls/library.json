@@ -1,0 +1,12 @@
+{
+  "administrative": [
+    { "id": "CTRL-A01", "name": "Annual Security Training", "owner": "HR" }
+  ],
+  "technical": [
+    { "id": "CTRL-T01", "name": "Multi-Factor Authentication", "owner": "IAM Team" },
+    { "id": "CTRL-T02", "name": "Data Encryption at Rest", "owner": "Infrastructure" }
+  ],
+  "operational": [
+    { "id": "CTRL-O01", "name": "Daily Backup Verification", "owner": "Ops Team" }
+  ]
+}

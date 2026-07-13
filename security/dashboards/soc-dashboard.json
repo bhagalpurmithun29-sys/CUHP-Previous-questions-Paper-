@@ -1,0 +1,10 @@
+{
+  "title": "CUHP SOC Dashboard",
+  "description": "Security Health, Open Incidents, Threat Trends, and Compliance",
+  "panels": [
+    { "type": "stat", "title": "Security Health Score", "value": "92%" },
+    { "type": "table", "title": "Open Incidents", "dataSource": "/security/incidents" },
+    { "type": "graph", "title": "Authentication Failures (Last 24h)" },
+    { "type": "stat", "title": "MTTR", "value": "4 Hours" }
+  ]
+}

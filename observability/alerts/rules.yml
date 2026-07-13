@@ -1,0 +1,27 @@
+# Prometheus Alerting Rules
+groups:
+  - name: cuhp-availability
+    rules:
+      - alert: APIHighErrorRate
+        expr: rate(http_requests_total{status=~"5.."}[5m]) / rate(http_requests_total[5m]) > 0.05
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "High API Error Rate detected"
+          
+      - alert: HighLatency
+        expr: histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[5m])) > 1.5
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "95th percentile latency is over 1.5s"
+
+      - alert: DatabaseDown
+        expr: up{job="mongodb"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Database connection lost"

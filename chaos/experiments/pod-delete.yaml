@@ -1,0 +1,13 @@
+# Chaos Experiment: Pod Restart Simulation
+apiVersion: chaos-mesh.org/v1alpha1
+kind: PodChaos
+metadata:
+  name: backend-pod-kill
+  namespace: cuhp-qa # STRICT: Defaults to non-production namespaces
+spec:
+  action: pod-kill
+  mode: one
+  selector:
+    labelSelectors:
+      app: backend-api
+  duration: '10s'

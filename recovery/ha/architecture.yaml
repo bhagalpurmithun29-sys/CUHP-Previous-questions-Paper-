@@ -1,0 +1,17 @@
+# High Availability Architecture Rules
+redundancy:
+  application:
+    minReplicas: 3
+    multiAzEnabled: true
+  database:
+    type: "replicaSet"
+    nodes: 3
+    failoverBehavior: "automatic"
+  storage:
+    type: "multi-region-redundant"
+loadBalancing:
+  healthChecks:
+    endpoint: "/health/live"
+    interval: 10s
+    healthyThreshold: 2
+    unhealthyThreshold: 3

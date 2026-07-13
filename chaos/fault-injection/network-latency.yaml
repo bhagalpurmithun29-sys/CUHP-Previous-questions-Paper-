@@ -1,0 +1,17 @@
+# Fault Injection: Network Latency
+apiVersion: chaos-mesh.org/v1alpha1
+kind: NetworkChaos
+metadata:
+  name: db-latency-injection
+  namespace: cuhp-qa
+spec:
+  action: delay
+  mode: all
+  selector:
+    labelSelectors:
+      app: database
+  delay:
+    latency: '500ms'
+    correlation: '100'
+    jitter: '0ms'
+  duration: '30s'

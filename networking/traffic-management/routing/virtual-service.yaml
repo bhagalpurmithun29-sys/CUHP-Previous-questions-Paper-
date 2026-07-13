@@ -1,0 +1,18 @@
+# Traffic Management: Canary & Weighted Routing Placeholder
+apiVersion: networking.mesh.io/v1beta1
+kind: VirtualService
+metadata:
+  name: backend-api-routing
+spec:
+  hosts:
+    - backend-api-svc
+  http:
+    - route:
+        - destination:
+            host: backend-api-svc
+            subset: v1
+          weight: 90
+        - destination:
+            host: backend-api-svc
+            subset: v2-canary
+          weight: 10

@@ -1,0 +1,22 @@
+name: Deploy Production
+on:
+  release:
+    types: [published]
+
+jobs:
+  deploy-prod:
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+      - name: Deploy Infrastructure
+        run: |
+          cd infrastructure/terraform/environments/production
+          terraform init
+          # terraform apply -auto-approve
+      - name: Rolling Update / Canary Deployment Placeholder
+        run: echo "Starting Canary deployment for Production"
+      - name: Deploy Application
+        run: bash scripts/deployment/deploy.sh production ${{ github.sha }}

@@ -1,0 +1,16 @@
+# API Gateway Configuration Abstraction
+# Integrates with standards-based gateways (e.g., Kong, Envoy, NGINX)
+routes:
+  - name: cuhp-api-v1
+    match:
+      prefix: /api/v1/
+    backend:
+      service: backend-api-svc
+      port: 80
+    plugins:
+      - name: jwt-auth
+      - name: rate-limiting
+      - name: request-transformer
+        config:
+          add_headers:
+            x-gateway-processed: "true"

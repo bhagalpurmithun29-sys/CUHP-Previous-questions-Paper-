@@ -1,0 +1,9 @@
+{
+  "title": "CUHP Operations Dashboard",
+  "description": "High-level overview of system availability, error rates, and RPS",
+  "panels": [
+    { "type": "graph", "title": "Requests per Second (RPS)", "targets": [] },
+    { "type": "stat", "title": "5xx Error Rate", "targets": [] },
+    { "type": "graph", "title": "P95 Response Latency", "targets": [] }
+  ]
+}

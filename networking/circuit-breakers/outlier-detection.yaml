@@ -1,0 +1,17 @@
+# Circuit Breaking & Outlier Detection
+apiVersion: networking.mesh.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: backend-circuit-breaker
+spec:
+  host: backend-api-svc
+  trafficPolicy:
+    connectionPool:
+      http:
+        http1MaxPendingRequests: 1024
+        maxRequestsPerConnection: 10
+    outlierDetection:
+      consecutive5xxErrors: 5
+      interval: 10s
+      baseEjectionTime: 30s
+      maxEjectionPercent: 50

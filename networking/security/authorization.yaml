@@ -1,0 +1,18 @@
+# Zero Trust Least Privilege Service Communication
+apiVersion: security.mesh.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: frontend-to-backend-only
+  namespace: cuhp-prod
+spec:
+  selector:
+    matchLabels:
+      app: backend-api
+  action: ALLOW
+  rules:
+    - from:
+        - source:
+            principals: ["cluster.local/ns/cuhp-prod/sa/frontend-sa"]
+      to:
+        - operation:
+            methods: ["GET", "POST", "PUT", "DELETE"]

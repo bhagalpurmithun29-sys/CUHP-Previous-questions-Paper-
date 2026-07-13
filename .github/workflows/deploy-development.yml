@@ -1,0 +1,20 @@
+name: Deploy Development
+on:
+  push:
+    branches: [ development ]
+
+jobs:
+  deploy-dev:
+    runs-on: ubuntu-latest
+    environment: development
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+      - name: Deploy Infrastructure
+        run: |
+          cd infrastructure/terraform/environments/development
+          terraform init
+          # terraform apply -auto-approve
+      - name: Deploy Application
+        run: bash scripts/deployment/deploy.sh development ${{ github.sha }}

@@ -1,0 +1,4 @@
+{
+  "logLevel": "debug",
+  "enableFeatures": ["beta-ui", "mock-ai"]
+}
