@@ -45,7 +45,23 @@ export class GatewayService {
     }
   }
 
+  async streamChat(request: LLMRequest, taskType: string, userId: string, onChunk: (chunk: string) => void) {
+    const adapter = request.model ? 
+        Array.from(this.registry.getAllProviders()).find(p => p.models.includes(request.model!)) 
+          ? this.registry.getAdapter(Array.from(this.registry.getAllProviders()).find(p => p.models.includes(request.model!))!.name)
+          : this.router.route(taskType)
+        : this.router.route(taskType);
+
+    if (adapter.stream) {
+      await adapter.stream(request, onChunk);
+    } else {
+      const response = await adapter.generate(request);
+      onChunk(response.text);
+    }
+  }
+
   getProviders() {
     return this.registry.getAllProviders();
   }
 }
+export const aiGateway = new GatewayService();

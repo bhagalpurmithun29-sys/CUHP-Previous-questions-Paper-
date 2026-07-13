@@ -34,7 +34,7 @@ export class AnalyticsService {
 
   async getGrowth() {
     // Group by month created using aggregation
-    const pipeline = [
+    const pipeline: any[] = [
       {
         $group: {
           _id: {

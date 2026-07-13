@@ -33,9 +33,9 @@ const DifficultyAnalysisSchema = new Schema<IDifficultyAnalysis>(
   {
     paperId: { type: Schema.Types.ObjectId, ref: 'QuestionPaper', required: true, unique: true },
     status: { type: String, enum: ['QUEUED', 'PROCESSING', 'COMPLETED', 'FAILED', 'RETRYING'], default: 'QUEUED' },
-    analyses: { type: [Schema.Types.Mixed], default: [] },
+    analyses: { type: [Schema.Types.Mixed] as any, default: [] },
     distribution: { 
-      type: Object, 
+      type: Schema.Types.Mixed as any, 
       default: { difficulty: {}, complexity: {}, averageSolvingTimeMinutes: 0 }
     },
     overallConfidence: { type: Number, default: 0 },

@@ -52,7 +52,7 @@ export class DuplicateDetectionService {
       let bestResult: SimilarityResult | null = null;
 
       for (const candidate of candidates) {
-        const result = similarityEngine.compare(newPaper, candidate);
+        const result = similarityEngine.compare(newPaper as any, candidate as any);
         if (result.score > highestScore) {
           highestScore = result.score;
           bestMatch = candidate;

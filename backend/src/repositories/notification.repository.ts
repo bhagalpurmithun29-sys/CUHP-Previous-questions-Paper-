@@ -1,5 +1,5 @@
-import { Notification } from '../models/Notification.model';
-import { NotificationPreference } from '../models/NotificationPreference.model';
+import { Notification } from '../models/notification.model';
+import { NotificationPreference } from '../models/notificationPreference.model';
 import { INotification, NotificationType, DeliveryChannel } from '../interfaces/notification.interface';
 import { Types } from 'mongoose';
 

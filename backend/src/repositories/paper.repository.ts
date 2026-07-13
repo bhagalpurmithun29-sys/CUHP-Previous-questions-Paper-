@@ -4,15 +4,15 @@ import { QuestionPaper } from '../models/paper.model';
 export class QuestionPaperRepository implements IQuestionPaperRepository {
   async create(data: Partial<IQuestionPaper>): Promise<IQuestionPaper> {
     const paper = new QuestionPaper(data);
-    return await paper.save();
+    return await paper.save() as unknown as IQuestionPaper;
   }
 
   async findById(id: string): Promise<IQuestionPaper | null> {
-    return await QuestionPaper.findById(id).where({ isDeleted: false });
+    return await QuestionPaper.findById(id).where({ isDeleted: false }) as unknown as IQuestionPaper;
   }
 
   async findByPaperId(paperId: string): Promise<IQuestionPaper | null> {
-    return await QuestionPaper.findOne({ paperId, isDeleted: false });
+    return await QuestionPaper.findOne({ paperId, isDeleted: false }) as unknown as IQuestionPaper;
   }
 
   async update(id: string, data: Partial<IQuestionPaper>): Promise<IQuestionPaper | null> {

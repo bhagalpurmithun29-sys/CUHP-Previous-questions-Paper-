@@ -53,5 +53,5 @@ export const RolePermissions: Record<UserRole, Permission[]> = {
     Permissions.PAPER_EDIT,
     Permissions.REPORT_REVIEW,
   ],
-
+  [UserRole.ADMIN]: Object.values(Permissions),
 };

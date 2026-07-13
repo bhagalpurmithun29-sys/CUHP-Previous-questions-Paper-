@@ -3,7 +3,7 @@ import { StudyPlan, IStudyPlan } from '../models/studyPlan.model';
 
 class StudyPlannerRepository {
   async getActivePlan(userId: string): Promise<IStudyPlan | null> {
-    return StudyPlan.findOne({ userId: new Types.ObjectId(userId), isActive: true }).lean();
+    return StudyPlan.findOne({ userId: new Types.ObjectId(userId), isActive: true }).lean() as unknown as IStudyPlan;
   }
 
   async createPlan(planData: Partial<IStudyPlan>): Promise<IStudyPlan> {
@@ -41,7 +41,7 @@ class StudyPlannerRepository {
   }
 
   async getPlansByUserId(userId: string): Promise<IStudyPlan[]> {
-    return StudyPlan.find({ userId: new Types.ObjectId(userId) }).sort({ createdAt: -1 }).lean();
+    return StudyPlan.find({ userId: new Types.ObjectId(userId) }).sort({ createdAt: -1 }).lean() as unknown as IStudyPlan[];
   }
 }
 

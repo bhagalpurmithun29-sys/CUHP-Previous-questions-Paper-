@@ -34,7 +34,7 @@ const TopicMappingSchema = new Schema<ITopicMapping>(
   {
     paperId: { type: Schema.Types.ObjectId, ref: 'QuestionPaper', required: true, unique: true },
     status: { type: String, enum: ['QUEUED', 'PROCESSING', 'COMPLETED', 'FAILED', 'RETRYING'], default: 'QUEUED' },
-    mappings: { type: [Schema.Types.Mixed], default: [] },
+    mappings: { type: [Schema.Types.Mixed] as any, default: [] },
     coverage: { 
       type: Object, 
       default: { totalUnits: 0, totalTopics: 0, unitDistribution: {} }

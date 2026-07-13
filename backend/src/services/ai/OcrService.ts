@@ -57,7 +57,7 @@ export class OcrService {
 
       // 1. Simulating OCR Text Extraction
       // In a real system, we would download paper.fileUrl and pipe it to Tesseract/AWS Textract.
-      const rawText = paper.ocrTextPlaceholder || `
+      const rawText = (paper as any).ocrTextPlaceholder || `
         CUHP End Semester Examination 2023
         Subject: Data Structures
         Time: 3 Hours

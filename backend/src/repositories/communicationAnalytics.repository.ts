@@ -1,5 +1,5 @@
 import { Reminder } from '../models/Reminder.model';
-import { Notification } from '../models/Notification.model';
+import { Notification } from '../models/notification.model';
 import { Task } from '../models/Task.model';
 
 class CommunicationAnalyticsRepository {

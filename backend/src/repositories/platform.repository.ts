@@ -1,4 +1,4 @@
-import { Notification } from '../models/Notification.model';
+import { Notification } from '../models/notification.model';
 import { Reminder } from '../models/Reminder.model';
 import { Task } from '../models/Task.model';
 
@@ -26,6 +26,11 @@ class PlatformRepository {
       { key: 'ENABLE_AI_SUMMARIES', value: true },
       { key: 'ENABLE_WORKSPACES', value: true }
     ];
+  }
+
+  async setFeatureFlag(key: string, value: boolean) {
+    // In actual implementation, update the DB record
+    return { key, value };
   }
 
   async validatePlatform() {

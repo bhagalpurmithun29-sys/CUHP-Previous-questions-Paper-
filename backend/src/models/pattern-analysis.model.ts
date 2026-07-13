@@ -34,7 +34,7 @@ const PatternAnalysisSchema = new Schema<IPatternAnalysis>(
     paperId: { type: Schema.Types.ObjectId, ref: 'QuestionPaper', required: true, unique: true },
     status: { type: String, enum: ['QUEUED', 'PROCESSING', 'COMPLETED', 'FAILED', 'RETRYING'], default: 'QUEUED' },
     blueprint: { type: Object, default: null },
-    recurringStructures: { type: [Schema.Types.Mixed], default: [] },
+    recurringStructures: { type: [Schema.Types.Mixed] as any, default: [] },
     patternSummary: { type: String, default: '' },
     blueprintSimilarityScore: { type: Number, default: 0 },
     confidenceScore: { type: Number, default: 0 },

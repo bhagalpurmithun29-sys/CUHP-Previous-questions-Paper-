@@ -1,3 +1,5 @@
+/// <reference types="vite/client" />
+
 export const env = {
   API_URL: import.meta.env.VITE_API_URL || 'http://localhost:5000/api/v1',
   APP_NAME: import.meta.env.VITE_APP_NAME || 'CUHP Question Bank',

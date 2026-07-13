@@ -1,5 +1,5 @@
 import { IAnnouncement } from '../../models/Announcement.model';
-import { Notification } from '../../models/Notification.model';
+import { Notification } from '../../models/notification.model';
 import { NotificationType } from '../../interfaces/notification.interface';
 
 class QueueWorkerService {

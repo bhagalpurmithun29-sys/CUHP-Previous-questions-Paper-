@@ -29,7 +29,7 @@ const BloomClassificationSchema = new Schema<IBloomClassification>(
   {
     paperId: { type: Schema.Types.ObjectId, ref: 'QuestionPaper', required: true, unique: true },
     status: { type: String, enum: ['QUEUED', 'PROCESSING', 'COMPLETED', 'FAILED', 'RETRYING'], default: 'QUEUED' },
-    classifications: { type: [Schema.Types.Mixed], default: [] },
+    classifications: { type: [Schema.Types.Mixed] as any, default: [] },
     distribution: { 
       type: Object, 
       default: { remember: 0, understand: 0, apply: 0, analyze: 0, evaluate: 0, create: 0 }

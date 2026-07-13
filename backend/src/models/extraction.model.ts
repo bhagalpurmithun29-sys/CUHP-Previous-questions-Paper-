@@ -17,7 +17,7 @@ const ExtractionJobSchema = new Schema<IExtractionJob>(
     paperId: { type: Schema.Types.ObjectId, ref: 'QuestionPaper', required: true, unique: true },
     status: { type: String, enum: ['QUEUED', 'PROCESSING', 'COMPLETED', 'FAILED', 'RETRYING'], default: 'QUEUED' },
     priority: { type: Number, default: 0 },
-    extractedQuestions: { type: [Schema.Types.Mixed], default: [] },
+    extractedQuestions: { type: [Schema.Types.Mixed] as any, default: [] },
     overallConfidence: { type: Number, default: 0 },
     processingTime: { type: Number, default: 0 },
     reviewStatus: { type: String, enum: ['PENDING_REVIEW', 'APPROVED', 'REJECTED'], default: 'PENDING_REVIEW' },

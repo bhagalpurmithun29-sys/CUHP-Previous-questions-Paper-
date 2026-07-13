@@ -71,8 +71,8 @@ ${contextResults.map((r: any, idx) => `[Citation ${idx + 1}] Title: ${r.title ||
     ];
 
     try {
-      const response = await aiGateway.chat(messagesForLLM, { modelId: 'gemini-3-pro' });
-      const answer = response.choices[0].message.content;
+      const response = await aiGateway.chat({ prompt: JSON.stringify(messagesForLLM), model: 'gemini-3-pro' }, 'GENERAL_CHAT', userId);
+      const answer = response.text;
 
       // 5. Add assistant message
       conversation.messages.push({

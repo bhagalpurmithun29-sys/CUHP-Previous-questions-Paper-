@@ -56,16 +56,19 @@ ${contextResults.map((r: any, idx) => `[Citation ${idx + 1}] Title: ${r.title ||
     try {
       res.write(`event: status\ndata: Generating response...\n\n`);
       
-      const stream = await aiGateway.streamChat(messagesForLLM, { modelId: 'gemini-3-pro' });
-      
       let fullAnswer = '';
-      for await (const chunk of stream) {
-        const text = chunk.choices[0]?.delta?.content || '';
-        if (text) {
-          fullAnswer += text;
-          res.write(`event: chunk\ndata: ${JSON.stringify({ text })}\n\n`);
+      
+      await aiGateway.streamChat(
+        { prompt: JSON.stringify(messagesForLLM), model: 'gemini-3-pro' },
+        'GENERAL_CHAT',
+        userId,
+        (text: string) => {
+          if (text) {
+            fullAnswer += text;
+            res.write(`data: ${JSON.stringify({ content: text })}\n\n`);
+          }
         }
-      }
+      );
 
       conversation.messages.push({
         role: 'assistant',

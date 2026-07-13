@@ -40,7 +40,7 @@ const MarksAnalysisSchema = new Schema<IMarksAnalysis>(
     paperId: { type: Schema.Types.ObjectId, ref: 'QuestionPaper', required: true, unique: true },
     status: { type: String, enum: ['QUEUED', 'PROCESSING', 'COMPLETED', 'FAILED', 'RETRYING'], default: 'QUEUED' },
     totalMarks: { type: Number, default: 0 },
-    sectionBreakdown: { type: [Schema.Types.Mixed], default: [] },
+    sectionBreakdown: { type: [Schema.Types.Mixed] as any, default: [] },
     weightage: { type: Object, default: { bloom: {}, difficulty: {}, unit: {}, topic: {} } },
     assessmentQualityScore: { type: Number, default: 0 },
     balanceIndicators: { type: Object, default: {} },

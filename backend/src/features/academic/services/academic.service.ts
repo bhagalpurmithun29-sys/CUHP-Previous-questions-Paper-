@@ -25,17 +25,17 @@ export class AcademicService {
           ...dept,
           type: 'department',
           children: courses
-            .filter(c => c.department?.toString() === dept._id.toString())
+            .filter(c => c.departmentId?.toString() === dept._id.toString())
             .map(course => ({
               ...course,
               type: 'course',
               children: semesters
-                .filter(sem => sem.course?.toString() === course._id.toString())
+                .filter(sem => sem.courseId?.toString() === course._id.toString())
                 .map(sem => ({
                   ...sem,
                   type: 'semester',
                   children: subjects
-                    .filter(sub => sub.semester?.toString() === sem._id.toString())
+                    .filter(sub => sub.semesterId?.toString() === sem._id.toString())
                     .map(sub => ({ ...sub, type: 'subject' }))
                 }))
             }))
