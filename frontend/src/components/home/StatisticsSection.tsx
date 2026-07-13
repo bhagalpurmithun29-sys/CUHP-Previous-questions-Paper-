@@ -1,13 +1,52 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { apiClient } from '../../lib/axios';
+
+interface StatsResponse {
+  totalQuestionPapers: number;
+  approvedPapers: number;
+  departments: number;
+  courses: number;
+  semesters: number;
+  subjects: number;
+  registeredUsers: number;
+  contributors: number;
+  downloads: number;
+  bookmarks: number;
+}
 
 export const StatisticsSection: React.FC = () => {
+  const [statsData, setStatsData] = useState<StatsResponse | null>(null);
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const response = await apiClient.get('/public/statistics');
+        setStatsData(response.data.data);
+      } catch (error) {
+        console.error('Failed to fetch statistics:', error);
+      }
+    };
+    
+    fetchStats();
+  }, []);
+
+  const formatNumber = (num: number, usePlus: boolean = true) => {
+    let formatted = num.toString();
+    if (num >= 1000000) {
+      formatted = (num / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
+    } else if (num >= 1000) {
+      formatted = (num / 1000).toFixed(1).replace(/\.0$/, '') + 'k';
+    }
+    return usePlus ? formatted + '+' : formatted;
+  };
+
   const stats = [
-    { label: 'Total Papers', value: '5,000+' },
-    { label: 'Departments', value: '14' },
-    { label: 'Subjects', value: '450+' },
-    { label: 'Downloads', value: '100k+' },
-    { label: 'Contributors', value: '1,200+' },
+    { label: 'Total Papers', value: statsData ? formatNumber(statsData.approvedPapers) : '0' },
+    { label: 'Departments', value: statsData ? statsData.departments.toString() : '0' },
+    { label: 'Subjects', value: statsData ? formatNumber(statsData.subjects) : '0' },
+    { label: 'Downloads', value: statsData ? formatNumber(statsData.downloads) : '0' },
+    { label: 'Contributors', value: statsData ? formatNumber(statsData.contributors) : '0' },
   ];
 
   return (

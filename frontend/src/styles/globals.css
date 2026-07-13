@@ -98,7 +98,11 @@
   }
   body {
     @apply text-foreground font-sans antialiased selection:bg-primary selection:text-primary-foreground overflow-x-hidden;
-    background: hsl(var(--background)) url('https://www.cuhimachal.ac.in/asset/images/bg-gray.jpg') repeat;
+    background-image: linear-gradient(to bottom, hsl(var(--background) / 0.85), hsl(var(--background) / 0.95)), url('https://www.tribuneindia.com/sortd-service/imaginary/v22-01/jpg/large/high?url=dGhldHJpYnVuZS1zb3J0ZC1wcm8tcHJvZC1zb3J0ZC9tZWRpYTViOGM1NmMwLTUwN2UtMTFlZi1hOGNlLTM3NTc0Zjg5MTJkMC5qcGc=');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
     width: 100%;
   }
   
