@@ -16,6 +16,13 @@ import aiChatRoutes from './aiChat.routes';
 import semanticSearchRoutes from './semanticSearch.routes';
 import analysisRoutes from './analysis.routes';
 import studyPlannerRoutes from './studyPlanner.routes';
+import facultyCopilotRoutes from './facultyCopilot.routes';
+import promptManagementRoutes from './promptManagement.routes';
+import aiSafetyRoutes from './aiSafety.routes';
+import aiFeedbackRoutes from './aiFeedback.routes';
+import aiAnalyticsRoutes from './aiAnalytics.routes';
+import aiAdminRoutes from './aiAdmin.routes';
+import platformRoutes from './platform.routes';
 import revisionRoutes from './revision.routes';
 import ocrRoutes from './ocr.routes';
 import ragRoutes from './rag.routes';
@@ -83,6 +90,7 @@ import importExportRoutes from '../features/academic/routes/import-export.routes
 import uploadRoutes from '../features/upload/routes/upload.routes';
 import metadataRoutes from '../features/metadata/routes/metadata.routes';
 import pdfViewerRoutes from '../features/pdf-viewer/routes/pdf-viewer.routes';
+import paperQARoutes from './paperQA.routes';
 
 const router = Router();
 
@@ -108,6 +116,13 @@ router.use('/ai-chat', aiChatRoutes);
 router.use('/semantic-search', semanticSearchRoutes);
 router.use('/analysis', analysisRoutes);
 router.use('/study-planner', studyPlannerRoutes);
+router.use('/faculty-copilot', facultyCopilotRoutes);
+router.use('/prompt-management', promptManagementRoutes);
+router.use('/ai-safety', aiSafetyRoutes);
+router.use('/ai-feedback', aiFeedbackRoutes);
+router.use('/ai-analytics', aiAnalyticsRoutes);
+router.use('/ai-admin', aiAdminRoutes);
+router.use('/platform', platformRoutes);
 router.use('/revision', revisionRoutes);
 router.use('/ocr', ocrRoutes);
 router.use('/rag', ragRoutes);
@@ -180,5 +195,6 @@ router.use('/papers', paperRoutes);
 router.use('/uploads', uploadRoutes);
 router.use('/metadata', metadataRoutes);
 router.use('/pdf', pdfViewerRoutes);
+router.use('/paper-qa', paperQARoutes);
 
 export default router;

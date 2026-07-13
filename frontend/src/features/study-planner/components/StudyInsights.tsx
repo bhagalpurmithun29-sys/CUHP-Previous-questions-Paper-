@@ -1,36 +1,34 @@
 import React from 'react';
-import { useGetRecommendations } from '../hooks/useStudyPlanner';
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts';
 
 export const StudyInsights: React.FC = () => {
-  const { data: recommendations, isLoading } = useGetRecommendations();
+  const data = [
+    { name: 'Mon', minutes: 45 },
+    { name: 'Tue', minutes: 90 },
+    { name: 'Wed', minutes: 60 },
+    { name: 'Thu', minutes: 120 },
+    { name: 'Fri', minutes: 30 },
+    { name: 'Sat', minutes: 0 },
+    { name: 'Sun', minutes: 180 },
+  ];
 
   return (
-    <div className="bg-card text-card-foreground p-6 rounded-2xl border shadow-sm">
-      <h3 className="text-xl font-display font-semibold mb-4">AI Recommended Resources</h3>
-      
-      {isLoading ? (
-        <div className="animate-pulse space-y-3">
-          <div className="h-16 bg-muted rounded-lg w-full"></div>
-          <div className="h-16 bg-muted rounded-lg w-full"></div>
-        </div>
-      ) : recommendations?.length > 0 ? (
-        <div className="space-y-3">
-          {recommendations.map((paper: any) => (
-            <a 
-              key={paper._id} 
-              href={`/viewer/\${paper.paperId}`}
-              className="block p-3 rounded-xl border bg-background hover:border-primary transition-colors"
-            >
-              <h4 className="font-medium text-sm line-clamp-1">{paper.title}</h4>
-              <p className="text-xs text-muted-foreground mt-1">
-                {paper.examYear} • {paper.examType}
-              </p>
-            </a>
-          ))}
-        </div>
-      ) : (
-        <p className="text-sm text-muted-foreground">Keep studying! Recommendations will appear here based on your progress and subject.</p>
-      )}
+    <div className="bg-white dark:bg-gray-900 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-800 mt-6">
+      <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Study Time (This Week)</h3>
+      <div className="h-64 w-full">
+        <ResponsiveContainer width="100%" height="100%">
+          <BarChart data={data} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e5e7eb" />
+            <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#6b7280' }} dy={10} />
+            <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#6b7280' }} />
+            <Tooltip 
+              cursor={{ fill: 'rgba(59, 130, 246, 0.1)' }}
+              contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' }}
+            />
+            <Bar dataKey="minutes" fill="#3B82F6" radius={[4, 4, 0, 0]} />
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
     </div>
   );
 };

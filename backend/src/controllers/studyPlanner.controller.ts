@@ -1,75 +1,61 @@
 import { Request, Response } from 'express';
-import { studyPlannerService } from '../services/studyPlanner.service';
+import { learningPlanService } from '../services/studyPlanner/learningPlan.service';
+import { revisionService } from '../services/studyPlanner/revision.service';
+import { goalManagementService } from '../services/studyPlanner/goalManagement.service';
+import { recommendationService } from '../services/studyPlanner/recommendation.service';
+import { catchAsync } from '../utils/catchAsync';
+import { ApiResponse } from '../utils/ApiResponse';
 
 export class StudyPlannerController {
-  async generatePlan(req: Request, res: Response) {
-    try {
-      const userId = req.user!.id;
-      const plan = await studyPlannerService.generatePlan(userId, req.body);
-      
-      res.status(201).json({
-        status: 'success',
-        data: plan
-      });
-    } catch (error: any) {
-      res.status(error.statusCode || 500).json({
-        status: 'error',
-        message: error.message
-      });
-    }
-  }
+  getDashboard = catchAsync(async (req: Request, res: Response) => {
+    const userId = req.user!.id;
+    const data = await learningPlanService.getDashboardData(userId);
+    res.status(200).json(new ApiResponse(200, data, 'Dashboard data retrieved'));
+  });
 
-  async getActivePlan(req: Request, res: Response) {
-    try {
-      const userId = req.user!.id;
-      const plan = await studyPlannerService.getActivePlan(userId);
-      
-      res.status(200).json({
-        status: 'success',
-        data: plan
-      });
-    } catch (error: any) {
-      res.status(error.statusCode || 500).json({
-        status: 'error',
-        message: error.message
-      });
-    }
-  }
+  getWeekly = catchAsync(async (req: Request, res: Response) => {
+    const userId = req.user!.id;
+    const data = await learningPlanService.getWeeklyPlan(userId);
+    res.status(200).json(new ApiResponse(200, data, 'Weekly plan retrieved'));
+  });
 
-  async updateTaskProgress(req: Request, res: Response) {
-    try {
-      const userId = req.user!.id;
-      const { planId, taskId, status } = req.body;
-      const plan = await studyPlannerService.updateTaskStatus(userId, planId, taskId, status);
-      
-      res.status(200).json({
-        status: 'success',
-        data: plan
-      });
-    } catch (error: any) {
-      res.status(error.statusCode || 500).json({
-        status: 'error',
-        message: error.message
-      });
-    }
-  }
+  getMonthly = catchAsync(async (req: Request, res: Response) => {
+    const userId = req.user!.id;
+    const data = await learningPlanService.getMonthlyPlan(userId);
+    res.status(200).json(new ApiResponse(200, data, 'Monthly plan retrieved'));
+  });
 
-  async getRecommendations(req: Request, res: Response) {
-    try {
-      const userId = req.user!.id;
-      const papers = await studyPlannerService.getRecommendations(userId);
-      
-      res.status(200).json({
-        status: 'success',
-        data: papers
-      });
-    } catch (error: any) {
-      res.status(error.statusCode || 500).json({
-        status: 'error',
-        message: error.message
-      });
-    }
-  }
+  getRevision = catchAsync(async (req: Request, res: Response) => {
+    const userId = req.user!.id;
+    const data = await revisionService.getRevisionPlan(userId);
+    res.status(200).json(new ApiResponse(200, data, 'Revision plan retrieved'));
+  });
+
+  createGoal = catchAsync(async (req: Request, res: Response) => {
+    const userId = req.user!.id;
+    const data = await goalManagementService.createGoal(userId, req.body);
+    res.status(201).json(new ApiResponse(201, data, 'Goal created'));
+  });
+
+  updateGoal = catchAsync(async (req: Request, res: Response) => {
+    const userId = req.user!.id;
+    const { goalId } = req.params;
+    const data = await goalManagementService.updateGoal(userId, goalId, req.body);
+    res.status(200).json(new ApiResponse(200, data, 'Goal updated'));
+  });
+
+  deleteGoal = catchAsync(async (req: Request, res: Response) => {
+    const userId = req.user!.id;
+    const { goalId } = req.params;
+    await goalManagementService.deleteGoal(userId, goalId);
+    res.status(200).json(new ApiResponse(200, null, 'Goal deleted'));
+  });
+
+  getRecommendations = catchAsync(async (req: Request, res: Response) => {
+    const userId = req.user!.id;
+    const data = await recommendationService.getRecommendations(userId);
+    res.status(200).json(new ApiResponse(200, data, 'Recommendations retrieved'));
+  });
 }
 
 export const studyPlannerController = new StudyPlannerController();

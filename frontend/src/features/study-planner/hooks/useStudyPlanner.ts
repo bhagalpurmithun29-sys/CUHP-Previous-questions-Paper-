@@ -1,88 +1,84 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 
-const API_URL = '/api/v1/study-planner';
+const API_BASE = '/api/v1/study-planner';
 
-export interface StudyTask {
-  _id: string;
-  title: string;
-  description?: string;
-  topic: string;
-  date: string;
-  durationMinutes: number;
-  type: 'READING' | 'PRACTICE' | 'REVISION' | 'MOCK_TEST';
-  status: 'PENDING' | 'IN_PROGRESS' | 'COMPLETED' | 'MISSED';
-  resourceId?: string;
-}
+export const useStudyPlanner = () => {
+  const queryClient = useQueryClient();
 
-export interface StudyPlan {
-  _id: string;
-  userId: string;
-  goal: {
-    type: 'EXAM' | 'SEMESTER' | 'REVISION' | 'MASTERY' | 'CUSTOM';
-    targetDate?: string;
-    subjectId?: string;
-    description: string;
-  };
-  startDate: string;
-  endDate: string;
-  dailyCommitmentMinutes: number;
-  tasks: StudyTask[];
-  progress: {
-    completedTasks: number;
-    totalTasks: number;
-    studyTimeMinutes: number;
-    completionPercentage: number;
-    streak: number;
-    lastActiveDate?: string;
-  };
-  isActive: boolean;
-}
-
-export const useGetActivePlan = () => {
-  return useQuery({
-    queryKey: ['studyPlan', 'active'],
+  const { data: dashboardData, isLoading: isLoadingDashboard } = useQuery({
+    queryKey: ['studyDashboard'],
     queryFn: async () => {
-      const response = await axios.get(API_URL);
-      return response.data.data as StudyPlan | null;
+      const res = await axios.get(`${API_BASE}/dashboard`);
+      return res.data.data;
     }
   });
-};
 
-export const useGeneratePlan = () => {
-  const queryClient = useQueryClient();
-  
-  return useMutation({
+  const { data: weeklyPlan, isLoading: isLoadingWeekly } = useQuery({
+    queryKey: ['studyWeeklyPlan'],
+    queryFn: async () => {
+      const res = await axios.get(`${API_BASE}/weekly`);
+      return res.data.data;
+    }
+  });
+
+  const { data: monthlyPlan, isLoading: isLoadingMonthly } = useQuery({
+    queryKey: ['studyMonthlyPlan'],
+    queryFn: async () => {
+      const res = await axios.get(`${API_BASE}/monthly`);
+      return res.data.data;
+    }
+  });
+
+  const { data: revisionPlan, isLoading: isLoadingRevision } = useQuery({
+    queryKey: ['studyRevisionPlan'],
+    queryFn: async () => {
+      const res = await axios.get(`${API_BASE}/revision`);
+      return res.data.data;
+    }
+  });
+
+  const { data: recommendations, isLoading: isLoadingRecommendations } = useQuery({
+    queryKey: ['studyRecommendations'],
+    queryFn: async () => {
+      const res = await axios.get(`${API_BASE}/recommendations`);
+      return res.data.data;
+    }
+  });
+
+  const createGoal = useMutation({
     mutationFn: async (goalData: any) => {
-      const response = await axios.post(API_URL, goalData);
-      return response.data.data as StudyPlan;
+      const res = await axios.post(`${API_BASE}/goals`, goalData);
+      return res.data.data;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['studyPlan'] });
+      queryClient.invalidateQueries({ queryKey: ['studyDashboard'] });
+      queryClient.invalidateQueries({ queryKey: ['studyWeeklyPlan'] });
+      queryClient.invalidateQueries({ queryKey: ['studyMonthlyPlan'] });
     }
   });
-};
 
-export const useUpdateTaskProgress = () => {
-  const queryClient = useQueryClient();
-  
-  return useMutation({
-    mutationFn: async ({ planId, taskId, status }: { planId: string; taskId: string; status: string }) => {
-      const response = await axios.put(`\${API_URL}/progress`, { planId, taskId, status });
-      return response.data.data as StudyPlan;
+  const updateGoal = useMutation({
+    mutationFn: async ({ goalId, goalData }: { goalId: string, goalData: any }) => {
+      const res = await axios.put(`${API_BASE}/goals/${goalId}`, goalData);
+      return res.data.data;
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['studyPlan', 'active'] });
-    }
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['studyDashboard'] })
   });
-};
 
-export const useGetRecommendations = () => {
-  return useQuery({
-    queryKey: ['studyPlan', 'recommendations'],
-    queryFn: async () => {
-      const response = await axios.get(`\${API_URL}/recommendations`);
-      return response.data.data;
-    }
+  const deleteGoal = useMutation({
+    mutationFn: async (goalId: string) => {
+      await axios.delete(`${API_BASE}/goals/${goalId}`);
+    },
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['studyDashboard'] })
   });
+
+  return {
+    dashboardData, isLoadingDashboard,
+    weeklyPlan, isLoadingWeekly,
+    monthlyPlan, isLoadingMonthly,
+    revisionPlan, isLoadingRevision,
+    recommendations, isLoadingRecommendations,
+    createGoal, updateGoal, deleteGoal
+  };
 };
