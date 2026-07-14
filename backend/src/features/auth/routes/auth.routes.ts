@@ -89,4 +89,18 @@ router.post('/login', loginLimiter, loginValidator, validate, AuthController.log
 
 router.post('/login/mfa', AuthController.verifyMfa);
 
+/**
+ * @swagger
+ * /api/v1/auth/refresh:
+ *   post:
+ *     summary: Refresh access token
+ *     tags: [Authentication]
+ *     responses:
+ *       200:
+ *         description: Successfully refreshed token
+ *       401:
+ *         description: Invalid or expired refresh token
+ */
+router.post('/refresh', AuthController.refresh);
+
 export default router;

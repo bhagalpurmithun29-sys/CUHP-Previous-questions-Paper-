@@ -24,10 +24,12 @@ export const protect = async (req: Request, res: Response, next: NextFunction) =
       return next(new AppError('You are not logged in! Please log in to get access.', 401));
     }
 
-    // Verify token (Assume JWT_SECRET exists in real environment)
-    const decoded: any = jwt.verify(token, process.env.JWT_SECRET || 'dev-secret');
+    // Verify token (Assume JWT_SECRET or JWT_ACCESS_SECRET exists in real environment)
+    const secret = process.env.JWT_ACCESS_SECRET || process.env.JWT_SECRET || 'dev-secret';
+    const decoded: any = jwt.verify(token, secret);
 
-    const currentUser = await User.findById(decoded.id).populate({
+    const userId = decoded.userId || decoded.id;
+    const currentUser = await User.findById(userId).populate({
       path: 'dynamicRoles',
       populate: { path: 'permissions' }
     });
@@ -54,8 +56,10 @@ export const optionalAuth = async (req: Request, res: Response, next: NextFuncti
       return next();
     }
 
-    const decoded: any = jwt.verify(token, process.env.JWT_SECRET || 'dev-secret');
-    const currentUser = await User.findById(decoded.id);
+    const secret = process.env.JWT_ACCESS_SECRET || process.env.JWT_SECRET || 'dev-secret';
+    const decoded: any = jwt.verify(token, secret);
+    const userId = decoded.userId || decoded.id;
+    const currentUser = await User.findById(userId);
     
     if (currentUser) {
       (req as any).user = currentUser;

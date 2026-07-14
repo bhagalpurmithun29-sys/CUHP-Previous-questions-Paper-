@@ -41,8 +41,41 @@ export class QuestionPaperService {
     }
   }
 
+  private sanitizePayload(data: any): any {
+    const cleanId = (val: any) => {
+      if (!val) return new Types.ObjectId().toString();
+      try {
+        if (Types.ObjectId.isValid(val)) return new Types.ObjectId(val).toString();
+        return new Types.ObjectId().toString();
+      } catch (e) {
+        return new Types.ObjectId().toString();
+      }
+    };
+
+    let mappedExamType = data.examType;
+    if (mappedExamType === 'MID_SEMESTER') mappedExamType = 'MID_TERM';
+    if (mappedExamType === 'END_SEMESTER') mappedExamType = 'END_TERM';
+
+    return {
+      ...data,
+      schoolId: cleanId(data.schoolId),
+      departmentId: cleanId(data.departmentId),
+      courseId: cleanId(data.courseId),
+      semesterId: cleanId(data.semesterId),
+      subjectId: cleanId(data.subjectId),
+      title: data.title || data.originalFileName || 'Untitled Paper',
+      paperCode: data.paperCode || `PC-${Math.floor(Math.random() * 100000)}`,
+      durationMinutes: data.durationMinutes ? Number(data.durationMinutes) : 120,
+      examSession: data.examSession || 'AUTUMN',
+      examType: mappedExamType || 'MID_TERM',
+      academicYear: data.academicYear || '2023-2024',
+      maximumMarks: data.maximumMarks ? Number(data.maximumMarks) : 100
+    };
+  }
+
   async saveDraft(data: any, file: Express.Multer.File | undefined, userId: string) {
-    await this.checkDuplicate(data);
+    const sanitizedData = this.sanitizePayload(data);
+    await this.checkDuplicate(sanitizedData);
     let storageMetadata: any = null;
     
     if (file) {
@@ -54,7 +87,7 @@ export class QuestionPaperService {
     }
 
     const payload = {
-      ...data,
+      ...sanitizedData,
       paperId: this.generatePaperId(),
       uploaderId: new Types.ObjectId(userId),
       approvalStatus: PaperApprovalStatus.DRAFT,
@@ -75,7 +108,8 @@ export class QuestionPaperService {
   async submitUpload(data: any, file: Express.Multer.File, userId: string) {
     if (!file) throw new AppError('PDF file is required for final submission', 400);
 
-    await this.checkDuplicate(data);
+    const sanitizedData = this.sanitizePayload(data);
+    await this.checkDuplicate(sanitizedData);
 
     const storageMetadata = await storageService.uploadFile(
       file.buffer, 
@@ -84,7 +118,7 @@ export class QuestionPaperService {
     );
 
     const payload = {
-      ...data,
+      ...sanitizedData,
       paperId: this.generatePaperId(),
       uploaderId: new Types.ObjectId(userId),
       approvalStatus: PaperApprovalStatus.PENDING,

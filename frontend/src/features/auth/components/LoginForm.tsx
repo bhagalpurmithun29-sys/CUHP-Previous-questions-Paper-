@@ -27,9 +27,19 @@ export const LoginForm: React.FC = () => {
   const { register, handleSubmit, watch, formState: { errors } } = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
     mode: 'onTouched',
+    defaultValues: {
+      email: localStorage.getItem('rememberedEmail') || '',
+      rememberMe: !!localStorage.getItem('rememberedEmail'),
+    }
   });
 
   const onSubmit = (data: LoginFormValues) => {
+    if (data.rememberMe) {
+      localStorage.setItem('rememberedEmail', data.email);
+    } else {
+      localStorage.removeItem('rememberedEmail');
+    }
+    
     loginUser(data, {
       onSuccess: (resData) => {
         if (resData.mfaRequired && resData.mfaToken) {
@@ -203,6 +213,7 @@ export const LoginForm: React.FC = () => {
           <input
             id="remember-me"
             type="checkbox"
+            {...register('rememberMe')}
             className="w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary dark:border-gray-700 dark:bg-gray-900 dark:checked:bg-primary transition-colors cursor-pointer"
           />
           <label htmlFor="remember-me" className="text-sm text-gray-600 dark:text-gray-400 cursor-pointer select-none hover:text-gray-900 dark:hover:text-gray-200 transition-colors">

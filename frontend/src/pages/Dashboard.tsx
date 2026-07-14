@@ -1,5 +1,5 @@
 import React from 'react';
-import { DashboardLayout } from '../components/dashboard/DashboardLayout';
+
 import { DashboardHeader } from '../components/dashboard/DashboardHeader';
 import { QuickActions } from '../components/dashboard/QuickActions';
 import { StatsCards } from '../components/dashboard/StatsCards';
@@ -13,8 +13,7 @@ export const Dashboard: React.FC = () => {
   const { user } = useAuth();
 
   return (
-    <DashboardLayout>
-      <div className="space-y-8 animate-in fade-in duration-500">
+    <div className="space-y-8 animate-in fade-in duration-500">
         
         {/* Header & Welcome Section */}
         <DashboardHeader />
@@ -54,7 +53,6 @@ export const Dashboard: React.FC = () => {
           </div>
         </div>
 
-      </div>
-    </DashboardLayout>
+    </div>
   );
 };

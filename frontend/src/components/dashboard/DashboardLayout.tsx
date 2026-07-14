@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
+import { Outlet } from 'react-router-dom';
 import { Sidebar } from './Sidebar';
 import { TopNavbar } from './TopNavbar';
 import { AIAssistantPanel } from './AIAssistantPanel';
 import { motion } from 'framer-motion';
 
 interface DashboardLayoutProps {
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }
 
 export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
@@ -30,7 +31,7 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) =>
             transition={{ duration: 0.4 }}
             className="max-w-7xl mx-auto w-full pb-20"
           >
-            {children}
+            {children || <Outlet />}
           </motion.div>
         </main>
         

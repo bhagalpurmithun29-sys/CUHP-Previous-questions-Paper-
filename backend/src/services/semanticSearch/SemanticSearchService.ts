@@ -37,12 +37,16 @@ export class SemanticSearchService {
     // 2. Semantic Search Pipeline
     let semanticResults: any[] = [];
     if (mode === 'hybrid' || mode === 'semantic') {
-      const queryVector = await embeddingService.generateEmbedding(query || 'academic');
-      // pass metadata filters to vector db if supported
-      const vectorFilters: any = { documentType: 'QuestionPaper' };
-      if (filters.academicYear) vectorFilters.academicYear = filters.academicYear;
-      
-      semanticResults = await vectorRepository.vectorSearch(queryVector, 20, vectorFilters);
+      try {
+        const queryVector = await embeddingService.generateEmbedding(query || 'academic');
+        // pass metadata filters to vector db if supported
+        const vectorFilters: any = { documentType: 'QuestionPaper' };
+        if (filters.academicYear) vectorFilters.academicYear = filters.academicYear;
+        
+        semanticResults = await vectorRepository.vectorSearch(queryVector, 20, vectorFilters);
+      } catch (error) {
+        console.warn('Semantic search pipeline failed (e.g., missing AI keys). Falling back to keyword search.', error);
+      }
     }
 
     // 3. Hybrid Reranking
@@ -67,6 +71,12 @@ export class SemanticSearchService {
         totalFound: finalResults.length,
         latencyMs: latency,
         isSemanticActive: semanticResults.length > 0
+      },
+      meta: {
+        total: finalResults.length,
+        page: filters.page ? parseInt(filters.page) : 1,
+        limit: 20,
+        totalPages: 1 // Since we are truncating to 20 without deep pagination for vector search for now
       }
     };
   }

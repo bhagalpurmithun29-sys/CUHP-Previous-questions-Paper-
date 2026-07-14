@@ -7,6 +7,8 @@ import { TokenUtil } from '../utils/token.util';
 import { AuthAction, AccountStatus } from '../../../enums/auth.enum';
 import { LoginRequestDTO, LoginResponseDTO } from '../dtos/login.dto';
 import { TokenService } from './token.service';
+import { RefreshTokenService } from './refresh-token.service';
+import { SessionService } from './session.service';
 import { UnauthorizedError, ForbiddenError } from '../../../utils/ApiError';
 import { Request } from 'express';
 import { trustedDeviceService } from '../../../services/auth/mfa/TrustedDeviceService';
@@ -256,6 +258,64 @@ export class AuthService {
 
     } catch (error: any) {
       throw new UnauthorizedError(error.message || 'Invalid or expired MFA token');
+    }
+  }
+
+  /**
+   * Refreshes the access token using a valid refresh token
+   */
+  static async refreshToken(rawRefreshToken: string, req: Request): Promise<LoginResponseDTO> {
+    const ipAddress = req.ip || 'unknown';
+
+    try {
+      // 1. Verify and rotate the refresh token
+      const { userId, newRefreshToken } = await RefreshTokenService.verifyAndRotateToken(rawRefreshToken, req);
+      
+      // 2. Fetch the user
+      const user = await AuthRepository.findUserById(userId);
+      if (!user) {
+        throw new UnauthorizedError('User not found');
+      }
+
+      if (user.accountStatus !== AccountStatus.ACTIVE) {
+        throw new ForbiddenError('Account is not active');
+      }
+
+      // 3. Generate new Session and Access Token
+      const sessionId = await SessionService.createSession(userId, req);
+      const accessToken = require('./jwt.service').JwtService.generateAccessToken({
+        userId,
+        role: user.role,
+        tokenVersion: user.refreshTokenVersion,
+        sessionId
+      });
+
+      // 4. Audit Log
+      await AuthRepository.createAuditLog(AuthAction.TOKEN_REFRESH, user.email, ipAddress, { action: 'TOKEN_REFRESH_SUCCESS' }, user._id);
+
+      // 5. Format Response
+      return {
+        message: 'Token refreshed successfully',
+        accessToken,
+        refreshToken: newRefreshToken,
+        user: {
+          id: user._id.toString(),
+          firstName: user.firstName,
+          lastName: user.lastName,
+          fullName: user.fullName,
+          email: user.email,
+          role: user.role,
+          accountStatus: user.accountStatus,
+          emailVerified: user.emailVerified,
+          department: user.department?.toString(),
+          course: user.course?.toString(),
+          semester: user.semester,
+          createdAt: user.createdAt
+        }
+      };
+    } catch (error: any) {
+      logger.error(`Token refresh failed: ${error.message}`);
+      throw error;
     }
   }
 }

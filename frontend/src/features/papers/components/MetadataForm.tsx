@@ -33,8 +33,6 @@ export const MetadataForm: React.FC = () => {
           <option value="">Select Exam Type</option>
           <option value="MID_SEMESTER">Mid Semester</option>
           <option value="END_SEMESTER">End Semester</option>
-          <option value="SUPPLEMENTARY">Supplementary</option>
-          <option value="ENTRANCE">Entrance</option>
         </select>
       </div>
 

@@ -83,4 +83,32 @@ export class AuthController {
       }
     });
   });
+
+  /**
+   * @route   POST /api/v1/auth/refresh
+   * @desc    Refresh access token using refresh token
+   * @access  Public
+   */
+  static refresh = catchAsync(async (req: Request, res: Response) => {
+    const { refreshCookieName } = require('../config/cookie.config').cookieConfig;
+    const refreshToken = req.cookies?.[refreshCookieName];
+
+    if (!refreshToken) {
+      throw new require('../../../utils/ApiError').UnauthorizedError('No refresh token provided');
+    }
+
+    const result = await AuthService.refreshToken(refreshToken, req);
+
+    CookieUtil.setRefreshCookie(res, result.refreshToken!);
+
+    sendResponse({
+      res,
+      statusCode: 200,
+      message: result.message,
+      data: {
+        user: result.user,
+        accessToken: result.accessToken,
+      }
+    });
+  });
 }

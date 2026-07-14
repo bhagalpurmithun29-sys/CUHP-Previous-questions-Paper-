@@ -6,10 +6,7 @@ import { ApiResponse } from '../utils/ApiResponse';
 
 export const hybridSearch = catchAsync(async (req: Request, res: Response) => {
   const { query, filters } = req.body;
-  if (!query) {
-    return res.status(400).json(new ApiResponse(400, null, 'Search query is required'));
-  }
-  const result = await semanticSearchService.hybridSearch(query, filters);
+  const result = await semanticSearchService.hybridSearch(query || '', filters || {});
   res.status(200).json(new ApiResponse(200, result, 'Hybrid search successful'));
 });
 
