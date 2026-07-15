@@ -5,6 +5,7 @@ import { DropZone } from './DropZone';
 import { MetadataForm } from './MetadataForm';
 import { useUploadStore } from '../store/upload.store';
 import { useUploadPaper } from '../hooks/usePapers';
+import { toast } from 'react-hot-toast';
 
 const steps = [
   { id: 1, title: 'Upload File' },
@@ -28,12 +29,13 @@ export const UploadWizard: React.FC = () => {
 
   const handleNext = () => {
     if (currentStep === 1 && !data.file) {
-      alert('Please upload a file first');
+      toast.error('Please upload a file first');
       return;
     }
     if (currentStep === 2) {
-      if (!data.metadata.academicYear || !data.metadata.examType) {
-        alert('Please fill all required fields');
+      const { title, academicYear, examType, examSession, subjectId } = data.metadata;
+      if (!title || !academicYear || !examType || !examSession || !subjectId) {
+        toast.error('Please fill all required fields');
         return;
       }
     }
@@ -123,10 +125,13 @@ export const UploadWizard: React.FC = () => {
               <div className="bg-gray-50 dark:bg-gray-900/50 p-6 rounded-xl border border-gray-200 dark:border-gray-700">
                 <h3 className="font-bold text-gray-900 dark:text-white mb-4">Review Your Upload</h3>
                 <div className="grid grid-cols-2 gap-4 text-sm">
+                  <div className="col-span-2"><span className="text-gray-500">Title:</span> <span className="font-medium dark:text-gray-200">{data.metadata.title}</span></div>
                   <div><span className="text-gray-500">File:</span> <span className="font-medium dark:text-gray-200">{data.file?.name}</span></div>
                   <div><span className="text-gray-500">Size:</span> <span className="font-medium dark:text-gray-200">{data.file ? (data.file.size / 1024 / 1024).toFixed(2) : 0} MB</span></div>
                   <div><span className="text-gray-500">Academic Year:</span> <span className="font-medium dark:text-gray-200">{data.metadata.academicYear}</span></div>
                   <div><span className="text-gray-500">Exam Type:</span> <span className="font-medium dark:text-gray-200">{data.metadata.examType}</span></div>
+                  <div><span className="text-gray-500">Exam Session:</span> <span className="font-medium dark:text-gray-200">{data.metadata.examSession}</span></div>
+                  <div><span className="text-gray-500">Duration:</span> <span className="font-medium dark:text-gray-200">{data.metadata.durationMinutes} mins</span></div>
                   <div><span className="text-gray-500">Language:</span> <span className="font-medium dark:text-gray-200">{data.metadata.language}</span></div>
                 </div>
               </div>

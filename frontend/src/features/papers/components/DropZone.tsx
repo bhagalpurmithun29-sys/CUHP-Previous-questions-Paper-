@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import { FiUploadCloud, FiCheckCircle } from 'react-icons/fi';
 import { useUploadStore } from '../store/upload.store';
+import { toast } from 'react-hot-toast';
 
 export const DropZone: React.FC = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -20,12 +21,13 @@ export const DropZone: React.FC = () => {
   };
 
   const validateAndSetFile = (selectedFile: File) => {
-    if (selectedFile.type !== 'application/pdf') {
-      alert('Only PDF files are allowed.');
+    const allowedTypes = ['application/pdf', 'image/jpeg', 'image/jpg'];
+    if (!allowedTypes.includes(selectedFile.type)) {
+      toast.error('Only PDF, JPEG, and JPG files are allowed.');
       return;
     }
-    if (selectedFile.size > 20 * 1024 * 1024) {
-      alert('File size exceeds 20MB limit.');
+    if (selectedFile.size > 5 * 1024 * 1024) {
+      toast.error('File size exceeds 5MB limit.');
       return;
     }
     setFile(selectedFile);
@@ -46,7 +48,7 @@ export const DropZone: React.FC = () => {
           type="file" 
           ref={fileInputRef} 
           onChange={handleChange} 
-          accept="application/pdf" 
+          accept="application/pdf, image/jpeg, image/jpg" 
           className="hidden" 
         />
         
@@ -57,7 +59,7 @@ export const DropZone: React.FC = () => {
             </div>
             <h3 className="text-xl font-bold text-gray-900 dark:text-white">{data.file.name}</h3>
             <p className="text-gray-500 mt-2">
-              {(data.file.size / (1024 * 1024)).toFixed(2)} MB • PDF Document
+              {(data.file.size / (1024 * 1024)).toFixed(2)} MB • {data.file.type.split('/')[1].toUpperCase()} Document
             </p>
             <button 
               onClick={(e) => { e.stopPropagation(); setFile(null as any); }}
@@ -71,7 +73,7 @@ export const DropZone: React.FC = () => {
             <FiUploadCloud className="w-16 h-16 text-gray-400 mb-6" />
             <h3 className="text-xl font-bold text-gray-900 dark:text-white">Drag & drop your Question Paper</h3>
             <p className="text-gray-500 mt-2 mb-6 max-w-sm">
-              Support for high-resolution PDF documents up to 20MB. Ensure pages are clearly legible.
+              Support for high-resolution PDF and JPEG documents up to 5MB. Ensure pages are clearly legible.
             </p>
             <span className="px-6 py-2 bg-primary text-white rounded-lg font-medium shadow-sm hover:bg-primary-dark transition-colors">
               Browse Files

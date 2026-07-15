@@ -2,6 +2,7 @@ import { Paper } from '../../../models/paper.model';
 import { Subject } from '../../../models/subject.model';
 import { AuthAuditLog } from '../../../models/authAuditLog.model';
 import { AppError } from '../../../utils/AppError';
+import { storageService } from '../../../services/storage/storage.service';
 import crypto from 'crypto';
 
 // In a real implementation, this would connect to BullMQ / RabbitMQ
@@ -14,6 +15,7 @@ export class UploadService {
     // 1. Initial Validation
     if (!data.subjectId) throw new AppError('Subject mapping is required', 400);
     if (!data.title) throw new AppError('Paper title is required', 400);
+    if (!file) throw new AppError('Paper PDF file is required', 400);
     
     // Simulate duplicate detection (checking if paper code already exists)
     const duplicate = await Paper.findOne({ paperCode: data.paperCode, isDeleted: false });
@@ -27,6 +29,13 @@ export class UploadService {
 
     const sem = subject.semesterId as any;
     const course = sem.courseId;
+
+    // Upload to configured storage
+    const storageMetadata = await storageService.uploadFile(
+      file.buffer, 
+      file.originalname, 
+      file.mimetype
+    );
 
     // 3. Construct Initial Pending Paper Record
     const newPaper = new Paper({
@@ -43,9 +52,8 @@ export class UploadService {
       maximumMarks: data.maximumMarks,
       durationMinutes: data.durationMinutes,
       language: data.language || 'English',
-      // Placeholder for Cloudinary Upload result
-      fileUrl: data.fileUrl || 'https://res.cloudinary.com/demo/image/upload/sample.pdf',
-      fileSize: file?.size || 1024500, // Dummy size
+      fileUrl: storageMetadata.publicUrl,
+      fileSize: storageMetadata.sizeBytes,
       pageCount: data.pageCount || 1,
       uploaderId: userId,
       status: 'PENDING_REVIEW', // MUST enter moderation workflow

@@ -5,16 +5,18 @@ export interface UploadStateData {
   file: File | null;
   filePreviewUrl: string | null;
   metadata: {
+    title: string;
     schoolId: string;
     departmentId: string;
     courseId: string;
     semesterId: string;
     subjectId: string;
     examType: string;
+    examSession: string;
     academicYear: string;
     examMonth: string;
     maximumMarks: string;
-    duration: string;
+    durationMinutes: string;
     language: string;
   };
 }
@@ -38,16 +40,18 @@ const initialState: UploadStateData = {
   file: null,
   filePreviewUrl: null,
   metadata: {
+    title: '',
     schoolId: '',
     departmentId: '',
     courseId: '',
     semesterId: '',
     subjectId: '',
     examType: '',
+    examSession: '',
     academicYear: '',
     examMonth: '',
     maximumMarks: '',
-    duration: '',
+    durationMinutes: '',
     language: 'ENGLISH',
   },
 };

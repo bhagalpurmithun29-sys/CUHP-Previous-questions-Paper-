@@ -17,15 +17,15 @@ export class StorageService {
    * Validate file signature/mimetype before uploading
    */
   private validateFile(mimeType: string, sizeBytes: number) {
-    const MAX_SIZE = 20 * 1024 * 1024; // 20MB
-    const ALLOWED_MIMES = ['application/pdf', 'image/jpeg', 'image/png']; // Placeholder for future expansions
+    const MAX_SIZE = 5 * 1024 * 1024; // 5MB
+    const ALLOWED_MIMES = ['application/pdf', 'image/jpeg', 'image/jpg'];
 
     if (sizeBytes > MAX_SIZE) {
-      throw new AppError('File size exceeds the 20MB maximum limit', 400);
+      throw new AppError('File size exceeds the 5MB maximum limit', 400);
     }
 
     if (!ALLOWED_MIMES.includes(mimeType)) {
-      throw new AppError('Invalid file type. Only PDF and Image formats are allowed', 400);
+      throw new AppError('Invalid file type. Only PDF, JPEG, and JPG formats are allowed', 400);
     }
   }
 
