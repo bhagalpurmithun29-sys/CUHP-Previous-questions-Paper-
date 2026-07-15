@@ -4,9 +4,11 @@ import { motion } from 'framer-motion';
 import { 
   FiHome, FiDatabase, FiSearch, FiBook, FiGrid, 
   FiBookmark, FiDownloadCloud, FiFolder, FiCalendar, 
-  FiPieChart, FiUsers, FiSettings, FiHelpCircle, FiLogOut 
+  FiPieChart, FiUsers, FiSettings, FiHelpCircle, FiLogOut,
+  FiCheckSquare
 } from 'react-icons/fi';
 import { useAuth } from '../../features/auth/hooks/useAuth';
+import { UserRole } from '../../constants';
 
 interface SidebarProps {
   isCollapsed: boolean;
@@ -14,21 +16,39 @@ interface SidebarProps {
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, setIsCollapsed }) => {
-  const { logout } = useAuth();
+  const { logout, user } = useAuth();
 
-  const navItems = [
+  const isAdminOrMod = user?.role === UserRole.ADMIN || user?.role === UserRole.MODERATOR;
+
+  const baseItems = [
     { label: 'Dashboard', icon: <FiHome />, path: '/dashboard' },
     { label: 'Question Bank', icon: <FiDatabase />, path: '/search' },
     { label: 'AI Search', icon: <FiSearch />, path: '/discovery' },
     { label: 'Subjects', icon: <FiBook />, path: '/subjects' },
     { label: 'Departments', icon: <FiGrid />, path: '/departments' },
+  ];
+
+  const studentItems = [
     { label: 'Bookmarks', icon: <FiBookmark />, path: '/bookmarks' },
     { label: 'Downloads', icon: <FiDownloadCloud />, path: '/downloads' },
     { label: 'My Library', icon: <FiFolder />, path: '/library' },
     { label: 'Study Planner', icon: <FiCalendar />, path: '/study-planner' },
+  ];
+
+  const adminModItems = [
+    { label: 'Review Uploads', icon: <FiCheckSquare />, path: '/moderator/review' },
+  ];
+
+  const bottomItems = [
     { label: 'Analytics', icon: <FiPieChart />, path: '/statistics' },
     { label: 'Faculty', icon: <FiUsers />, path: '/faculty-ai' },
     { label: 'Admin', icon: <FiSettings />, path: '/data-management' },
+  ];
+
+  const navItems = [
+    ...baseItems,
+    ...(isAdminOrMod ? adminModItems : studentItems),
+    ...bottomItems,
   ];
 
   return (

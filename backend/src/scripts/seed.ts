@@ -108,7 +108,6 @@ const seedDatabase = async () => {
 
     // 4. Seed Users
     console.log('Seeding Users...');
-    const passwordHash = await bcrypt.hash('Password@123', 12);
     
     await User.create([
 
@@ -116,7 +115,7 @@ const seedDatabase = async () => {
         firstName: 'Normal',
         lastName: 'Admin',
         email: 'admin@cuhp.ac.in',
-        password: passwordHash,
+        password: 'Password@123',
         role: UserRole.ADMIN,
         dynamicRoles: [roleMap['ADMIN']],
         status: 'ACTIVE',
@@ -126,7 +125,7 @@ const seedDatabase = async () => {
         firstName: 'John',
         lastName: 'Moderator',
         email: 'moderator@cuhp.ac.in',
-        password: passwordHash,
+        password: 'Password@123',
         role: UserRole.MODERATOR,
         dynamicRoles: [roleMap['MODERATOR']],
         status: 'ACTIVE',
@@ -136,7 +135,7 @@ const seedDatabase = async () => {
         firstName: 'Test',
         lastName: 'Student',
         email: 'student@cuhp.ac.in',
-        password: passwordHash,
+        password: 'Password@123',
         role: UserRole.STUDENT,
         dynamicRoles: [roleMap['STUDENT']],
         department: cseDept._id,

@@ -10,7 +10,7 @@ export const paperApi = {
   },
 
   submitUpload: async (formData: FormData, onUploadProgress?: (progressEvent: any) => void) => {
-    const response = await apiClient.post('/question-papers/upload', formData, {
+    const response = await apiClient.post('/uploads', formData, {
       headers: { 'Content-Type': 'multipart/form-data' },
       onUploadProgress
     });

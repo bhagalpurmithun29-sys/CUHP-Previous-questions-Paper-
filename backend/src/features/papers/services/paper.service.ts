@@ -72,6 +72,7 @@ export class PaperService {
         .populate('subjectId', 'subjectName subjectCode')
         .populate('courseId', 'courseName')
         .populate('uploaderId', 'name email')
+        .populate('approverId', 'firstName lastName name email')
         .skip(skip)
         .limit(Number(limit))
         .sort({ createdAt: -1 })

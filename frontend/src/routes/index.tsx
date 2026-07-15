@@ -64,6 +64,7 @@ const PDFViewerPage = React.lazy(() => import('../features/pdf-viewer/pages/PDFV
 const DownloadCenterPage = React.lazy(() => import('../features/downloads/pages/DownloadCenterPage').then(module => ({ default: module.DownloadCenterPage })));
 const BookmarksPage = React.lazy(() => import('../features/bookmarks/pages/BookmarksPage').then(module => ({ default: module.BookmarksPage })));
 const MyLibraryPage = React.lazy(() => import('../features/library/pages/MyLibraryPage').then(module => ({ default: module.MyLibraryPage })));
+const ReviewUploadsPage = React.lazy(() => import('../features/moderation/pages/ReviewUploadsPage').then(module => ({ default: module.default })));
 
 // Placeholder Pages
 const Placeholder = ({ title }: { title: string }) => <div className="p-8"><h1>{title}</h1></div>;
@@ -149,7 +150,7 @@ export const router = createBrowserRouter([
             path: '/moderator',
             element: <RoleGuard allowedRoles={[UserRole.MODERATOR, UserRole.ADMIN]} />,
             children: [
-              { path: 'review', element: <Placeholder title="Review Uploads" /> },
+              { path: 'review', element: <LazyRoute><ReviewUploadsPage /></LazyRoute> },
               { path: 'reports', element: <Placeholder title="Reports" /> },
               { path: 'faculty-ai', element: <LazyRoute><FacultyAIPage /></LazyRoute> },
               { path: 'ocr/:paperId', element: <LazyRoute><OcrManagerPage /></LazyRoute> },
